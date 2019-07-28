@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SampleDAO {
+public interface AnalysisDAO {
 	List<Sample> selectSample();
 }
