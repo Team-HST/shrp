@@ -14,5 +14,7 @@ mybatis:
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
     map-underscore-to-camel-case: true
+  type-aliases-package: com.hst.shrp.model
+
 
 
