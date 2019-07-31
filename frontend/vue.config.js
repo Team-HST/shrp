@@ -1,4 +1,5 @@
 module.exports = {
+	transpileDependencies:[/node_modules[/\\\\]vuetify[/\\\\]/], // ie 지원 babel-polyfill설정
 	devServer: {
 		proxy: {
 			'/api': {
