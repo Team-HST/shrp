@@ -11,6 +11,10 @@ export default [
       path: '/history',
       name: 'History',
       view: 'HistoryView'
+    },
+    {
+      path: '/chart',
+      view: 'ChartView'
     }
     // {
     //   path: '/table-list',

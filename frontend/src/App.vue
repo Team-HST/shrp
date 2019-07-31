@@ -2,7 +2,8 @@
   <v-app id="app">
     <v-layout wrap justify-space-around>
       <router-link to="/">anlysis</router-link> |
-      <router-link to="/history">history</router-link>
+      <router-link to="/history">history</router-link> |
+      <router-link to="/chart">Simulation Chart</router-link>
     </v-layout>
     <router-view></router-view>
   </v-app>
