@@ -1,0 +1,3 @@
+<template>
+    <history-history />
+</template>

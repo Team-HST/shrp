@@ -1,20 +1,10 @@
 <template>
-    <v-app id="anlysisFilter">
+    <v-app>
         <img alt="Vue logo" src="../assets/logo.png">
-        <HelloWorld msg="분석 조건을 선택하세요." />
-        <MainSelectBox />
+        <anlysis-analysisFilter msg="분석 조건을 선택하세요." />
+        <anlysis-helloWorld />
     </v-app>
 </template>
 
 <script>
-    import HelloWorld from '../components/anlysis/HelloWorld.vue'
-    import MainSelectBox from '../components/anlysis/AnalysisFilter'
-
-    export default {
-        el: '#anlysisFilter',
-        components: {
-            HelloWorld,
-            MainSelectBox
-        }
-    }
 </script>

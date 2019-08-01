@@ -2,9 +2,12 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App.vue'
 import axios from 'axios'
-import 'vuetify/dist/vuetify.min.css'
 import vuetify from '@/plugins/vuetify'
 import router from '@/router'
+import 'vuetify/dist/vuetify.min.css'
+
+// Components
+import './components'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
