@@ -11,6 +11,8 @@ import './components'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
+var eventBus = new Vue();
+Vue.prototype.$eventBus = eventBus
 
 new Vue({
   vuetify,

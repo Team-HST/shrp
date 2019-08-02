@@ -56,7 +56,6 @@
 
 <script>
     export default {
-        name: 'MainSelectBox',
         data () {
             return {
                 ixTypeList: [

@@ -1,8 +1,9 @@
 <template>
   <v-navigation-drawer
     fixed
-    v-model="drawer"
+    :clipped="$vuetify.breakpoint.mdAndUp"
     app
+    v-model="drawer"
   >
     <v-list>
       <v-list-item-group color="primary">
@@ -27,6 +28,7 @@
   export default {
     data () {
       return {
+        drawer: true,
         links: [
           {
             to: '/analysis',
@@ -38,9 +40,14 @@
             icon: 'mdi-account',
             text: 'history'
           }
-        ],
-        drawer: true
+        ]
       }
+    },
+    created: function() {
+        this.$eventBus.$on('setDrawer', (drawer) => {
+          this.drawer = drawer;
+          console.log(this.drawer);
+        });
     }
   }
 </script>
