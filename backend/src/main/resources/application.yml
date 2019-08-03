@@ -1,6 +1,5 @@
 server:
   port: 8000
-
 spring:
   datasource:
     url: jdbc:sqlite:/Users/nhn/test.db
@@ -17,4 +16,6 @@ mybatis:
   type-aliases-package: com.hst.shrp.model
 
 
-
+logging:
+  level:
+    root: debug
