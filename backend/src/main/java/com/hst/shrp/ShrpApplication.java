@@ -12,7 +12,4 @@ public class ShrpApplication {
 		SpringApplication.run(ShrpApplication.class, args);
 	}
 
-
-
-
 }

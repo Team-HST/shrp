@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hst.shrp.dao.SimulationDAO">
+	<select id="findAllSimulationHistories" resultType="EntitySimulationHistory">
+		SELECT SIMUL_NO,
+			   FILE_NM,
+			   SIMUL_DT,
+			   EXPER_CD,
+			   AMPM_CD
+		  FROM SHRP_SIMLATN_HST
+	</select>
+</mapper>

@@ -1,5 +1,8 @@
+# server settings
 server:
   port: 8000
+
+# database settings
 spring:
   datasource:
     url: jdbc:sqlite:/Users/nhn/test.db
@@ -7,15 +10,18 @@ spring:
     username:
     password:
 
+# mybatis settings
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
     map-underscore-to-camel-case: true
-  type-aliases-package: com.hst.shrp.model
+    vfs-impl: org.mybatis.spring.boot.autoconfigure.SpringBootVFS
+  type-aliases-package: com.hst.shrp.model.entity
 
-
-logging:
-  level:
-    root: debug
+# page helper settings
+pagehelper:
+  helper-dialect: sqlite
+  reasonable: true
+  support-methods-arguments: true

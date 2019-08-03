@@ -14,7 +14,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @RestControllerAdvice
 public class RestExceptionHandler {
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private static final Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
 	@ExceptionHandler(DataNotFoundException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
