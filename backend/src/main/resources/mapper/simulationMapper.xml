@@ -10,5 +10,6 @@
 			   EXPER_CD,
 			   AMPM_CD
 		  FROM SHRP_SIMLATN_HST
+	  ORDER BY SIMUL_NO DESC
 	</select>
 </mapper>
