@@ -5,7 +5,7 @@ server:
 # database settings
 spring:
   datasource:
-    url: jdbc:sqlite:/Users/nhn/test.db
+    url: jdbc:sqlite:/Users/nhn/shrp.db
     driver-class-name: org.sqlite.JDBC
     username:
     password:
@@ -25,3 +25,9 @@ pagehelper:
   helper-dialect: sqlite
   reasonable: true
   support-methods-arguments: true
+
+# application settings
+shrp:
+  db:
+    source-location: classpath:shrp_schema.db
+    deploy-location: /Users/nhn/shrp.db
