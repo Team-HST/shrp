@@ -4,12 +4,14 @@
 export default [
     {
       path: '/analysis',
-      // Relative to /src/views
+      name: 'Analysis',
+      icon: 'mdi-view-dashboard',
       view: 'AnalysisView'
     },
     {
       path: '/history',
       name: 'History',
+      icon: 'mdi-account',
       view: 'HistoryView'
     }
   ]
