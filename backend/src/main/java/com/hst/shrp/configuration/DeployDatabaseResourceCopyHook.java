@@ -38,23 +38,30 @@ public class DeployDatabaseResourceCopyHook {
 	@PostConstruct
 	public void onStartUpHook() {
 		try {
-			initialize();
-			copyDatabaseResourceFile();
+			if (isRequireCopy()) {
+				copyDatabaseResourceFile();
+			}
 		} catch (Exception e) {
 			logger.error("Can not copy shrp database file.", e);
 			System.exit(-1);
 		}
 	}
 
-	private void initialize() throws IOException {
+	private boolean isRequireCopy() throws IOException {
 		destinationFile = new File(deployLocation);
-		Resource resource = resourceLoader.getResource(sourceLocation);
-		if (resource == null || !resource.exists()) {
-			throw new IOException(String.format("Source database file not exist. %s", sourceLocation));
+		if (destinationFile.exists() && destinationFile.isFile()) {
+			logger.info(String.format("Already exist deployed database file. %s", destinationFile.getAbsolutePath()));
+			return false;
 		} else {
-			sourceFile = resource.getFile();
+			Resource resource = resourceLoader.getResource(sourceLocation);
+			if (resource == null || !resource.exists()) {
+				throw new IOException(String.format("Source database file not exist. %s", sourceLocation));
+			} else {
+				sourceFile = resource.getFile();
+			}
 		}
 		logger.info("Detect database resource file. {}", sourceFile);
+		return true;
 	}
 
 
