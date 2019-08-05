@@ -23,6 +23,9 @@ public class DeployDatabaseResourceCopyHook {
 
 	private Logger logger = LoggerFactory.getLogger(DeployDatabaseResourceCopyHook.class);
 
+	@Value("${shrp.db.force-overwrite}")
+	private boolean forceOverwrite;
+
 	@Value("${shrp.db.source-location}")
 	private String sourceLocation;
 
@@ -39,6 +42,7 @@ public class DeployDatabaseResourceCopyHook {
 	public void onStartUpHook() {
 		try {
 			if (isRequireCopy()) {
+				initialize();
 				copyDatabaseResourceFile();
 			}
 		} catch (Exception e) {
@@ -47,24 +51,35 @@ public class DeployDatabaseResourceCopyHook {
 		}
 	}
 
-	private boolean isRequireCopy() throws IOException {
-		destinationFile = new File(deployLocation);
-		if (destinationFile.exists() && destinationFile.isFile()) {
-			logger.info(String.format("Already exist deployed database file. %s", destinationFile.getAbsolutePath()));
-			return false;
+	// check database copy require
+	private boolean isRequireCopy() {
+		if (forceOverwrite) {
+			logger.info("Force overwrite switch ON.");
+			return true;
 		} else {
-			Resource resource = resourceLoader.getResource(sourceLocation);
-			if (resource == null || !resource.exists()) {
-				throw new IOException(String.format("Source database file not exist. %s", sourceLocation));
-			} else {
-				sourceFile = resource.getFile();
+			File destinationFile = new File(deployLocation);
+			if (destinationFile.exists() && destinationFile.isFile()) {
+				logger.info("Already exist deployed database file. {}", destinationFile.getAbsolutePath());
+				return false;
 			}
+			return true;
 		}
-		logger.info("Detect database resource file. {}", sourceFile);
-		return true;
 	}
 
+	// initialize src, dest
+	private void initialize() throws IOException {
+		destinationFile = new File(deployLocation);
+		Resource resource = resourceLoader.getResource(sourceLocation);
+		if (resource == null || !resource.exists()) {
+			logger.error("Source database file {} is not exist.", sourceLocation);
+			throw new IOException(String.format("Source database file not exist. %s", sourceLocation));
+		} else {
+			sourceFile = resource.getFile();
+			logger.info("Detect database resource file. {}", sourceFile);
+		}
+	}
 
+	// process copy
 	private void copyDatabaseResourceFile() throws IOException {
 		if (destinationFile.isFile()) {
 			destinationFile.getParentFile().mkdirs();
