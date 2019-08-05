@@ -13,17 +13,37 @@ public class ApiResponse<T> {
 	private ApiHeader header;
 	private T body;
 
+	/***
+	 * basic constructor
+	 */
+	public ApiResponse() {
+		this(ApiHeader.of(HttpStatus.OK), null);
+	}
+
+	/***
+	 * constructor with header
+	 * @param code
+	 * @param message
+	 */
+	public ApiResponse(int code, String message) {
+		this(ApiHeader.of(code, message), null);
+	}
+
+	/***
+	 * constructor with only body
+	 * @param body
+	 */
+	public ApiResponse(T body) {
+		this(ApiHeader.of(HttpStatus.OK), body);
+	}
+
+	/***
+	 * core constructor with header, body
+	 * @param header
+	 * @param body
+	 */
 	public ApiResponse(ApiHeader header, T body) {
 		this.header = header;
-		this.body = body;
-	}
-
-	public ApiResponse(int code, String message) {
-		this.header = ApiHeader.of(code, message);
-	}
-
-	public ApiResponse(T body) {
-		this.header = ApiHeader.of(HttpStatus.OK);
 		this.body = body;
 	}
 
