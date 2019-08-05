@@ -38,18 +38,7 @@
                 @change="changeAmpmType"
                 ></v-select>
             </v-flex>
-            <!-- <select id="ix_select" v-on:change="changeIxType">
-                <option value="" selected="selected">Please select one</option>
-                <option v-for="ixType in ixTypeList" v-bind:key="ixType.code" v-bind:value="ixType.code">
-                    {{ ixType.title }}
-                </option>
-            </select>
-            <select id="ampm_select" v-on:change="changeAmpmType">
-                <option value="" selected="selected">Please select one</option>
-                <option v-for="ampmType in ampmTypeList" v-bind:key="ampmType.code" v-bind:value="ampmType.code">
-                    {{ ampmType.title }}
-                </option>
-            </select> -->
+            <v-btn @click="searchSimulationStats">Simulation Stats</v-btn>
         </v-layout>
     </v-container>
 </template>
@@ -80,15 +69,30 @@
                 ]
             }
         },
+        created() {
+            /**
+             * 최근 시뮬레이션 10개 목록 조회
+             */
+            this.$http.get('/api/simulation/histories')
+            .then(response => {
+                console.log(response)
+            })
+            .catch(e => {
+                console.log('error : ', e)
+            })
+        },
         methods: {
-            ixClickEvent: function(e) {
+            ixClickEvent: (e) => {
                 console.dir('선택 최근 시뮬레이션 NO : ' + e.currentTarget.getAttribute('no'));
             },
-            changeIxType: function(value) {
+            changeIxType: (value) => {
                 console.dir('선택 IX TYPE : ' + value);
             },
-            changeAmpmType: function(value) {
+            changeAmpmType: (value) => {
                 console.dir('선택 AMPM TYPE : ' + value);
+            },
+            searchSimulationStats: () => {
+                alert('시뮬레이션 조회 API');
             }
         }
     }
