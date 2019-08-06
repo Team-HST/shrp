@@ -1,5 +1,5 @@
 <template>
   <div>
-      History1
+    History1
   </div>
 </template>
