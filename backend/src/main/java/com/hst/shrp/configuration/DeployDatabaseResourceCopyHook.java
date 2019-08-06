@@ -81,11 +81,13 @@ public class DeployDatabaseResourceCopyHook {
 
 	// process copy
 	private void copyDatabaseResourceFile() throws IOException {
-		if (destinationFile.isFile()) {
-			destinationFile.getParentFile().mkdirs();
+		if (destinationFile.getParentFile().mkdirs()) {
+			FileCopyUtils.copy(sourceFile, destinationFile);
+			logger.info("Copy database resource {} to {}", sourceFile, destinationFile);
+		} else {
+			logger.error("Can not create directory on {}", destinationFile.getParentFile().getAbsolutePath());
+			throw new IOException();
 		}
-		FileCopyUtils.copy(sourceFile, destinationFile);
-		logger.info("Copy database resource {} to {}", sourceFile, destinationFile);
 	}
 
 }
