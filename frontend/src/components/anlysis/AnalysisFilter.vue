@@ -50,11 +50,19 @@
                     {{ ampmType.title }}
                 </option>
             </select> -->
+            <v-flex xs12 style="align-items: center;">
+	            <v-btn class="mt-12" @click="analysisStart" color="success">분석 시작</v-btn>
+	        </v-flex>
         </v-layout>
     </v-container>
 </template>
 
 <script>
+	var params = {
+		 simulNo : ''	/* 시뮬레이션파일 번호 */
+		,ampmCd  : ''	/* AMPM CODE */
+		,ixCd    : ''	/* IX CODE */
+	}
     export default {
         name: 'MainSelectBox',
         data () {
@@ -84,12 +92,37 @@
         methods: {
             ixClickEvent: function(e) {
                 console.dir('선택 최근 시뮬레이션 NO : ' + e.currentTarget.getAttribute('no'));
+                params.simulNo = e.currentTarget.getAttribute('no')
             },
             changeIxType: function(value) {
                 console.dir('선택 IX TYPE : ' + value);
+                params.ixCd = value;
             },
             changeAmpmType: function(value) {
                 console.dir('선택 AMPM TYPE : ' + value);
+                params.ampmCd = value;
+            },
+            analysisStart: function() {
+            	if (!this.checkValidation()) {
+            		return ;
+            	}
+            	this.$router.params = params;
+            	this.$router.push("/chart");
+            },
+            checkValidation: function() {
+            	if (params.simulNo == '') {
+            		alert('분석할 파일을 선택해주세요.');
+            		return ;
+            	}
+            	if (params.ampmCd == '') {
+            		alert('AM/PM 타입을 선택해주세요.');
+            		return ;
+            	}
+            	if (params.ixCd == '') {
+            		alert('평가지표를 선택해주세요.');
+            		return ;
+            	}
+            	return true;
             }
         }
     }
