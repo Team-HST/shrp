@@ -23,8 +23,8 @@
             <v-flex xs6>
                 <v-select
                 :items="ixTypeList"
-                item-text="title"
-                item-value="code"
+                item-text="subNm"
+                item-value="subCd"
                 label="Filled style"
                 @change="changeIxType"
                 ></v-select>
@@ -32,8 +32,8 @@
             <v-flex xs6>
                 <v-select
                 :items="ampmTypeList"
-                item-text="title"
-                item-value="code"
+                item-text="subNm"
+                item-value="subCd"
                 label="Filled style"
                 @change="changeAmpmType"
                 ></v-select>
@@ -47,19 +47,8 @@
     export default {
         data () {
             return {
-                ixTypeList: [
-                    {code: '101', title: 'VEHS'},
-                    {code: '102', title: 'SPEEDAVGHARM'},
-                    {code: '103', title: 'STOPDELAY'},
-                    {code: '104', title: 'VEHDELAY'},
-                    {code: '105', title: 'VEHS'},
-                    {code: '106', title: 'TRAVTM'}
-                ],
-                ampmTypeList: [
-                    {code: '201', title: 'AM'},
-                    {code: '202', title: 'PM'},
-                    {code: '203', title: 'NONE'}
-                ],
+                ixTypeList: [],
+                ampmTypeList: [],
                 ixList: [
                     {no: '1', fileNm: 'AM_2018_01_03'},
                     {no: '2', fileNm: 'PM_2018_01_03'},
@@ -70,15 +59,22 @@
             }
         },
         created() {
-            /**
-             * 최근 시뮬레이션 10개 목록 조회
-             */
-            this.$http.get('/api/simulation/histories')
+            // 지표 종류 조회
+            this.$http.get('/api/analysis/simulationType')
             .then(response => {
-                console.log(response)
+                this.ixTypeList = response.data.body;
             })
             .catch(e => {
-                console.log('error : ', e)
+                console.error('error : ', e)
+            })
+
+            // Ampm 시간대 종류 조회
+            this.$http.get('/api/analysis/ampmType')
+            .then(response => {
+                this.ampmTypeList = response.data.body
+            })
+            .catch(e => {
+                console.error('error : ', e)
             })
         },
         methods: {
