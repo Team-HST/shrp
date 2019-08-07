@@ -5,7 +5,7 @@ server:
 # database settings
 spring:
   datasource:
-    url: jdbc:sqlite:/Users/nhn/shrp/shrp.db
+    url: jdbc:sqlite:/Users/shrp/shrp.db
     driver-class-name: org.sqlite.JDBC
     username:
     password:
@@ -31,4 +31,4 @@ shrp:
   db:
     force-overwrite: true
     source-location: classpath:shrp_schema.db
-    deploy-location: /Users/nhn/shrp/shrp.db
+    deploy-location: /Users/shrp/shrp.db

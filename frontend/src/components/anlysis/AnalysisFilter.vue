@@ -23,8 +23,8 @@
             <v-flex xs6>
                 <v-select
                 :items="ixTypeList"
-                item-text="title"
-                item-value="code"
+                item-text="subNm"
+                item-value="subCd"
                 label="Filled style"
                 @change="changeIxType"
                 ></v-select>
@@ -32,24 +32,13 @@
             <v-flex xs6>
                 <v-select
                 :items="ampmTypeList"
-                item-text="title"
-                item-value="code"
+                item-text="subNm"
+                item-value="subCd"
                 label="Filled style"
                 @change="changeAmpmType"
                 ></v-select>
             </v-flex>
-            <!-- <select id="ix_select" v-on:change="changeIxType">
-                <option value="" selected="selected">Please select one</option>
-                <option v-for="ixType in ixTypeList" v-bind:key="ixType.code" v-bind:value="ixType.code">
-                    {{ ixType.title }}
-                </option>
-            </select>
-            <select id="ampm_select" v-on:change="changeAmpmType">
-                <option value="" selected="selected">Please select one</option>
-                <option v-for="ampmType in ampmTypeList" v-bind:key="ampmType.code" v-bind:value="ampmType.code">
-                    {{ ampmType.title }}
-                </option>
-            </select> -->
+            <v-btn @click="searchSimulationStats">Simulation Stats</v-btn>
         </v-layout>
     </v-container>
 </template>
@@ -58,19 +47,8 @@
     export default {
         data () {
             return {
-                ixTypeList: [
-                    {code: '101', title: 'VEHS'},
-                    {code: '102', title: 'SPEEDAVGHARM'},
-                    {code: '103', title: 'STOPDELAY'},
-                    {code: '104', title: 'VEHDELAY'},
-                    {code: '105', title: 'VEHS'},
-                    {code: '106', title: 'TRAVTM'}
-                ],
-                ampmTypeList: [
-                    {code: '201', title: 'AM'},
-                    {code: '202', title: 'PM'},
-                    {code: '203', title: 'NONE'}
-                ],
+                ixTypeList: [],
+                ampmTypeList: [],
                 ixList: [
                     {no: '1', fileNm: 'AM_2018_01_03'},
                     {no: '2', fileNm: 'PM_2018_01_03'},
@@ -80,15 +58,37 @@
                 ]
             }
         },
+        created() {
+            // 지표 종류 조회
+            this.$http.get('/api/analysis/simulationType')
+            .then(response => {
+                this.ixTypeList = response.data.body;
+            })
+            .catch(e => {
+                console.error('error : ', e)
+            })
+
+            // Ampm 시간대 종류 조회
+            this.$http.get('/api/analysis/ampmType')
+            .then(response => {
+                this.ampmTypeList = response.data.body
+            })
+            .catch(e => {
+                console.error('error : ', e)
+            })
+        },
         methods: {
-            ixClickEvent: function(e) {
+            ixClickEvent: (e) => {
                 console.dir('선택 최근 시뮬레이션 NO : ' + e.currentTarget.getAttribute('no'));
             },
-            changeIxType: function(value) {
+            changeIxType: (value) => {
                 console.dir('선택 IX TYPE : ' + value);
             },
-            changeAmpmType: function(value) {
+            changeAmpmType: (value) => {
                 console.dir('선택 AMPM TYPE : ' + value);
+            },
+            searchSimulationStats: () => {
+                alert('시뮬레이션 조회 API');
             }
         }
     }
