@@ -22,26 +22,4 @@ public class AnalysisController {
 
     public AnalysisController() {
     }
-
-    /**
-     * 지표 종류 조회
-     *
-     * @return
-     */
-    @GetMapping("/simulationType")
-    public ApiResponse<List<EntityCommonCode>> getSimulationTypeList() {
-        List<EntityCommonCode> response = analysisService.getSimulationTypeList();
-        return new ApiResponse<>(response);
-    }
-
-    /**
-     * Ampm 시간대 종류 조회
-     *
-     * @return
-     */
-    @GetMapping("/ampmType")
-    public ApiResponse<List<EntityCommonCode>> getAmpmTypeList() {
-        List<EntityCommonCode> response = analysisService.getAmpmTypeList();
-        return new ApiResponse<>(response);
-    }
 }

@@ -17,22 +17,4 @@ public class AnalysisService {
     public AnalysisService(AnalysisDAO analysisDAO) {
         this.analysisDAO = analysisDAO;
     }
-
-    /**
-     * 지표 종류 조회
-     *
-     * @return
-     */
-    public List<EntityCommonCode> getSimulationTypeList() {
-        return analysisDAO.selectSimulationTypeList();
-    }
-
-    /**
-     * Ampm 시간대 종류 조회
-     *
-     * @return
-     */
-    public List<EntityCommonCode> getAmpmTypeList() {
-        return analysisDAO.selectAmpmTypeList();
-    }
 }

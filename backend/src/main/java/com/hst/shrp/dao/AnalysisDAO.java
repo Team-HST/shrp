@@ -10,18 +10,5 @@ import java.util.List;
  */
 @Repository
 public interface AnalysisDAO {
-    /**
-     * 지표 종류 조회
-     *
-     * @return
-     */
-    public List<EntityCommonCode> selectSimulationTypeList();
-
-    /**
-     * Ampm 시간대 종류 조회
-     *
-     * @return
-     */
-    public List<EntityCommonCode> selectAmpmTypeList();
 }
 

@@ -3,21 +3,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hst.shrp.dao.AnalysisDAO">
-    <select id="selectSimulationTypeList" resultType="EntityCommonCode">
-        SELECT GRP_CD,
-               SUB_CD,
-               SUB_NM,
-               DESC
-          FROM SHRP_COMM_CD
-         WHERE GRP_CD = '100'
-    </select>
-
-    <select id="selectAmpmTypeList" resultType="EntityCommonCode">
-        SELECT GRP_CD,
-        SUB_CD,
-        SUB_NM,
-        DESC
-        FROM SHRP_COMM_CD
-        WHERE GRP_CD = '200'
-    </select>
 </mapper>
