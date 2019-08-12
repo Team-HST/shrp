@@ -1,7 +1,7 @@
 <template>
   <v-app-bar
     app
-    color="indigo"
+    color="#0174DF"
     :clipped-left="$vuetify.breakpoint.mdAndUp"
     dark  
   >

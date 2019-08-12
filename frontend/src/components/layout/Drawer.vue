@@ -11,6 +11,7 @@
           v-for="(link, i) in links"
           :to="link.path"
           :key="i"
+          @click="changeLayoutLink(link)"
         >
           <v-list-item-icon>
             <v-icon v-text="link.icon"></v-icon>
@@ -25,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import routerLinks from '@/router/paths'
 
   export default {
@@ -36,6 +37,9 @@ import routerLinks from '@/router/paths'
     },
     computed: {
       ...mapGetters(['getLayoutDrawer'])
+    },
+    methods: {
+      ...mapMutations(['changeLayoutLink'])
     }
   }
 </script>

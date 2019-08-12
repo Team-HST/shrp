@@ -6,13 +6,15 @@ export default [
       path: '/analysis',
       name: 'Analysis',
       icon: 'mdi-view-dashboard',
-      view: 'AnalysisView'
+      view: 'AnalysisView',
+      subName: 'Simulation analysis screen'
     },
     {
       path: '/history',
       name: 'History',
       icon: 'mdi-account',
-      view: 'HistoryView'
+      view: 'HistoryView',
+      subName: 'Simulation analysis record inquiry screen'
     }
   ]
   
