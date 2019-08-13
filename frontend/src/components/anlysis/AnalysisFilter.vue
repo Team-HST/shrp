@@ -157,8 +157,8 @@ export default {
           });
         },
         // 시뮬레이션 분석
-        searchSimulationAnalysis: () => {
-
+        searchSimulationAnalysis: (requestURL) => {
+          this.$router.push({name: 'SimulationStat', params: {apiURL: requestURL}});
         }
     };
   },
@@ -183,7 +183,10 @@ export default {
     },
     // 분석 실행 이벤트
     searchSimulationStats() {
-      if (this.simulation.selected.length === 0) {
+      let selectSimulLangth = this.simulation.selected.length;
+      let chartAnalysisAPI = "";
+
+      if (selectSimulLangth === 0) {
         alert("분석을 진행 할 시뮬레이션을 선택하여주세요.");
         return;
       } else {
@@ -191,20 +194,26 @@ export default {
          *  단일, 전체 네트워크
          *  단일 - 1-19 중 교차로 선택 
          *  전체 - 모든교차로 평균 (비교 = 2개 시뮬레이션 평균 표출)
-         * */
+         **/
         if (this.networkType.selected.subCode === "401") {
-          if (this.simulation.selected.length > 2) {
+          if (selectSimulLangth > 2) {
             alert("전체 네트워크는 시뮬레이션 2개까지 선택이 가능합니다.");
             return;
+          } else if (selectSimulLangth === 2) { // 전체 네트워크 비교
+
+          } else { // 전체 네트워크 단일
+
+            chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber + "/" + this.ixType.selected.subCode + "/all";
           }
         } else {
-          if (this.simulation.selected.length > 1) {
+          if (selectSimulLangth > 1) { // 단일 네트워크 교차로 선택
             alert("단일 네트워크는 시뮬레이션 1개만 선택이 가능합니다.");
             return;
           }
         }
 
-        let requestData = {};
+        // 시뮬레이션 분석 페이지 조회 및 이동
+        this.service.searchSimulationAnalysis(chartAnalysisAPI);
       }
     }
   }
