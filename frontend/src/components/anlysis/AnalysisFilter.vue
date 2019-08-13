@@ -15,7 +15,7 @@
             v-model="simulation.selected"
             :headers="simulation.headers"
             :items="simulation.list"
-            :single-select="true"
+            :single-select="false"
 						:items-per-page="10"
             item-key="simulationNumber"
 						class="elevation-1"
@@ -39,6 +39,14 @@
 						item-value="subCode"
             v-model="ixType.selected"
 						label="Select Indicator"
+					>
+					</v-select>
+          <v-select
+						:items="networkType.list"
+						item-text="subName"
+						item-value="subCode"
+            v-model="networkType.selected"
+						label="Select Network"
 					>
 					</v-select>
 					<v-select
@@ -71,6 +79,10 @@ export default {
        selected: [],
        list: []
       },
+      networkType: {
+        selected: [],
+        list: []
+      },
       ampmType: {
         selected: [],
         list: []
@@ -95,14 +107,29 @@ export default {
         ],
         list: []
       },
-      // 데이터 요청 API 서비스
-      service: {
+      service: {}
+    };
+  },
+  created() {
+    // API 요청 서비스
+    this.service = {
         // 지표 선택 종류 조회
         searchIxTypeList: () => {
-          this.$http .get("/api/codes/100")
+          this.$http.get("/api/codes/100")
           .then(response => {
             this.ixType.list = response.data.body.commonCodes;
             this.ixType.selected = response.data.body.commonCodes[0];
+          })
+          .catch(e => {
+            console.error("error : ", e);
+          });
+        },      
+        // 네트워크 선택 종류 조회
+        searchNetworkTypeList: () => {
+          this.$http.get("/api/codes/400")
+          .then(response => {
+            this.networkType.list = response.data.body.commonCodes;
+            this.networkType.selected = response.data.body.commonCodes[0];
           })
           .catch(e => {
             console.error("error : ", e);
@@ -133,10 +160,10 @@ export default {
         searchSimulationAnalysis: () => {
 
         }
-      }
     };
   },
   mounted() {
+    // 초기 데이터 설정
     this.initalize();
   },
   methods: {
@@ -144,6 +171,9 @@ export default {
     initalize() {
       // 지표 종류 조회
       this.service.searchIxTypeList();
+
+      // 네트워크 종류 조회
+      this.service.searchNetworkTypeList();
 
       // Ampm 시간대 종류 조회
       this.service.searchAmpmTypeList();
@@ -157,8 +187,24 @@ export default {
         alert("분석을 진행 할 시뮬레이션을 선택하여주세요.");
         return;
       } else {
-        console.dir(this.simulation.selected[0]);
-        console.dir(this.ixType.selected);
+        /** 
+         *  단일, 전체 네트워크
+         *  단일 - 1-19 중 교차로 선택 
+         *  전체 - 모든교차로 평균 (비교 = 2개 시뮬레이션 평균 표출)
+         * */
+        if (this.networkType.selected.subCode === "401") {
+          if (this.simulation.selected.length > 2) {
+            alert("전체 네트워크는 시뮬레이션 2개까지 선택이 가능합니다.");
+            return;
+          }
+        } else {
+          if (this.simulation.selected.length > 1) {
+            alert("단일 네트워크는 시뮬레이션 1개만 선택이 가능합니다.");
+            return;
+          }
+        }
+
+        let requestData = {};
       }
     }
   }

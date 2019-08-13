@@ -16,6 +16,14 @@ export default new Vuex.Store({
             }
         }
     },
+    getters: { // vuex 저장소 데이터 조회
+        getLayoutDrawer: (state) => {
+            return state.layout.drawer;
+        },
+        getLayoutLink: (state) => {
+            return state.layout.link;
+        }
+    },
     mutations: { // vuex 저장소 데이터 변경
         changeDrawer: (state) => {
             state.layout.drawer = !state.layout.drawer
@@ -24,12 +32,7 @@ export default new Vuex.Store({
             state.layout.link = link
         }
     },
-    getters: { // vuex 저장소 데이터 조회
-        getLayoutDrawer: (state) => {
-            return state.layout.drawer;
-        },
-        getLayoutLink: (state) => {
-            return state.layout.link;
-        }
+    actions: { // vuex 비동기 요청 데이터 변경
+
     }
 })
