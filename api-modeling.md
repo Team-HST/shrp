@@ -50,7 +50,7 @@
     GET
 
 - Parameters
-    - a
+    - crossRoadNumber (query) : 교차로번호, all | 1 ~ 19
 
 ## 3. 분석 이력 조회
 - `2. 분석 데이터 조회` 이력을 조회
