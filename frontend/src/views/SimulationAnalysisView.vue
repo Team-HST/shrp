@@ -17,19 +17,26 @@
 
 <script>
 import { Bar } from 'vue-chartjs'
+import { mapMutations } from 'vuex'
 
 export default {
 	name: 'VueChartJS',
 	data() {
 		return {}
 	},
-	created() {
+	mounted() {
 		let apiURL = this.$route.params.apiURL;
 
 		// 시뮬레이션 분석 URL이 존재하지 않을 경우
 		if (apiURL === undefined || apiURL === null) {
 			this.$router.push({name: "Analysis"})
+			return
 		}
+
+		this.setAnalysisApiUrl(apiURL);
+	},
+	methods: {
+		...mapMutations(['setAnalysisApiUrl'])
 	}
 }
 </script>

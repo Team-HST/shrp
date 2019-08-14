@@ -15,8 +15,9 @@ export default new Vuex.Store({
                 subName: 'Simulation analysis screen'
             }
         },
-        simalationAnalysis: {
-            apiURL: ''
+        analysis: {
+            apiURL: '',
+            data: {}
         }
     },
     getters: { // vuex 저장소 데이터 조회
@@ -33,9 +34,21 @@ export default new Vuex.Store({
         },
         changeLayoutLink: (state, link) => {
             state.layout.link = link
+        },
+        setAnalysisApiUrl: (state, apiURL) => {
+            state.analysis.apiURL = apiURL;
         }
     },
     actions: { // vuex 비동기 요청 데이터 변경
-
+        // 시뮬레이션 분석 데이터 조회
+        searchSimulationAnalysis: (context) => {
+            this.$http.get(context.state.analysis.apiURL)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(e => {
+                console.error("error : ", e);
+            })
+        }
     }
 })
