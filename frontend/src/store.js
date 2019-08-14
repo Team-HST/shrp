@@ -48,7 +48,6 @@ export default new Vuex.Store({
         searchSimulationAnalysis: (context) => {
             axios.get(context.state.analysis.apiURL)
             .then(response => {
-                console.log(response);
                 context.state.analysis.data = response.data.body;
             })
             .catch(e => {

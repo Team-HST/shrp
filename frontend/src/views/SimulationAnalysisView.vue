@@ -14,14 +14,13 @@
 
 <script>
 import { Bar } from 'vue-chartjs'
-import { mapMutations, mapActions } from 'vuex'
 
 export default {
 	name: 'VueChartJS',
 	data() {
 		return {}
 	},
-	mounted() {
+	created() {
 		let apiURL = this.$route.params.apiURL;
 
 		// 시뮬레이션 분석 URL이 존재하지 않을 경우
@@ -29,13 +28,6 @@ export default {
 			this.$router.push({name: "Analysis"})
 			return
 		}
-
-		this.setAnalysisApiUrl(apiURL);
-		this.searchSimulationAnalysis();
-	},
-	methods: {
-		...mapMutations(['setAnalysisApiUrl']),
-		...mapActions(['searchSimulationAnalysis'])
 	}
 }
 </script>

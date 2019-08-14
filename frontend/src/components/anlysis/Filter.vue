@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import routerLinks from '@/router/paths'
 
 export default {
@@ -165,6 +165,12 @@ export default {
           this.changeLayoutLink(
             routerLinks.filter(link => link.name === "SimulationAnalysis")[0]
           );
+
+          // 시뮬레이션 분석 API URL 저장
+          this.setAnalysisApiUrl(requestURL);
+          // 시뮬레이션 데이터 저장
+          this.searchSimulationAnalysis();
+          // 시뮬레이션 분석 페이지 이동
           this.$router.push({name: 'SimulationAnalysis', params: {apiURL: requestURL}});
         }
     };
@@ -175,7 +181,8 @@ export default {
   },
   methods: {
     // mutations 설정
-    ...mapMutations(['changeLayoutLink']),
+    ...mapMutations(['changeLayoutLink', 'setAnalysisApiUrl']),
+    ...mapActions(['searchSimulationAnalysis']),
     // 화면 초기 설정
     initalize() {
       // 지표 종류 조회

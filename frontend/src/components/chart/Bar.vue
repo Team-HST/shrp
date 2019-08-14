@@ -8,7 +8,7 @@
       return {
         datacollection: {
           //Data to be represented on x-axis
-          labels: [],
+          labels: this.$store.state.analysis.data.labels,
           datasets: [
             {
               label: '지표번호',
@@ -17,7 +17,7 @@
               borderWidth: 1,
               pointBorderColor: '#249EBF',
               //Data to be represented on y-axis
-              data: []
+              data: this.$store.state.analysis.data.values
             }
           ]
         },
@@ -51,8 +51,9 @@
     },
     mounted() {
       // API 라벨, 지표 값 데이터 적용
-      this.datacollection.labels = this.getAnalysisData.labels
-      this.datacollection.datasets[0].data = this.getAnalysisData.values
+      // TODO mapGetters data에 적용시켜보기
+      // this.datacollection.labels = this.getAnalysisData.labels
+      // this.datacollection.datasets[0].data = this.getAnalysisData.values
       
       // 차트 렌더링
       this.renderChart(this.datacollection, this.options)
