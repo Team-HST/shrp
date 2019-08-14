@@ -7,19 +7,23 @@
   >
     <v-list>
       <v-list-item-group color="primary">
-        <v-list-item
+        <template
           v-for="(link, i) in links"
-          :to="link.path"
-          :key="i"
-          @click="changeLayoutLink(link)"
         >
-          <v-list-item-icon>
-            <v-icon v-text="link.icon"></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-text="link.name"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          <v-list-item
+            v-if="link.display"
+            :to="link.path"
+            :key="i"
+            @click="changeLayoutLink(link)"
+          >
+            <v-list-item-icon>
+              <v-icon v-text="link.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="link.name"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>

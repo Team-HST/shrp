@@ -72,6 +72,9 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+import routerLinks from '@/router/paths'
+
 export default {
   data() {
     return {
@@ -158,7 +161,11 @@ export default {
         },
         // 시뮬레이션 분석
         searchSimulationAnalysis: (requestURL) => {
-          this.$router.push({name: 'SimulationStat', params: {apiURL: requestURL}});
+          // 이동 페이지 라우터 정보설정
+          this.changeLayoutLink(
+            routerLinks.filter(link => link.name === "SimulationAnalysis")[0]
+          );
+          this.$router.push({name: 'SimulationAnalysis', params: {apiURL: requestURL}});
         }
     };
   },
@@ -167,6 +174,8 @@ export default {
     this.initalize();
   },
   methods: {
+    // mutations 설정
+    ...mapMutations(['changeLayoutLink']),
     // 화면 초기 설정
     initalize() {
       // 지표 종류 조회
@@ -184,6 +193,7 @@ export default {
     // 분석 실행 이벤트
     searchSimulationStats() {
       let selectSimulLangth = this.simulation.selected.length;
+      // 시뮬레이션 분석 API URL
       let chartAnalysisAPI = "";
 
       if (selectSimulLangth === 0) {
@@ -202,7 +212,6 @@ export default {
           } else if (selectSimulLangth === 2) { // 전체 네트워크 비교
 
           } else { // 전체 네트워크 단일
-
             chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber + "/" + this.ixType.selected.subCode + "/all";
           }
         } else {

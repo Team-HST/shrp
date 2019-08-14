@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <anlysis-analysisFilter />
+    <anlysis-filter />
     <anlysis-helloWorld />
   </v-app>
 </template>

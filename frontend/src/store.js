@@ -14,6 +14,9 @@ export default new Vuex.Store({
                 view: 'AnalysisView',
                 subName: 'Simulation analysis screen'
             }
+        },
+        simalationAnalysis: {
+            apiURL: ''
         }
     },
     getters: { // vuex 저장소 데이터 조회
