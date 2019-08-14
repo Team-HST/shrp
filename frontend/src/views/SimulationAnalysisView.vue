@@ -5,11 +5,8 @@
 		grid-list-xl
 	>
 		<v-layout wrap>
-			<v-flex md12 lg6>
+			<v-flex md12 lg12>
 				<chart-bar></chart-bar>
-			</v-flex>
-			<v-flex md12 lg6>
-				<chart-line></chart-line>
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -17,7 +14,7 @@
 
 <script>
 import { Bar } from 'vue-chartjs'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
 	name: 'VueChartJS',
@@ -34,9 +31,11 @@ export default {
 		}
 
 		this.setAnalysisApiUrl(apiURL);
+		this.searchSimulationAnalysis();
 	},
 	methods: {
-		...mapMutations(['setAnalysisApiUrl'])
+		...mapMutations(['setAnalysisApiUrl']),
+		...mapActions(['searchSimulationAnalysis'])
 	}
 }
 </script>

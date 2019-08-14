@@ -41,7 +41,7 @@
 						label="Select Indicator"
 					>
 					</v-select>
-          <v-select
+          <!-- <v-select
 						:items="networkType.list"
 						item-text="subName"
 						item-value="subCode"
@@ -56,7 +56,7 @@
             v-model="ampmType.selected"
 						label="Select Ampm"
 					>
-					</v-select>
+					</v-select> -->
 				</material-card>
         <div class="text-center">
           <v-btn
@@ -205,22 +205,14 @@ export default {
          *  단일 - 1-19 중 교차로 선택 
          *  전체 - 모든교차로 평균 (비교 = 2개 시뮬레이션 평균 표출)
          **/
-        if (this.networkType.selected.subCode === "401") {
-          if (selectSimulLangth > 2) {
-            alert("전체 네트워크는 시뮬레이션 2개까지 선택이 가능합니다.");
-            return;
-          } else if (selectSimulLangth === 2) { // 전체 네트워크 비교
-
-          } else { // 전체 네트워크 단일
-            chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber + "/" + this.ixType.selected.subCode + "/all";
-          }
-        } else {
-          if (selectSimulLangth > 1) { // 단일 네트워크 교차로 선택
-            alert("단일 네트워크는 시뮬레이션 1개만 선택이 가능합니다.");
-            return;
-          }
+        if (selectSimulLangth > 2) {
+          alert("시뮬레이션은 2개까지 선택이 가능합니다.");
+          return;
         }
 
+        // 시뮬레이션 분석 요청 API URL
+        chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber +
+                           "/" + this.ixType.selected.subCode + "?crossRoadNumber=all";
         // 시뮬레이션 분석 페이지 조회 및 이동
         this.service.searchSimulationAnalysis(chartAnalysisAPI);
       }
