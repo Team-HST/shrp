@@ -50,7 +50,7 @@
     GET
 
 - Parameters
-    - a
+    - crossRoadNumber (query) : 교차로번호, all | 1 ~ 19
 
 ## 3. 분석 이력 조회
 - `2. 분석 데이터 조회` 이력을 조회
@@ -65,5 +65,41 @@
     - page (query) : 페이지 번호, default 0
     - size (query) : 페이지 크기, default 10
 
-## 4. 코드 조회 (셀렉트 박스에 채워줄 것)
--- 방향 생각해볼것
+## 4. 공통코드 조회
+- Application에서 사용하는 공통코드 조
+#### Request
+- URI    
+    /api/codes/{groupCode}
+
+- Type
+    GET
+
+- Parameters
+    - groupCode (path) : 그룹코드
+
+#### Response
+```json
+{
+   "header":{
+      "code":200,
+      "message":"OK"
+   },
+   "body":{
+      "groupCode":"100",
+      "commonCodes":[
+         {
+            "groupCode": "100",
+            "subCode": "101",
+            "subName": "VEHS",
+            "description": "방향"
+         },
+         {
+            "groupCode": "100",
+            "subCode": "102",
+            "subName": "SPEEDAVGHARM",
+            "description": "속도"
+         }
+      ]
+   }
+}
+```

@@ -29,6 +29,6 @@ pagehelper:
 # application settings
 shrp:
   db:
-    force-overwrite: true
+    force-overwrite: false
     source-location: classpath:shrp_schema.db
     deploy-location: /shrp/shrp.db

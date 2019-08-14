@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface CommonCodeDAO {
 	List<EntityCommonCode> findAllCodesByGrpCd(String grpCd);
+	EntityCommonCode findCodeByGrpCdAndSubCd(String grpCd, String subCd);
 }

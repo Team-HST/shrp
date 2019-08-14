@@ -2,8 +2,12 @@ package com.hst.shrp.service;
 
 import com.hst.shrp.dao.CommonCodeDAO;
 import com.hst.shrp.model.api.code.CommonCodesResponse;
+import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.entity.EntityCommonCode;
+import com.hst.shrp.model.exception.DataNotFoundException;
+import com.hst.shrp.model.exception.InvalidParameterException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -25,10 +29,25 @@ public class CommonCodeService {
 	 * @return common code list in group code
 	 */
 	public CommonCodesResponse getCommonCodes(String groupCode) {
-		// TODO / 이현규 / 그륩코드 발리데이션
+		if (StringUtils.isEmpty(groupCode)) {
+			throw new InvalidParameterException("groupCode is required");
+		}
 		List<EntityCommonCode> entityCommonCodes = commonCodeDAO.findAllCodesByGrpCd(groupCode);
-		// TODO / 이현규 / entityCommonCodes 엠티 체크
+		if (entityCommonCodes == null || entityCommonCodes.isEmpty()) {
+			throw new DataNotFoundException(String.format("groupCode %s has no common code list", groupCode));
+		}
 		return CommonCodesResponse.of(groupCode, entityCommonCodes);
+	}
+
+	/***
+	 * search specify common code by group code and sub code
+	 * @param groupCode the group code
+	 * @param subCode the sub code
+	 * @return common code
+	 */
+	public CommonCode getCommonCode(String groupCode, String subCode) {
+		EntityCommonCode commonCode = commonCodeDAO.findCodeByGrpCdAndSubCd(groupCode, subCode);
+		return CommonCode.convert(commonCode);
 	}
 
 }

@@ -13,4 +13,14 @@
          WHERE GRP_CD = #{grpCd}
     </select>
 
+    <select id="findCodeByGrpCdAndSubCd" resultType="EntityCommonCode">
+        SELECT GRP_CD,
+               SUB_CD,
+               SUB_NM,
+               DESC
+          FROM SHRP_COMM_CD
+         WHERE GRP_CD = #{grpCd}
+           AND SUB_CD = #{subCd}
+    </select>
+
 </mapper>
