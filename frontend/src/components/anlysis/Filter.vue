@@ -167,9 +167,11 @@ export default {
           );
 
           // 시뮬레이션 분석 API URL 저장
-          this.setAnalysisApiUrl(requestURL);
+          this.setAnalysisApiUrl(requestURL)
+
           // 시뮬레이션 데이터 저장
           this.searchSimulationAnalysis();
+
           // 시뮬레이션 분석 페이지 이동
           this.$router.push({name: 'SimulationAnalysis', params: {apiURL: requestURL}});
         }

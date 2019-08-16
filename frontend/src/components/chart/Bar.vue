@@ -1,27 +1,12 @@
 <script>
-  import { Bar } from 'vue-chartjs'
-  import { mapGetters } from 'vuex'
+  import { Bar, mixins } from 'vue-chartjs'
+  const { reactiveProp } = mixins
 
   export default {
     extends: Bar,
+    mixins: [reactiveProp],
     data() {
       return {
-        datacollection: {
-          //Data to be represented on x-axis
-          labels: this.$store.state.analysis.data.labels,
-          datasets: [
-            {
-              label: '지표번호',
-              backgroundColor: '#ff9800',
-              pointBackgroundColor: 'white',
-              borderWidth: 1,
-              pointBorderColor: '#249EBF',
-              //Data to be represented on y-axis
-              data: this.$store.state.analysis.data.values
-            }
-          ]
-        },
-        //Chart.js options that controls the appearance of the chart
         options: {
           scales: {
             yAxes: [{
@@ -46,17 +31,9 @@
         }
       }
     },
-    computed: {
-        ...mapGetters(['getAnalysisData']),
-    },
     mounted() {
-      // API 라벨, 지표 값 데이터 적용
-      // TODO mapGetters data에 적용시켜보기
-      // this.datacollection.labels = this.getAnalysisData.labels
-      // this.datacollection.datasets[0].data = this.getAnalysisData.values
-      
       // 차트 렌더링
-      this.renderChart(this.datacollection, this.options)
+      this.renderChart(this.chartData, this.options)
     }
   }
 </script>
