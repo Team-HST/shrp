@@ -25,14 +25,6 @@
 					</v-select>
 				</material-card>
 			</v-flex>
-			<v-flex md12 lg12>
-				<v-btn @click="chartChangeEvent">
-					chartChange
-				</v-btn>
-				<v-btn @click="chartChangeEvent1">
-					axiosChartChange
-				</v-btn>
-			</v-flex>	
 		</v-layout>
 	</v-container>
 </template>
@@ -52,14 +44,12 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['getAnalysisData'])
+		...mapGetters(['getAnalysisData', 'getAnalysisApiURL'])
 	},
 	created() {
-		let apiURL = this.$route.params.apiURL;
-
 		// 시뮬레이션 분석 URL이 존재하지 않을 경우
-		if (apiURL === undefined || apiURL === null) {
-			this.$router.push({name: "Analysis"})
+		if (this.getAnalysisApiURL === undefined || this.getAnalysisApiURL === null || this.getAnalysisApiURL === "") {
+			this.$router.push({name: 'Analysis'})
 			return
 		}
 
@@ -81,7 +71,6 @@ export default {
 		// 차트 데이터 동적 변경
 		setBarchartData: function(labels, data) {
 			this.barchartData = {
-				//Data to be represented on x-axis
 				labels: labels,
 				datasets: [
 					{
@@ -90,37 +79,17 @@ export default {
 						pointBackgroundColor: 'white',
 						borderWidth: 1,
 						pointBorderColor: '#249EBF',
-						//Data to be represented on y-axis
 						data: data
 					}
 				]
 			}
 		},
 		changeBarChartData: function(value) {
-		},
-		chartChangeEvent: function() {
-			this.setBarchartData([
-            "7교차로",
-            "6교차로",
-            "5교차로",
-            "4교차로",
-            "3교차로",
-            "2교차로",
-            "1교차로"
-        ], [
-            5.5,
-            1.5,
-            7.5,
-            5.5,
-            1.5,
-            2.5,
-            2.5
-        ]);
-		},
-		chartChangeEvent1: function() {
-			// 시뮬레이션 데이터 저장
-			this.searchSimulationAnalysis();
-			this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
+			// 시뮬레이션 분석 api 조회
+			this.searchSimulationAnalysis(this.getAnalysisApiURL + "?crossRoadNumber=" + value)
+			.then(() => {
+				this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
+			});
 		}
 	}
 }

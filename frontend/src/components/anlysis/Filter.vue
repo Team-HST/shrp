@@ -170,9 +170,9 @@ export default {
         this.setAnalysisApiUrl(requestURL)
 
         // 시뮬레이션 데이터 저장
-        this.searchSimulationAnalysis().then(() => {
+        this.searchSimulationAnalysis(requestURL + "?crossRoadNumber=all").then(() => {
           // 시뮬레이션 분석 페이지 이동
-          this.$router.push({name: 'SimulationAnalysis', params: {apiURL: requestURL}});
+          this.$router.push({name: 'SimulationAnalysis'});
         });
       }
     };
@@ -221,7 +221,7 @@ export default {
 
         // 시뮬레이션 분석 요청 API URL
         chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber +
-                           "/" + this.ixType.selected.subCode + "?crossRoadNumber=all";
+                           "/" + this.ixType.selected.subCode;
         // 시뮬레이션 분석 페이지 조회 및 이동
         this.service.searchSimulationAnalysis(chartAnalysisAPI);
       }
