@@ -15,8 +15,9 @@
           text="select an cross number."
         >
 					<v-select
-						:items="crossNumType.list"
 						v-model="crossNumType.selected"
+						@change="changeBarChartData($event)"
+						:items="crossNumType.list"
 						item-text="text"
 						item-value="value"
 						label="Select Indicator"
@@ -46,7 +47,7 @@ export default {
 			barchartData: {}, // Bar 차트 데이터
 			crossNumType: { // 교차로 선택 데이터
 				selected: {},
-				list: {}
+				list: []
 			}
 		}
 	},
@@ -63,7 +64,7 @@ export default {
 		}
 
 		// 차트 데이터 변경 요청
-		this.changeBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
+		this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
 
 		// 교차로 셀렉트 박스 설정
 		this.crossNumType.list = this.getAnalysisData.labels.map((item, index) => {
@@ -78,7 +79,7 @@ export default {
 	methods: {
 		...mapActions(['searchSimulationAnalysis']),
 		// 차트 데이터 동적 변경
-		changeBarchartData: function(labels, data) {
+		setBarchartData: function(labels, data) {
 			this.barchartData = {
 				//Data to be represented on x-axis
 				labels: labels,
@@ -95,8 +96,10 @@ export default {
 				]
 			}
 		},
+		changeBarChartData: function(value) {
+		},
 		chartChangeEvent: function() {
-			this.changeBarchartData([
+			this.setBarchartData([
             "7교차로",
             "6교차로",
             "5교차로",
@@ -117,7 +120,7 @@ export default {
 		chartChangeEvent1: function() {
 			// 시뮬레이션 데이터 저장
 			this.searchSimulationAnalysis();
-			this.changeBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
+			this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
 		}
 	}
 }

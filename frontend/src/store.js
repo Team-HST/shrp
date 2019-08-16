@@ -18,7 +18,10 @@ export default new Vuex.Store({
       },
       analysis: {
         apiURL: '', // 분석 요청 API URL
-        data: {} // 분석 요청 API RESPONSE DATA
+        data: { // 분석 요청 API RESPONSE DATA
+          labels: [],
+          values: []
+        } 
       }
     },
     getters: { // vuex 저장소 데이터 조회
@@ -45,7 +48,7 @@ export default new Vuex.Store({
     },
     actions: { // vuex 저장소 비동기 데이터 변경
     // 시뮬레이션 분석 데이터 조회
-    searchSimulationAnalysis: (context) => {
+    searchSimulationAnalysis: (context, callback) => {
       axios.get(context.state.analysis.apiURL)
       .then(response => {
         context.state.analysis.data = response.data.body;

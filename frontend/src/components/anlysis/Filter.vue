@@ -34,10 +34,10 @@
           text="Select analysis search condition."
         >
 					<v-select
+            v-model="ixType.selected"
 						:items="ixType.list"
 						item-text="subName"
 						item-value="subCode"
-            v-model="ixType.selected"
 						label="Select Indicator"
 					>
 					</v-select>
@@ -60,9 +60,9 @@
 				</material-card>
         <div class="text-center">
           <v-btn
-            color="success"
             class="font-weight-light"
             @click="searchSimulationStats"
+            color="success"
           >Simulation Stats
           </v-btn>
         </div>
@@ -116,65 +116,65 @@ export default {
   created() {
     // API 요청 서비스
     this.service = {
-        // 지표 선택 종류 조회
-        searchIxTypeList: () => {
-          this.$http.get("/api/codes/100")
-          .then(response => {
-            this.ixType.list = response.data.body.commonCodes;
-            this.ixType.selected = response.data.body.commonCodes[0];
-          })
-          .catch(e => {
-            console.error("error : ", e);
-          });
-        },      
-        // 네트워크 선택 종류 조회
-        searchNetworkTypeList: () => {
-          this.$http.get("/api/codes/400")
-          .then(response => {
-            this.networkType.list = response.data.body.commonCodes;
-            this.networkType.selected = response.data.body.commonCodes[0];
-          })
-          .catch(e => {
-            console.error("error : ", e);
-          });
-        },
-        // AMPM 선택 종류 조회
-        searchAmpmTypeList: () => {
-          this.$http.get("/api/codes/200")
-          .then(response => {
-            this.ampmType.list = response.data.body.commonCodes;
-            this.ampmType.selected = response.data.body.commonCodes[0];
-          })
-          .catch(e => {
-            console.error("error : ", e);
-          });
-        },
-        // 지표 시뮬레이션 조회
-        searchSimulationList: () => {
-          this.$http.get("/api/simulation/histories")
-          .then(response => {
-            this.simulation.list = response.data.body.simulationHistories;
-          })
-          .catch(e => {
-            console.error("error : ", e);
-          });
-        },
-        // 시뮬레이션 분석
-        searchSimulationAnalysis: (requestURL) => {
-          // 이동 페이지 라우터 정보설정
-          this.changeLayoutLink(
-            routerLinks.filter(link => link.name === "SimulationAnalysis")[0]
-          );
+      // 지표 선택 종류 조회
+      searchIxTypeList: () => {
+        this.$http.get("/api/codes/100")
+        .then(response => {
+          this.ixType.list = response.data.body.commonCodes;
+          this.ixType.selected = response.data.body.commonCodes[0];
+        })
+        .catch(e => {
+          console.error("error : ", e);
+        });
+      },      
+      // 네트워크 선택 종류 조회
+      searchNetworkTypeList: () => {
+        this.$http.get("/api/codes/400")
+        .then(response => {
+          this.networkType.list = response.data.body.commonCodes;
+          this.networkType.selected = response.data.body.commonCodes[0];
+        })
+        .catch(e => {
+          console.error("error : ", e);
+        });
+      },
+      // AMPM 선택 종류 조회
+      searchAmpmTypeList: () => {
+        this.$http.get("/api/codes/200")
+        .then(response => {
+          this.ampmType.list = response.data.body.commonCodes;
+          this.ampmType.selected = response.data.body.commonCodes[0];
+        })
+        .catch(e => {
+          console.error("error : ", e);
+        });
+      },
+      // 지표 시뮬레이션 조회
+      searchSimulationList: () => {
+        this.$http.get("/api/simulation/histories")
+        .then(response => {
+          this.simulation.list = response.data.body.simulationHistories;
+        })
+        .catch(e => {
+          console.error("error : ", e);
+        });
+      },
+      // 시뮬레이션 분석
+      searchSimulationAnalysis: (requestURL) => {
+        // 이동 페이지 라우터 정보설정
+        this.changeLayoutLink(
+          routerLinks.filter(link => link.name === "SimulationAnalysis")[0]
+        );
 
-          // 시뮬레이션 분석 API URL 저장
-          this.setAnalysisApiUrl(requestURL)
+        // 시뮬레이션 분석 API URL 저장
+        this.setAnalysisApiUrl(requestURL)
 
-          // 시뮬레이션 데이터 저장
-          this.searchSimulationAnalysis();
-
+        // 시뮬레이션 데이터 저장
+        this.searchSimulationAnalysis().then(() => {
           // 시뮬레이션 분석 페이지 이동
           this.$router.push({name: 'SimulationAnalysis', params: {apiURL: requestURL}});
-        }
+        });
+      }
     };
   },
   mounted() {
