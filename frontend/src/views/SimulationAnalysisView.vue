@@ -6,7 +6,13 @@
 	>
 		<v-layout wrap>
 			<v-flex md12 lg10>
-				<chart-bar :chart-data="barchartData"></chart-bar>
+				<material-card
+          color="orange"
+          title="Simulation Analysis Barchart"
+          text="Simulation Analysis Barchart Results"
+        >
+					<chart-bar :chart-data="barchartData"></chart-bar>
+				</material-card>
 			</v-flex>
 			<v-flex md12 lg2>
 				<material-card
@@ -30,7 +36,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
 	name: 'VueChartJS',
@@ -38,8 +44,8 @@ export default {
 		return {
 			barchartData: {}, // Bar 차트 데이터
 			crossNumType: { // 교차로 선택 데이터
-				selected: {},
-				list: []
+				selected: {}, // 박스 선택 데이터
+				list: [] // 박스 데이터 목록
 			}
 		}
 	},
@@ -52,6 +58,9 @@ export default {
 			this.$router.push({name: 'Analysis'})
 			return
 		}
+
+		// 메뉴선택 사이드바 숨김
+		this.setDrawer(false);
 
 		// 차트 데이터 변경 요청
 		this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
@@ -68,6 +77,7 @@ export default {
 	},
 	methods: {
 		...mapActions(['searchSimulationAnalysis']),
+		...mapMutations(['setDrawer']),
 		// 차트 데이터 동적 변경
 		setBarchartData: function(labels, data) {
 			this.barchartData = {
@@ -84,6 +94,7 @@ export default {
 				]
 			}
 		},
+		// 시뮬레이션 교차로 변경 이벤트
 		changeBarChartData: function(value) {
 			// 시뮬레이션 분석 api 조회
 			this.searchSimulationAnalysis(this.getAnalysisApiURL + "?crossRoadNumber=" + value)
