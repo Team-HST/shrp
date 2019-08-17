@@ -26,7 +26,7 @@ public class AnalysisController {
             @RequestParam("crossRoadNumber") String crossRoadNumber
     ) {
         SimulationAnalysisRequest request = SimulationAnalysisRequest.of(simulationNumber, indicator, crossRoadNumber);
-        return new ApiResponse<>(analysisService.analysisSingleSimulation(request));
+        return new ApiResponse<>(analysisService.analysisSimulation(request));
     }
 
 }

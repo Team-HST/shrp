@@ -3,6 +3,7 @@ package com.hst.shrp.handler;
 import com.hst.shrp.model.api.ApiHeader;
 import com.hst.shrp.model.api.ApiResponse;
 import com.hst.shrp.model.exception.DataNotFoundException;
+import com.hst.shrp.model.exception.InvalidParameterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,13 @@ public class RestExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ApiResponse<?> handleDataNotFound(DataNotFoundException e) {
 		logger.warn("Handle DataNotFoundException. cause: {}", e.getMessage());
+		return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
+	}
+
+	@ExceptionHandler(InvalidParameterException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ApiResponse<?> handleInvalidParameter(DataNotFoundException e) {
+		logger.warn("Handle InvalidParameterException. cause: {}", e.getMessage());
 		return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
 	}
 

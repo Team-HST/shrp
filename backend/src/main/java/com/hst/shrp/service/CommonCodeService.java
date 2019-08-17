@@ -50,4 +50,14 @@ public class CommonCodeService {
 		return CommonCode.convert(commonCode);
 	}
 
+	/***
+	 * check groupCode contains subCode
+	 * @param groupCode the group code
+	 * @param subCode the sub code
+	 * @return contain
+	 */
+	public boolean containsCode(String groupCode, String subCode) {
+		return this.getCommonCode(groupCode, subCode) != null;
+	}
+
 }
