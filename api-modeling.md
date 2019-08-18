@@ -39,7 +39,7 @@
   }
 }
 ```
-## 2. 분석 데이터 초회
+## 2. 분석 데이터 조회
 - 파일명, 지표를 파라미터로 받아 차트에 뿌려줄 데이터 생성, 응답
 - 분석 데이터 조회한 이력 적재됨
 #### Request
@@ -52,20 +52,28 @@
 - Parameters
     - crossRoadNumber (query) : 교차로번호, all | 1 ~ 19
 
-## 3. 분석 이력 조회
+## 3. 분석 원본 데이터 조회
+#### Request
+- URI    
+    /api/analysis/{simulationNumber}
+
+- Type
+    GET
+
+## 4. 분석 이력 조회
 - `2. 분석 데이터 조회` 이력을 조회
 #### Request
 - URI    
     /api/analysis/histories
 
-- Type
+- Typea
     GET
 
 - Parameters
     - page (query) : 페이지 번호, default 0
     - size (query) : 페이지 크기, default 10
 
-## 4. 공통코드 조회
+## 5. 공통코드 조회
 - Application에서 사용하는 공통코드 조
 #### Request
 - URI    

@@ -3,6 +3,7 @@ package com.hst.shrp.model.api.code;
 import com.hst.shrp.model.entity.EntityCommonCode;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -18,6 +19,10 @@ public class CommonCodesResponse {
 
 	public List<CommonCode> getCommonCodes() {
 		return commonCodes;
+	}
+
+	public Map<String, String> getCommonCodeMap() {
+		return commonCodes.stream().collect(Collectors.toMap(CommonCode::getSubCode, CommonCode::getSubName));
 	}
 
 	public static class CommonCode {

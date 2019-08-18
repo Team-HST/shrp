@@ -1,13 +1,13 @@
 package com.hst.shrp.model.api.analysis;
 
-import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
+import com.hst.shrp.model.api.code.CommonCodesResponse;
 import com.hst.shrp.model.entity.EntityIndicator;
 import com.hst.shrp.model.entity.EntityIndicatorAggregation;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import static java.util.stream.Collectors.*;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -45,9 +45,8 @@ public class SimulationAnalysisResponse {
 	}
 
 	public static SimulationAnalysisResponse of(SimulationAnalysisRequest request, List<EntityIndicator> indicators,
-												List<CommonCode> directionCodes) {
-		Map<String, String> directionInfo = directionCodes.stream().collect(toMap(CommonCode::getSubCode,
-				CommonCode::getSubName));
+												CommonCodesResponse directionCodeResponse) {
+		Map<String, String> directionInfo = directionCodeResponse.getCommonCodeMap();
 		SimulationAnalysisResponse response = new SimulationAnalysisResponse();
 		response.simulationNumber = request.getSimulationNumber();
 		response.indicatorCode = request.getIndicator();
