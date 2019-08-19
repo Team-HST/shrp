@@ -16,7 +16,7 @@ requireComponent.keys().forEach(fileName => {
   const componentName = upperFirst(
     camelCase(fileName.replace(/^\.\//, '').replace(/\.\w+$/, ''))
   )
-
+  
   // 컴포넌트 등록
   Vue.component(componentName, componentConfig.default || componentConfig)
 })

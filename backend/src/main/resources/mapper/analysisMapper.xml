@@ -3,4 +3,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hst.shrp.dao.AnalysisDAO">
+
+	<select id="findAverageByIndicator" resultType="EntityIndicatorAggregation">
+		SELECT SIMUL_NO,
+			   CRP_NO,
+			   AVG(VAL) AS AGGR_VAL
+		  FROM SHRP_${indicator}
+		 WHERE SIMUL_NO = #{simulationNumber}
+	  GROUP BY CRP_NO;
+	</select>
+
+	<select id="findAllByIndicator" resultType="EntityIndicator">
+		SELECT SIMUL_NO,
+			   CRP_NO,
+			   DRC_CD,
+			   VAL
+		  FROM SHRP_${indicator}
+		 WHERE SIMUL_NO = #{simulationNumber}
+		   AND CRP_NO = #{crossRoadNumber}
+	</select>
+
 </mapper>
