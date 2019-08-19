@@ -7,7 +7,7 @@
     <v-layout wrap>
       <v-flex md12 lg8>
         <material-card
-          color="orange"
+          color="#FFAF20"
           title="Simulation List"
           text="Please select an indicator to analyze."
         >
@@ -23,13 +23,12 @@
 						loading-text="Data Loading..."
             show-select
           >
-
           </v-data-table>
         </material-card>
       </v-flex>
       <v-flex md12 lg4>
 				<material-card
-          color="green"
+          color="#11455C"
           title="Search Conditions"
           text="Select analysis search condition."
         >
@@ -60,9 +59,9 @@
 				</material-card>
         <div class="text-center">
           <v-btn
-            class="font-weight-light"
+            class="font-weight-light white--text"
             @click="searchSimulationStats"
-            color="success"
+            color="#11455C"
           >Simulation Stats
           </v-btn>
         </div>
@@ -110,7 +109,7 @@ export default {
         ],
         list: []
       },
-      service: {}
+      service: {} // 서비스 메소드 정의
     };
   },
   created() {

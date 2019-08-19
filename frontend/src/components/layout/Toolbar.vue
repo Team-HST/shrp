@@ -1,7 +1,7 @@
 <template>
   <v-app-bar
     app
-    color="#0174DF"
+    color="#0080FF"
     :clipped-left="$vuetify.breakpoint.mdAndUp"
     dark  
   >
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+  import { mapMutations } from 'vuex'
 
   export default {
     data () {

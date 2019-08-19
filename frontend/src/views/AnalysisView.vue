@@ -4,6 +4,3 @@
     <anlysis-helloWorld />
   </v-app>
 </template>
-
-<script>
-</script>
