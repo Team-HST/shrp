@@ -216,7 +216,8 @@ export default {
           alert("시뮬레이션은 2개까지 선택이 가능합니다.");
           return;
         }
-
+        console.log(this.ixType)
+        console.log(this.ixType.selected)
         // 시뮬레이션 분석 요청 API URL
         chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber +
                            "/" + this.ixType.selected.subCode;

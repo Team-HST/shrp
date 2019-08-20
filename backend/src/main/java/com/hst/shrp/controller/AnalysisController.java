@@ -20,7 +20,7 @@ public class AnalysisController {
 
     @GetMapping("{simulationNumber}/{indicator}")
     public ApiResponse<SimulationAnalysisResponse> analyzeSimulation(
-            @PathVariable  int simulationNumber,
+            @PathVariable int simulationNumber,
             @PathVariable String indicator,
             @RequestParam("crossRoadNumber") String crossRoadNumber
     ) {

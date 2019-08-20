@@ -9,9 +9,8 @@ import com.hst.shrp.model.api.analysis.SimulationAnalysisRequest;
 import com.hst.shrp.model.api.analysis.SimulationAnalysisResponse;
 import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
-import com.hst.shrp.model.entity.EntityIndicator;
-import com.hst.shrp.model.entity.EntityIndicatorAggregation;
-import com.hst.shrp.model.exception.InvalidParameterException;
+import com.hst.shrp.model.entity.EntitySimulationData;
+import com.hst.shrp.model.entity.EntitySimulationDataAggregation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,13 +28,18 @@ public class AnalysisService {
     private final AnalysisHistoryDAO analysisHistoryDAO;
     private final CommonCodeService commonCodeService;
 
+    /***
+     * AnalysisService Required Dependency
+     *
+     * @param analysisDAO DAO for analysis
+     * @param analysisHistoryDAO DAO for analysis history
+     * @param commonCodeService Service for common code information
+     */
     public AnalysisService(AnalysisDAO analysisDAO, AnalysisHistoryDAO analysisHistoryDAO, CommonCodeService commonCodeService) {
         this.analysisDAO = analysisDAO;
         this.analysisHistoryDAO = analysisHistoryDAO;
         this.commonCodeService = commonCodeService;
     }
-
-
 
     /***
      * analyze simulation
@@ -43,24 +47,21 @@ public class AnalysisService {
      * @return result of analysis
      */
     public SimulationAnalysisResponse analysisSimulation(SimulationAnalysisRequest request) {
-        if (!commonCodeService.containsCode(INDICATOR_GROUP_CODE, request.getIndicator())) {
-            throw new InvalidParameterException(String.format("Invalid indicator %s", request.getIndicator()));
-        }
         SimulationAnalysisResponse response;
         CommonCode indicatorCode = commonCodeService.getCommonCode(INDICATOR_GROUP_CODE, request.getIndicator());
 
         if (request.isAllCrossRoadAnalyze()) {
-            List<EntityIndicatorAggregation> aggregations =
+            List<EntitySimulationDataAggregation> aggregations =
                     analysisDAO.findAverageByIndicator(indicatorCode.getSubName(), request.getSimulationNumber());
             response = SimulationAnalysisResponse.ofAggregation(request, aggregations);
         } else {
-            List<EntityIndicator> indicators = analysisDAO.findAllByIndicator(indicatorCode.getSubName(),
+            List<EntitySimulationData> simulationData = analysisDAO.findAllByIndicator(indicatorCode.getSubName(),
                     request.getSimulationNumber(), Integer.parseInt(request.getCrossRoadNumber()));
-            response = SimulationAnalysisResponse.of(request, indicators, commonCodeService.getCommonCodes(DIRECTION_GROUP_CODE));
+            response = SimulationAnalysisResponse.of(request, simulationData);
         }
 
-        // TODO / 이현규 / 로그 쌓은 방향 결정 필요
-        // insertAnalysisHistory(request.getSimulationNumber(), request.getIndicator());
+        // TODO / 이현규 / 로그 쌓은 컬럼 추가한거 반영 필요
+        insertAnalysisHistory(request.getSimulationNumber(), request.getIndicator());
 
         return response;
     }

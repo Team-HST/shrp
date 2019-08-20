@@ -1,7 +1,7 @@
 package com.hst.shrp.dao;
 
-import com.hst.shrp.model.entity.EntityIndicator;
-import com.hst.shrp.model.entity.EntityIndicatorAggregation;
+import com.hst.shrp.model.entity.EntitySimulationData;
+import com.hst.shrp.model.entity.EntitySimulationDataAggregation;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Repository
 public interface AnalysisDAO {
-	List<EntityIndicatorAggregation> findAverageByIndicator(String indicator, Integer simulationNumber);
-	List<EntityIndicator> findAllByIndicator(String indicator, Integer simulationNumber, Integer crossRoadNumber);
+	List<EntitySimulationDataAggregation> findAverageByIndicator(String indicator, Integer simulationNumber);
+	List<EntitySimulationData> findAllByIndicator(String indicator, Integer simulationNumber, Integer crossRoadNumber);
 }
 
