@@ -11,7 +11,7 @@ export default new Vuex.Store({
         link: {
           path: '/analysis',
           name: 'Analysis',
-          icon: 'mdi-view-dashboard',
+          icon: 'mdi-filter',
           view: 'AnalysisView',
           subName: 'Simulation analysis screen'
         }
@@ -39,14 +39,17 @@ export default new Vuex.Store({
       }
     },
     mutations: { // vuex 저장소 데이터 변경
+      setDrawer: (state, drawer) => {
+        state.layout.drawer = drawer
+      },
+      setAnalysisApiUrl: (state, apiURL) => {
+        state.analysis.apiURL = apiURL;
+      },
       changeDrawer: (state) => {
         state.layout.drawer = !state.layout.drawer;
       },
       changeLayoutLink: (state, link) => {
         state.layout.link = link;
-      },
-      setAnalysisApiUrl: (state, apiURL) => {
-        state.analysis.apiURL = apiURL;
       }
     },
     actions: { // vuex 저장소 비동기 데이터 변경

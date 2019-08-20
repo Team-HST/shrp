@@ -7,7 +7,7 @@
     <v-layout wrap>
       <v-flex md12 lg8>
         <material-card
-          color="orange"
+          color="#FFAF20"
           title="Simulation List"
           text="Please select an indicator to analyze."
         >
@@ -23,13 +23,12 @@
 						loading-text="Data Loading..."
             show-select
           >
-
           </v-data-table>
         </material-card>
       </v-flex>
       <v-flex md12 lg4>
 				<material-card
-          color="green"
+          color="#11455C"
           title="Search Conditions"
           text="Select analysis search condition."
         >
@@ -60,9 +59,9 @@
 				</material-card>
         <div class="text-center">
           <v-btn
-            class="font-weight-light"
+            class="font-weight-light white--text"
             @click="searchSimulationStats"
-            color="success"
+            color="#11455C"
           >Simulation Stats
           </v-btn>
         </div>
@@ -110,7 +109,7 @@ export default {
         ],
         list: []
       },
-      service: {}
+      service: {} // 서비스 메소드 정의
     };
   },
   created() {
@@ -210,9 +209,8 @@ export default {
         return;
       } else {
         /** 
-         *  단일, 전체 네트워크
-         *  단일 - 1-19 중 교차로 선택 
-         *  전체 - 모든교차로 평균 (비교 = 2개 시뮬레이션 평균 표출)
+         *  기준 - 시뮬 단일 선택, 비교 선택
+         *  교차로 - 분석차트 화면에서 전체에서 단일 교차로선택
          **/
         if (selectSimulLangth > 2) {
           alert("시뮬레이션은 2개까지 선택이 가능합니다.");
