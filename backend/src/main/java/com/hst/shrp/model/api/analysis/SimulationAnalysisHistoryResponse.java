@@ -2,13 +2,12 @@ package com.hst.shrp.model.api.analysis;
 
 import com.github.pagehelper.Page;
 import com.hst.shrp.model.api.code.CommonCodesResponse;
-import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
+import static com.hst.shrp.utils.Functionals.*;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -75,8 +74,8 @@ public class SimulationAnalysisHistoryResponse {
 		response.page = resultPage.getPageNum();
 		response.size = resultPage.getPageSize();
 		response.totalPages = resultPage.getPages();
-		response.simulationAnalysisHistories =
-				resultPage.stream().map(entity -> SimulationAnalysisHistory.convert(entity, indicatorMap)).collect(Collectors.toList());
+		response.simulationAnalysisHistories = transform(resultPage,
+				entity -> SimulationAnalysisHistory.convert(entity, indicatorMap));
 		return response;
 	}
 }
