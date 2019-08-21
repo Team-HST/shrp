@@ -31,6 +31,10 @@
 					</v-select>
 				</material-card>
 			</v-flex>
+			<v-flex md12 lg12>
+				<!-- <resultTable :data-table="dataTable"></resultTable> -->
+				<resultTable></resultTable>
+			</v-flex>
 		</v-layout>
 	</v-container>
 </template>
@@ -45,11 +49,15 @@
 				crossNumType: { // 교차로 선택 데이터
 					selected: {}, // 박스 선택 데이터
 					list: [] // 박스 데이터 목록
-				}
+				},
+				dataTable: {} // 데이터 표
 			}
 		},
 		computed: {
 			...mapGetters(['getAnalysisData', 'getAnalysisApiURL'])
+		},
+		components: {
+			'resultTable': resultTable
 		},
 		created() {
 			// 시뮬레이션 분석 URL이 존재하지 않을 경우
@@ -61,6 +69,22 @@
 			this.setDrawer(false);
 			// 차트 데이터 변경 요청
 			this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
+			// 데이터 표 
+			/*this.dataTable.headers = this.getAnalysisData.labels;
+			for (var i=0; i<this.getAnalysisData.labels.length; i++) {
+				var headersTemp = {};
+				var valuesTemp = {};
+			
+				headersTemp.text = this.getAnalysisData.labels[i];
+				headersTemp.align = 'left';
+				headersTemp.sortable = 'false';
+				headersTemp.value = 'test';
+			
+				valuesTemp.name = 'VEHS';
+				valuesTemp.test = 19;
+				dataTable.headers.push(headersTemp);
+				dataTable.values.push(valuesTemp);
+			}*/
 			// 교차로 셀렉트 박스 설정
 			this.crossNumType.list = this.getAnalysisData.labels.map((item, index) => {
 				return {text: item, value: index+1}
