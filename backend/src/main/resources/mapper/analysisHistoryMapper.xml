@@ -10,6 +10,9 @@
 			   ANAL_DT,
 			   IX_CD
 		  FROM SHRP_ANAL_HST
+		 WHERE SIMUL_NO IN (
+			SELECT SIMUL_NO FROM SHRP_SIMLATN_HST ORDER BY SIMUL_NO DESC LIMIT 10
+		 )
 	</select>
 
 	<insert id="save" parameterType="EntityAnalysisHistory">

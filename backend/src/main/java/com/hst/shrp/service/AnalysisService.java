@@ -61,7 +61,7 @@ public class AnalysisService {
         }
 
         // TODO / 이현규 / 로그 쌓은 컬럼 추가한거 반영 필요
-        insertAnalysisHistory(request.getSimulationNumber(), request.getIndicator());
+        insertAnalysisHistory(request);
 
         return response;
     }
@@ -81,13 +81,12 @@ public class AnalysisService {
 
     /***
      * insert analysis history
-     * @param simulationNumber
-     * @param indicator
+     * @param request
      */
-    public void insertAnalysisHistory(int simulationNumber, String indicator) {
+    public void insertAnalysisHistory(SimulationAnalysisRequest request) {
         EntityAnalysisHistory entityAnalysisHistory = new EntityAnalysisHistory();
-        entityAnalysisHistory.setSimulNo(simulationNumber);
-        entityAnalysisHistory.setIxCd(indicator);
+        entityAnalysisHistory.setSimulNo(request.getSimulationNumber());
+        entityAnalysisHistory.setIxCd(request.getIndicator());
 
         analysisHistoryDAO.save(entityAnalysisHistory);
     }
