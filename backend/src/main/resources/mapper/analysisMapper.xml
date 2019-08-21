@@ -4,7 +4,7 @@
 
 <mapper namespace="com.hst.shrp.dao.AnalysisDAO">
 
-	<select id="findAverageByIndicator" resultType="EntityIndicatorAggregation">
+	<select id="findAverageByIndicator" resultType="EntitySimulationDataAggregation">
 		SELECT SIMUL_NO,
 			   CRP_NO,
 			   AVG(VAL) AS AGGR_VAL
@@ -13,10 +13,10 @@
 	  GROUP BY CRP_NO;
 	</select>
 
-	<select id="findAllByIndicator" resultType="EntityIndicator">
+	<select id="findAllByIndicator" resultType="EntitySimulationData">
 		SELECT SIMUL_NO,
 			   CRP_NO,
-			   DRC_CD,
+			   DRC_NM,
 			   VAL
 		  FROM SHRP_${indicator}
 		 WHERE SIMUL_NO = #{simulationNumber}

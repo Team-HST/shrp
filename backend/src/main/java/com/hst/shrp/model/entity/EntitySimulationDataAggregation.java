@@ -3,7 +3,7 @@ package com.hst.shrp.model.entity;
 /**
  * @author hyungyu.lee@nhn.com
  */
-public class EntityIndicatorAggregation {
+public class EntitySimulationDataAggregation {
 	private Integer simulNo;
 	private Integer crpNo;
 	private Double aggrVal;

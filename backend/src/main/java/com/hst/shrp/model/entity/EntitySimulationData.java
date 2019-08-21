@@ -1,12 +1,12 @@
 package com.hst.shrp.model.entity;
 
 /**
- * @author dlgusrb0808@gmail.com
+ * @author hyungyu.lee@nhn.com
  */
-public class EntityIndicator {
+public class EntitySimulationData {
 	private Integer simulNo;
 	private Integer crpNo;
-	private String drcCd;
+	private String drcNm;
 	private Double val;
 
 	public Integer getSimulNo() {
@@ -25,12 +25,12 @@ public class EntityIndicator {
 		this.crpNo = crpNo;
 	}
 
-	public String getDrcCd() {
-		return drcCd;
+	public String getDrcNm() {
+		return drcNm;
 	}
 
-	public void setDrcCd(String drcCd) {
-		this.drcCd = drcCd;
+	public void setDrcNm(String drcNm) {
+		this.drcNm = drcNm;
 	}
 
 	public Double getVal() {

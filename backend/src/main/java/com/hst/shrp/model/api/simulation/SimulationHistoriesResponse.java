@@ -2,6 +2,7 @@ package com.hst.shrp.model.api.simulation;
 
 import com.github.pagehelper.Page;
 import com.hst.shrp.model.entity.EntitySimulationHistory;
+import com.hst.shrp.utils.Functionals;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -75,7 +76,7 @@ public class SimulationHistoriesResponse {
 		response.page = resultPage.getPageNum();
 		response.size = resultPage.getPageSize();
 		response.totalPages = resultPage.getPages();
-		response.simulationHistories = resultPage.stream().map(SimulationHistory::convert).collect(Collectors.toList());
+		response.simulationHistories = Functionals.transform(resultPage, SimulationHistory::convert);
 		return response;
 	}
 }

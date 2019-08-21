@@ -1,3 +1,3 @@
 <template>
-  <history-history />
+  <history-list />
 </template>

@@ -39,7 +39,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getLayoutDrawer', 'getLayoutLink'])
+      ...mapGetters(['getLayoutLink'])
     }
   }
 </script>

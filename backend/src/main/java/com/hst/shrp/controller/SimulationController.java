@@ -29,7 +29,8 @@ public class SimulationController {
 	@GetMapping("/histories")
 	public ApiResponse<SimulationHistoriesResponse> getSimulationHistories(
 			@RequestParam(defaultValue = "1") int page,
-			@RequestParam(defaultValue = "10") int size) {
+			@RequestParam(defaultValue = "10") int size
+	) {
 		SimulationHistoriesResponse response = simulationService.getSimulationHistories(page, size);
 		return new ApiResponse<>(response);
 	}

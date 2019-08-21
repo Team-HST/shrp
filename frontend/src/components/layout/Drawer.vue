@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import routerLinks from '@/router/paths'
+  import { mapGetters, mapMutations } from 'vuex'
+  import routerLinks from '@/router/paths'
 
   export default {
     data () {

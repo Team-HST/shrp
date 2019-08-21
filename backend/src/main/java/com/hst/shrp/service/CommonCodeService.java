@@ -47,6 +47,9 @@ public class CommonCodeService {
 	 */
 	public CommonCode getCommonCode(String groupCode, String subCode) {
 		EntityCommonCode commonCode = commonCodeDAO.findCodeByGrpCdAndSubCd(groupCode, subCode);
+		if (commonCode == null) {
+			throw new DataNotFoundException(String.format("No code founded. groupCode: %s, subCode: %s", groupCode, subCode));
+		}
 		return CommonCode.convert(commonCode);
 	}
 

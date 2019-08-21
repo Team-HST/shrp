@@ -5,7 +5,7 @@ export default [
     {
       path: '/analysis',
       name: 'Analysis',
-      icon: 'mdi-view-dashboard',
+      icon: 'mdi-filter',
       view: 'AnalysisView',
       subName: 'Simulation analysis screen',
       props: true,
@@ -14,7 +14,7 @@ export default [
     {
       path: '/history',
       name: 'History',
-      icon: 'mdi-account',
+      icon: 'mdi-history',
       view: 'HistoryView',
       subName: 'Simulation analysis record inquiry screen',
       props: true,
@@ -23,7 +23,7 @@ export default [
     {
       path: '/simulationAnalysis',
       name: 'SimulationAnalysis',
-      icon: 'mdi-account',
+      icon: 'mdi-chart-bar',
       view: 'SimulationAnalysisView',
       subName: 'Simulation analysis record inquiry screen',
       props: true,

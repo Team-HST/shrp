@@ -1,9 +1,11 @@
 package com.hst.shrp.model.api.code;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hst.shrp.model.entity.EntityCommonCode;
+import static com.hst.shrp.utils.Functionals.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -18,6 +20,12 @@ public class CommonCodesResponse {
 
 	public List<CommonCode> getCommonCodes() {
 		return commonCodes;
+	}
+
+	// Use for service layer
+	@JsonIgnore
+	public Map<String, String> getCommonCodeMap() {
+		return asMap(commonCodes, CommonCode::getSubCode, CommonCode::getSubName);
 	}
 
 	public static class CommonCode {
@@ -55,7 +63,7 @@ public class CommonCodesResponse {
 	public static CommonCodesResponse of(String groupCode, List<EntityCommonCode> entityCommonCodes) {
 		CommonCodesResponse response = new CommonCodesResponse();
 		response.groupCode = groupCode;
-		response.commonCodes = entityCommonCodes.stream().map(CommonCode::convert).collect(Collectors.toList());
+		response.commonCodes = transform(entityCommonCodes, CommonCode::convert);
 		return response;
 	}
 
