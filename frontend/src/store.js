@@ -42,14 +42,17 @@ export default new Vuex.Store({
       setDrawer: (state, drawer) => {
         state.layout.drawer = drawer
       },
-      setAnalysisApiUrl: (state, apiURL) => {
-        state.analysis.apiURL = apiURL;
-      },
       changeDrawer: (state) => {
         state.layout.drawer = !state.layout.drawer;
       },
+      setAnalysisApiUrl: (state, apiURL) => {
+        state.analysis.apiURL = apiURL;
+      },
       changeLayoutLink: (state, link) => {
         state.layout.link = link;
+      },
+      setAnalysisData: (state, data) => {
+        state.analysis.data = data;
       }
     },
     actions: { // vuex 저장소 비동기 데이터 변경
@@ -57,7 +60,8 @@ export default new Vuex.Store({
     searchSimulationAnalysis: (context, apiURL) => {
       return axios.get(apiURL)
       .then(response => {
-        context.state.analysis.data = response.data.body;
+        // analysis data 변경
+        context.commit('setAnalysisData', response.data.body);
       })
       .catch(e => {
         console.error("error : ", e);

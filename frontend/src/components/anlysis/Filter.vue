@@ -40,22 +40,6 @@
 						label="Select Indicator"
 					>
 					</v-select>
-          <!-- <v-select
-						:items="networkType.list"
-						item-text="subName"
-						item-value="subCode"
-            v-model="networkType.selected"
-						label="Select Network"
-					>
-					</v-select>
-					<v-select
-						:items="ampmType.list"
-						item-text="subName"
-						item-value="subCode"
-            v-model="ampmType.selected"
-						label="Select Ampm"
-					>
-					</v-select> -->
 				</material-card>
         <div class="text-center">
           <v-btn
@@ -120,29 +104,7 @@ export default {
         this.$http.get("/api/codes/100")
         .then(response => {
           this.ixType.list = response.data.body.commonCodes;
-          this.ixType.selected = response.data.body.commonCodes[0];
-        })
-        .catch(e => {
-          console.error("error : ", e);
-        });
-      },      
-      // 네트워크 선택 종류 조회
-      searchNetworkTypeList: () => {
-        this.$http.get("/api/codes/400")
-        .then(response => {
-          this.networkType.list = response.data.body.commonCodes;
-          this.networkType.selected = response.data.body.commonCodes[0];
-        })
-        .catch(e => {
-          console.error("error : ", e);
-        });
-      },
-      // AMPM 선택 종류 조회
-      searchAmpmTypeList: () => {
-        this.$http.get("/api/codes/200")
-        .then(response => {
-          this.ampmType.list = response.data.body.commonCodes;
-          this.ampmType.selected = response.data.body.commonCodes[0];
+          this.ixType.selected = response.data.body.commonCodes[0].subCode;
         })
         .catch(e => {
           console.error("error : ", e);
@@ -189,12 +151,6 @@ export default {
       // 지표 종류 조회
       this.service.searchIxTypeList();
 
-      // 네트워크 종류 조회
-      this.service.searchNetworkTypeList();
-
-      // Ampm 시간대 종류 조회
-      this.service.searchAmpmTypeList();
-
       // 최근 시뮬레이션 목록 조회
       this.service.searchSimulationList();
     },
@@ -216,11 +172,9 @@ export default {
           alert("시뮬레이션은 2개까지 선택이 가능합니다.");
           return;
         }
-        console.log(this.ixType)
-        console.log(this.ixType.selected)
         // 시뮬레이션 분석 요청 API URL
         chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber +
-                           "/" + this.ixType.selected.subCode;
+                           "/" + this.ixType.selected;
         // 시뮬레이션 분석 페이지 조회 및 이동
         this.service.searchSimulationAnalysis(chartAnalysisAPI);
       }
