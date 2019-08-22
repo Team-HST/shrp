@@ -1,10 +1,11 @@
 package com.hst.shrp.model.api.analysis;
 
+import com.hst.shrp.model.type.AnalysisType;
+
 /**
  * @author dlgusrb0808@gmail.com
  */
 public class SimulationAnalysisRequest {
-	private static final String ALL_CROSSROAD_ANALYZE_FLAG = "all";
 	private int simulationNumber;
 	private String indicator;
 	private String crossRoadNumber;
@@ -22,7 +23,7 @@ public class SimulationAnalysisRequest {
 	}
 
 	public boolean isAllCrossRoadAnalyze() {
-		return ALL_CROSSROAD_ANALYZE_FLAG.equals(this.crossRoadNumber);
+		return AnalysisType.getAnalysisType(this.crossRoadNumber) == AnalysisType.ALL;
 	}
 
 	public static SimulationAnalysisRequest of(int simulationNumber, String indicator, String crossRoadNumber) {

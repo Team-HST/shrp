@@ -3,6 +3,7 @@ package com.hst.shrp.handler;
 import com.hst.shrp.model.api.ApiHeader;
 import com.hst.shrp.model.api.ApiResponse;
 import com.hst.shrp.model.exception.DataNotFoundException;
+import com.hst.shrp.model.exception.GeneralServiceException;
 import com.hst.shrp.model.exception.InvalidParameterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,12 @@ public class RestExceptionHandler {
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ApiResponse<?> handleNoHandlerFound(NoHandlerFoundException e) {
 		return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), e.getMessage());
+	}
+
+	@ExceptionHandler(GeneralServiceException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ApiResponse<?> handleGeneralServiceException(GeneralServiceException e) {
+		return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
 	}
 
 }
