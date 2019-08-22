@@ -3,6 +3,7 @@ package com.hst.shrp.model.api.analysis;
 import com.github.pagehelper.Page;
 import com.hst.shrp.model.api.code.CommonCodesResponse;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
+import com.hst.shrp.utils.JsonUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -37,9 +38,11 @@ public class SimulationAnalysisHistoryResponse {
 	public static class SimulationAnalysisHistory {
 		private int analysisNumber;
 		private int simulationNumber;
-		private String analysisDate;
-		private String indicatorCode;
+		private String analysisFileName;
 		private String indicator;
+		private String analysisTarget;
+		private SimulationAnalysisResponse analysisData;
+		private String analysisDate;
 
 		public int getAnalysisNumber() {
 			return analysisNumber;
@@ -57,12 +60,27 @@ public class SimulationAnalysisHistoryResponse {
 			return indicator;
 		}
 
+		public String getAnalysisTarget() {
+			return analysisTarget;
+		}
+
+		public SimulationAnalysisResponse getAnalysisData() {
+			return analysisData;
+		}
+
+		public String getAnalysisFileName() {
+			return analysisFileName;
+		}
+
 		public static SimulationAnalysisHistory convert(EntityAnalysisHistory entity, Map<String, String> indicatorCode) {
 			SimulationAnalysisHistory analysisHistory = new SimulationAnalysisHistory();
 			analysisHistory.analysisNumber = entity.getAnalNo();
 			analysisHistory.simulationNumber = entity.getSimulNo();
-			analysisHistory.analysisDate = entity.getAnalDt();
+			analysisHistory.analysisFileName = entity.getFileNm();
 			analysisHistory.indicator = indicatorCode.get(entity.getIxCd());
+			analysisHistory.analysisTarget = entity.getTargetCrpNo();
+			analysisHistory.analysisData = JsonUtils.fromJson(entity.getAnalData(), SimulationAnalysisResponse.class);
+			analysisHistory.analysisDate = entity.getAnalDt();
 			return analysisHistory;
 		}
 	}

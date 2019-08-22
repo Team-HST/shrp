@@ -11,6 +11,8 @@ import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
 import com.hst.shrp.model.entity.EntitySimulationData;
 import com.hst.shrp.model.entity.EntitySimulationDataAggregation;
+import com.hst.shrp.model.type.AnalysisType;
+import com.hst.shrp.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +24,6 @@ import java.util.List;
 public class AnalysisService {
 
     private static final String INDICATOR_GROUP_CODE = "100";
-    private static final String DIRECTION_GROUP_CODE = "500";
 
     private final AnalysisDAO analysisDAO;
     private final AnalysisHistoryDAO analysisHistoryDAO;
@@ -60,8 +61,7 @@ public class AnalysisService {
             response = SimulationAnalysisResponse.of(request, simulationData);
         }
 
-        // TODO / 이현규 / 로그 쌓은 컬럼 추가한거 반영 필요
-        insertAnalysisHistory(request);
+        insertAnalysisHistory(request, response);
 
         return response;
     }
@@ -83,11 +83,16 @@ public class AnalysisService {
      * insert analysis history
      * @param request
      */
-    public void insertAnalysisHistory(SimulationAnalysisRequest request) {
+    public void insertAnalysisHistory(SimulationAnalysisRequest request, SimulationAnalysisResponse analysisResult) {
         EntityAnalysisHistory entityAnalysisHistory = new EntityAnalysisHistory();
         entityAnalysisHistory.setSimulNo(request.getSimulationNumber());
         entityAnalysisHistory.setIxCd(request.getIndicator());
-
+        if (request.isAllCrossRoadAnalyze()) {
+            entityAnalysisHistory.setTargetCrpNo("전체");
+        } else {
+            entityAnalysisHistory.setTargetCrpNo(String.format("%s교차로", request.getCrossRoadNumber()));
+        }
+        entityAnalysisHistory.setAnalData(JsonUtils.asJson(analysisResult));
         analysisHistoryDAO.save(entityAnalysisHistory);
     }
 
