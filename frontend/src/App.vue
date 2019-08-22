@@ -3,6 +3,7 @@
     <layout-drawer />
     <layout-toolbar />
     <layout-views />
+    <!-- <layout-footer /> -->
   </v-app>
 </template>
 <script>

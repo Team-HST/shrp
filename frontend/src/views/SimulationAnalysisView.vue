@@ -31,9 +31,9 @@
 					</v-select>
 				</material-card>
 			</v-flex>
-			<v-flex md12 lg12>
+			<v-flex md12 lg10>
 				<!-- <resultTable :data-table="dataTable"></resultTable> -->
-				<resultTable></resultTable>
+				<simulationAnalysis-table></simulationAnalysis-table>
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -41,6 +41,7 @@
 
 <script>
 	import { mapGetters, mapMutations, mapActions } from 'vuex'
+
 	export default {
 		name: 'VueChartJS',
 		data() {
@@ -55,9 +56,6 @@
 		},
 		computed: {
 			...mapGetters(['getAnalysisData', 'getAnalysisApiURL'])
-		},
-		components: {
-			'resultTable': resultTable
 		},
 		created() {
 			// 시뮬레이션 분석 URL이 존재하지 않을 경우

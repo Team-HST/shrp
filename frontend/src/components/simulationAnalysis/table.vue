@@ -1,18 +1,31 @@
+<template>
+   <material-card 
+      color="orange" 
+      title="Data Table" 
+      text="dd"
+   >
+    <!-- simple-table로 고려 YP -->
+    <v-data-table 
+      v-model="dataTable"
+      :headers="dataTable.headers" 
+    >
+    </v-data-table>
+   </material-card>
+</template>
+
 <script>
   import { mapGetters } from 'vuex'
 
   export default { 
-    name: 'resultTable',
-    template: '<material-card color="orange" title="Data Table" text="dd"><v-data-table v-model="dataTable":headers="dataTable.headers" :items-per-page="10" show-select></v-data-table></material-card>',	
     data () {
-       return {
-    	   dataTable : {
-    		   headers: []
-    	   }
-       }
+        return {
+          dataTable : {
+            headers: []
+          }
+        }
     },
     mounted() {
-    	console.log('mount 실행');
+      console.log('mount 실행');
     }
- }
+  }
  </script>
