@@ -1,49 +1,78 @@
 <template>
   <v-navigation-drawer
     fixed
-    :clipped="$vuetify.breakpoint.mdAndUp"
     app
-    :value="getLayoutDrawer"
+    persistent
+    mobile-break-point="991"
+    width="260"
   >
-    <v-list>
-      <v-list-item-group color="primary">
-        <template
-          v-for="(link, i) in links"
+    <v-layout
+      tag="v-list"
+      column
+    >
+      <v-list-item class="mb-3 pa-0">
+        <v-list-item-avatar
+          class="mr-3"
+          color="white"
         >
-          <v-list-item
-            v-if="link.display"
-            :to="link.path"
-            :key="i"
-            @click="changeLayoutLink(link)"
+          <v-img
+            :src="logo"
+            height="34"
+            contain
+          />
+        </v-list-item-avatar>
+        <v-list-item two-line class="ma-0 pa-0">
+          <v-list-item-content>
+            <v-list-item-title class="font-weight-bold">
+              SHRP
+            </v-list-item-title>
+            <v-list-item-subtitle class="font-weight-medium">
+              Smart Hills Report Program
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item>
+
+      <v-divider class="mb-2" />
+      <v-list>
+        <v-list-item-group color="primary">
+          <template
+            v-for="(link, i) in links"
           >
-            <v-list-item-icon>
-              <v-icon v-text="link.icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="link.name"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
-      </v-list-item-group>
-    </v-list>
+            <v-list-item
+              v-if="link.display"
+              :to="link.path"
+              :key="i"
+              @click="changeLayoutLink(link)"
+            >
+              <v-list-item-icon>
+                <v-icon v-text="link.icon"></v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="link.name"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+        </v-list-item-group>
+      </v-list>
+    </v-layout>
   </v-navigation-drawer>
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex'
+  import { mapMutations } from 'vuex'
   import routerLinks from '@/router/paths'
 
   export default {
     data () {
       return {
-        links: routerLinks
+        links: routerLinks,
+        logo: require('@/assets/logo2.png')
       }
-    },
-    computed: {
-      ...mapGetters(['getLayoutDrawer'])
     },
     methods: {
       ...mapMutations(['changeLayoutLink'])
     }
   }
 </script>
+s

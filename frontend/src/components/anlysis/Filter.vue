@@ -46,7 +46,8 @@
             class="font-weight-light white--text"
             @click="searchSimulationStats"
             color="#11455C"
-          >Simulation Stats
+          >
+            Simulation Stats
           </v-btn>
         </div>
       </v-flex>

@@ -7,7 +7,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: { //vuex 데이터 저장소
       layout: {
-        drawer: true,
         link: {
           path: '/analysis',
           name: 'Analysis',
@@ -25,9 +24,6 @@ export default new Vuex.Store({
       }
     },
     getters: { // vuex 저장소 데이터 조회
-      getLayoutDrawer: (state) => {
-        return state.layout.drawer;
-      },
       getLayoutLink: (state) => {
         return state.layout.link;
       },
@@ -64,8 +60,9 @@ export default new Vuex.Store({
         context.commit('setAnalysisData', response.data.body);
       })
       .catch(e => {
+        // eslint-disable-next-line no-console
         console.error("error : ", e);
-      })
+      });
     }
   }
 })

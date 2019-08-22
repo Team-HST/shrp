@@ -16,10 +16,10 @@
 			</v-flex>
 			<v-flex md12 lg2>
 				<material-card
-          color="#11455C"
-          title="Select CrossNum"
-          text="select an cross number."
-        >
+					color="#11455C"
+					title="Select CrossNum"
+					text="select an cross number."
+				>
 					<v-select
 						v-model="crossNumType.selected"
 						@change="changeBarChartData($event)"
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-	import { mapGetters, mapMutations, mapActions } from 'vuex'
+	import { mapGetters, mapActions } from 'vuex'
 
 	export default {
 		name: 'VueChartJS',
@@ -63,8 +63,6 @@
 				this.$router.push({name: 'Analysis'})
 				return
 			}
-			// 메뉴선택 사이드바 숨김
-			this.setDrawer(false);
 			// 차트 데이터 변경 요청
 			this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
 			// 데이터 표 
@@ -94,7 +92,6 @@
 		},
 		methods: {
 			...mapActions(['searchSimulationAnalysis']),
-			...mapMutations(['setDrawer']),
 			// 차트 데이터 동적 변경
 			setBarchartData: function(labels, data) {
 				this.barchartData = {

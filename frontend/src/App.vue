@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <layout-drawer />
-    <layout-toolbar />
+    <!-- <layout-toolbar /> -->
     <layout-views />
     <!-- <layout-footer /> -->
   </v-app>

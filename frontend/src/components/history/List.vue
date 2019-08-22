@@ -12,15 +12,20 @@
           text="Simulation inquiry history list"
         >
           <v-data-table
-            v-model="history.selected"
             :headers="history.headers"
             :items="history.list"
 						:items-per-page="10"
-            item-key="simulationNumber"
+            item-key="analysisNumber"
 						class="elevation-1"
 						loading="true"
 						loading-text="Data Loading..."
           >
+            <template v-slot:item.analysisNumber="{ item }">
+              {{ history.list.length - history.list.map(function(x) {return x.analysisNumber; }).indexOf(item.analysisNumber) }}
+            </template>
+            <template v-slot:item.displayChart="{ item }">
+              <a>보기</a>
+            </template>
           </v-data-table>
         </material-card>
       </v-flex>
@@ -33,48 +38,47 @@
     data() {
       return {
         history: {
-          selected: {},
           list: [],
           headers: [
             {
-              sortable: true,
+              sortable: false,
               text: "번호",
-              value: "simulationNumber",
-              align: 'left',
-              width: '10%'
-            },
-            {
-              sortable: true,
-              text: "교차로 명",
-              value: "fileName",
-              align: 'left',
-              width: '50%'
-            },
-            {
-              sortable: true,
-              text: "요일",
-              value: "fileName",
-              align: 'left',
-              width: '10%'
-            },
-            {
-              sortable: true,
-              text: "시간대",
-              value: "fileName",
+              value: "analysisNumber",
               align: 'left',
               width: '10%'
             },
             {
               sortable: false,
-              text: "표",
-              value: "fileName",
+              text: "시물레이션",
+              value: "analysisFileName",
+              align: 'left',
+              width: '30%'
+            },
+            {
+              sortable: true,
+              text: "분석대상",
+              value: "indicator",
+              align: 'left',
+              width: '20%'
+            },
+            {
+              sortable: true,
+              text: "교차로",
+              value: "analysisTarget",
               align: 'left',
               width: '10%'
+            },
+            {
+              sortable: true,
+              text: "날짜",
+              value: "analysisDate",
+              align: 'left',
+              width: '20%'
             },
             {
               sortable: false,
               text: "차트",
-              value: "fileName",
+              value: "displayChart",
               align: 'left',
               width: '10%'
             }
@@ -84,10 +88,21 @@
       }
     },
     created() {
+      this.service = {
+        searchHistoryList : () => {
+          this.$http.get("/api/analysis/histories")
+          .then(response => {
+            this.history.list = response.data.body.simulationAnalysisHistories
+          })
+          .catch(e => {
+            console.error("error : ", e);
+          });
+        }
+      }
 
+      this.service.searchHistoryList();
     },
     methods: {
-      
     }
   }
 </script>

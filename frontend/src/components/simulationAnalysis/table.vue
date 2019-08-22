@@ -1,13 +1,11 @@
 <template>
    <material-card 
       color="orange" 
-      title="Data Table" 
-      text="dd"
+      title="Simulation Diagram" 
+      text="Simulation Analysis Diagram Results"
    >
     <!-- simple-table로 고려 YP -->
     <v-data-table 
-      v-model="dataTable"
-      :headers="dataTable.headers" 
     >
     </v-data-table>
    </material-card>
