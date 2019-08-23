@@ -12,6 +12,11 @@ public class RootController implements ErrorController {
     public RootController() {
     }
 
+    @GetMapping(value = "{path:[^\\\\.]*}")
+    public String html5Forwarding() {
+        return "forward:/index.html";
+    }
+
     @GetMapping("/error")
     public String redirectRoot() {
         return "index.html";

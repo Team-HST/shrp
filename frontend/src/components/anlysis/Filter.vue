@@ -81,15 +81,15 @@ export default {
             sortable: false,
             text: "번호",
             value: "simulationNumber",
-            align: 'left',
-            width: '20%'
+            align: 'center',
+            width: '10%'
           },
           {
             sortable: false,
             text: "파일 명",
             value: "fileName",
-            align: 'left',
-            width: '80%'
+            align: 'center',
+            width: '90%'
           }
         ],
         list: []

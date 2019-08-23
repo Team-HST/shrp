@@ -35,7 +35,7 @@
 
       <v-divider class="mb-2" />
       <v-list>
-        <v-list-item-group color="primary">
+        <v-list-item-group>
           <template
             v-for="(link, i) in links"
           >
@@ -44,6 +44,7 @@
               :to="link.path"
               :key="i"
               @click="changeLayoutLink(link)"
+              active-class="blue--text"
             >
               <v-list-item-icon>
                 <v-icon v-text="link.icon"></v-icon>

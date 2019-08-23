@@ -44,42 +44,42 @@
               sortable: false,
               text: "번호",
               value: "analysisNumber",
-              align: 'left',
+              align: 'center',
               width: '10%'
             },
             {
               sortable: false,
               text: "시물레이션",
               value: "analysisFileName",
-              align: 'left',
+              align: 'center',
               width: '30%'
             },
             {
               sortable: true,
               text: "분석대상",
               value: "indicator",
-              align: 'left',
+              align: 'center',
               width: '20%'
             },
             {
               sortable: true,
               text: "교차로",
               value: "analysisTarget",
-              align: 'left',
+              align: 'center',
               width: '10%'
             },
             {
               sortable: true,
               text: "날짜",
               value: "analysisDate",
-              align: 'left',
+              align: 'center',
               width: '20%'
             },
             {
               sortable: false,
               text: "차트",
               value: "displayChart",
-              align: 'left',
+              align: 'center',
               width: '10%'
             }
           ]
