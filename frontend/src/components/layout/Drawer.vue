@@ -57,6 +57,12 @@
         </v-list-item-group>
       </v-list>
     </v-layout>
+
+    <template v-slot:append>
+      <div class="pa-2 text-center">
+        <p>@HST - 2019.07</p>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 

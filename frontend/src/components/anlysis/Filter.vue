@@ -23,6 +23,9 @@
 						loading-text="Data Loading..."
             show-select
           >
+            <template v-slot:item.simulationNumber="{ item }">
+              {{ simulation.list.length - simulation.list.map(function(x) {return x.simulationNumber; }).indexOf(item.simulationNumber) }}
+            </template>
           </v-data-table>
         </material-card>
       </v-flex>
