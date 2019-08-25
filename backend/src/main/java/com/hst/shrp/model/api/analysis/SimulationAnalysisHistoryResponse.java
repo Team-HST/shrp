@@ -3,10 +3,12 @@ package com.hst.shrp.model.api.analysis;
 import com.github.pagehelper.Page;
 import com.hst.shrp.model.api.code.CommonCodesResponse;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
+import com.hst.shrp.model.type.AnalysisType;
 import com.hst.shrp.utils.JsonUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.hst.shrp.utils.Functionals.*;
 
@@ -41,7 +43,7 @@ public class SimulationAnalysisHistoryResponse {
 		private String analysisFileName;
 		private String indicator;
 		private String analysisTarget;
-		private SimulationSingleAnalysisResponse analysisData;
+		private SimulationAnalysisResponse analysisData;
 		private String analysisDate;
 
 		public int getAnalysisNumber() {
@@ -64,7 +66,7 @@ public class SimulationAnalysisHistoryResponse {
 			return analysisTarget;
 		}
 
-		public SimulationSingleAnalysisResponse getAnalysisData() {
+		public SimulationAnalysisResponse getAnalysisData() {
 			return analysisData;
 		}
 
@@ -79,7 +81,14 @@ public class SimulationAnalysisHistoryResponse {
 			analysisHistory.analysisFileName = entity.getFileNm();
 			analysisHistory.indicator = indicatorCode.get(entity.getIxCd());
 			analysisHistory.analysisTarget = entity.getTargetCrpNo();
-			analysisHistory.analysisData = JsonUtils.fromJson(entity.getAnalData(), SimulationSingleAnalysisResponse.class);
+
+			Optional<Integer> compareSimulationNumber = Optional.ofNullable(entity.getCompSimulNo());
+			if (compareSimulationNumber.isPresent() && compareSimulationNumber.get() != 0) {
+				analysisHistory.analysisData = JsonUtils.fromJson(entity.getAnalData(), SimulationMultipleAnalysisResponse.class);
+			} else {
+				analysisHistory.analysisData = JsonUtils.fromJson(entity.getAnalData(), SimulationSingleAnalysisResponse.class);
+			}
+
 			analysisHistory.analysisDate = entity.getAnalDt();
 			return analysisHistory;
 		}
