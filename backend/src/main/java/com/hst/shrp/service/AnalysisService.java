@@ -4,17 +4,16 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hst.shrp.dao.AnalysisDAO;
 import com.hst.shrp.dao.AnalysisHistoryDAO;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisHistoryResponse;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisRequest;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisResponse;
+import com.hst.shrp.model.api.analysis.*;
 import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
+import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
 import com.hst.shrp.model.entity.EntitySimulationData;
 import com.hst.shrp.model.entity.EntitySimulationDataAggregation;
-import com.hst.shrp.model.type.AnalysisType;
 import com.hst.shrp.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +26,7 @@ public class AnalysisService {
 
     private final AnalysisDAO analysisDAO;
     private final AnalysisHistoryDAO analysisHistoryDAO;
+    private final SimulationService simulationService;
     private final CommonCodeService commonCodeService;
 
     /***
@@ -36,9 +36,15 @@ public class AnalysisService {
      * @param analysisHistoryDAO DAO for analysis history
      * @param commonCodeService Service for common code information
      */
-    public AnalysisService(AnalysisDAO analysisDAO, AnalysisHistoryDAO analysisHistoryDAO, CommonCodeService commonCodeService) {
+    public AnalysisService(
+        AnalysisDAO analysisDAO,
+        AnalysisHistoryDAO analysisHistoryDAO,
+        SimulationService simulationService,
+        CommonCodeService commonCodeService
+    ) {
         this.analysisDAO = analysisDAO;
         this.analysisHistoryDAO = analysisHistoryDAO;
+        this.simulationService = simulationService;
         this.commonCodeService = commonCodeService;
     }
 
@@ -47,24 +53,47 @@ public class AnalysisService {
      * @param request simulation analysis request
      * @return result of analysis
      */
-    public SimulationAnalysisResponse analysisSimulation(SimulationAnalysisRequest request) {
+    public SimulationAnalysisResponse executeAnalysis(SimulationAnalysisRequest request) {
         SimulationAnalysisResponse response;
-        CommonCode indicatorCode = commonCodeService.getCommonCode(INDICATOR_GROUP_CODE, request.getIndicator());
 
-        if (request.isAllCrossRoadAnalyze()) {
-            List<EntitySimulationDataAggregation> aggregations =
-                    analysisDAO.findAverageByIndicator(indicatorCode.getSubName(), request.getSimulationNumber());
-            response = SimulationAnalysisResponse.ofAggregation(request, aggregations);
+        if (request.isCompareAnalyzeRequest()) {
+            response = doComparisionAnalyze(request);
         } else {
-            List<EntitySimulationData> simulationData = analysisDAO.findAllByIndicator(indicatorCode.getSubName(),
-                    request.getSimulationNumber(), Integer.parseInt(request.getCrossRoadNumber()));
-            response = SimulationAnalysisResponse.of(request, simulationData);
+            response = doAnalyzeSimulation(request.getSimulationNumber(), request);
         }
 
         insertAnalysisHistory(request, response);
 
         return response;
     }
+
+    // core analysis for single simulation
+    private SimulationSingleAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
+        String indicator = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
+        SimulationHistory history = simulationService.getSimulationHistory(targetSimulationNumber);
+        if (request.isAllCrossRoadAnalyze()) {
+            List<EntitySimulationDataAggregation> aggregations =
+                    analysisDAO.findAverageByIndicator(indicator, targetSimulationNumber);
+            return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations);
+        } else {
+            List<EntitySimulationData> simulationData = analysisDAO.findAllByIndicator(indicator,
+                    targetSimulationNumber, Integer.parseInt(request.getCrossRoadNumber()));
+            return SimulationSingleAnalysisResponse.of(history, request, simulationData);
+        }
+    }
+
+    // comparision analysis for two simulations
+    private SimulationMultipleAnalysisResponse doComparisionAnalyze(SimulationAnalysisRequest request) {
+        int simulationNumber = request.getSimulationNumber();
+        int compareSimulationNumber = request.getCompareSimulationNumber();
+
+        List<SimulationSingleAnalysisResponse> dataset = new ArrayList<>();
+        dataset.add(doAnalyzeSimulation(simulationNumber, request));
+        dataset.add(doAnalyzeSimulation(compareSimulationNumber, request));
+
+        return SimulationMultipleAnalysisResponse.of(dataset);
+    }
+
 
     /***
      * get simulation analysis history
@@ -83,9 +112,10 @@ public class AnalysisService {
      * insert analysis history
      * @param request
      */
-    public void insertAnalysisHistory(SimulationAnalysisRequest request, SimulationAnalysisResponse analysisResult) {
+    public void insertAnalysisHistory(SimulationAnalysisRequest request, Object analysisResult) {
         EntityAnalysisHistory entityAnalysisHistory = new EntityAnalysisHistory();
         entityAnalysisHistory.setSimulNo(request.getSimulationNumber());
+        entityAnalysisHistory.setCompSimulNo(request.getCompareSimulationNumber());
         entityAnalysisHistory.setIxCd(request.getIndicator());
         if (request.isAllCrossRoadAnalyze()) {
             entityAnalysisHistory.setTargetCrpNo("전체");

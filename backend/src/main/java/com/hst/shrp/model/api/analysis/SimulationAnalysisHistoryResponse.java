@@ -41,7 +41,7 @@ public class SimulationAnalysisHistoryResponse {
 		private String analysisFileName;
 		private String indicator;
 		private String analysisTarget;
-		private SimulationAnalysisResponse analysisData;
+		private SimulationSingleAnalysisResponse analysisData;
 		private String analysisDate;
 
 		public int getAnalysisNumber() {
@@ -64,7 +64,7 @@ public class SimulationAnalysisHistoryResponse {
 			return analysisTarget;
 		}
 
-		public SimulationAnalysisResponse getAnalysisData() {
+		public SimulationSingleAnalysisResponse getAnalysisData() {
 			return analysisData;
 		}
 
@@ -79,7 +79,7 @@ public class SimulationAnalysisHistoryResponse {
 			analysisHistory.analysisFileName = entity.getFileNm();
 			analysisHistory.indicator = indicatorCode.get(entity.getIxCd());
 			analysisHistory.analysisTarget = entity.getTargetCrpNo();
-			analysisHistory.analysisData = JsonUtils.fromJson(entity.getAnalData(), SimulationAnalysisResponse.class);
+			analysisHistory.analysisData = JsonUtils.fromJson(entity.getAnalData(), SimulationSingleAnalysisResponse.class);
 			analysisHistory.analysisDate = entity.getAnalDt();
 			return analysisHistory;
 		}

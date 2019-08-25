@@ -12,4 +12,14 @@
 		  FROM SHRP_SIMLATN_HST
 	  ORDER BY SIMUL_NO DESC
 	</select>
+
+	<select id="findOne" resultType="EntitySimulationHistory">
+		SELECT SIMUL_NO,
+			   FILE_NM,
+			   SIMUL_DT,
+			   EXPER_CD,
+			   AMPM_CD
+		  FROM SHRP_SIMLATN_HST
+		 WHERE SIMUL_NO = #{simulationNumber}
+	</select>
 </mapper>

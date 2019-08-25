@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -51,6 +52,19 @@ public class CommonCodeService {
 			throw new DataNotFoundException(String.format("No code founded. groupCode: %s, subCode: %s", groupCode, subCode));
 		}
 		return CommonCode.convert(commonCode);
+	}
+
+	/***
+	 * get some value from CommonCode
+	 * @param groupCode the group code
+	 * @param subCode the sub code
+	 * @param gettingFunction value fetching function
+	 * @param <R> type of value
+	 * @return value
+	 */
+	public <R> R getCommonCodeAs(String groupCode, String subCode, Function<CommonCode, R> gettingFunction) {
+		CommonCode code = getCommonCode(groupCode, subCode);
+		return gettingFunction.apply(code);
 	}
 
 }

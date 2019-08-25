@@ -22,12 +22,14 @@
 	<insert id="save" parameterType="EntityAnalysisHistory">
 		INSERT INTO SHRP_ANAL_HST (
 			SIMUL_NO,
+			COMP_SIMUL_NO,
 			IX_CD,
 			ANAL_DATA,
 			TARGET_CRP_NO
 		)
 		VALUES (
 			#{simulNo},
+			#{compSimulNo},
 			#{ixCd},
 			#{analData},
 			#{targetCrpNo}
