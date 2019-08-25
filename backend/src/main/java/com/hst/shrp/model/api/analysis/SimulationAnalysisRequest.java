@@ -41,7 +41,7 @@ public class SimulationAnalysisRequest {
 
 	public static SimulationAnalysisRequest of(String simulationNumbers, String indicator, String crossRoadNumber) {
 		List<Integer> numbers =
-				Arrays.stream(simulationNumbers.split("\\|")).map(Integer::parseInt).collect(Collectors.toList());
+				Arrays.stream(simulationNumbers.split("_")).map(Integer::parseInt).collect(Collectors.toList());
 		if (numbers.size() == 1) {
 			return of(numbers.get(0), 0, indicator, crossRoadNumber);
 		} else {

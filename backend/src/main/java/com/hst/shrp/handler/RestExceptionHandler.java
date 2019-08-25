@@ -35,12 +35,14 @@ public class RestExceptionHandler {
 	@ExceptionHandler(NoHandlerFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ApiResponse<?> handleNoHandlerFound(NoHandlerFoundException e) {
+		logger.warn(e.getMessage());
 		return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), e.getMessage());
 	}
 
 	@ExceptionHandler(GeneralServiceException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ApiResponse<?> handleGeneralServiceException(GeneralServiceException e) {
+		logger.error(e.getMessage(), e);
 		return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
 	}
 

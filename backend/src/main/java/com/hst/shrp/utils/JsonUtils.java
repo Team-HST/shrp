@@ -22,7 +22,7 @@ public class JsonUtils {
 		try {
 			return OBJECT_MAPPER.writeValueAsString(targetObject);
 		} catch (JsonProcessingException e) {
-			throw new GeneralServiceException(String.format("Cannot write json for provided value %s", targetObject));
+			throw new GeneralServiceException(String.format("Cannot write json for provided value %s", targetObject), e);
 		}
 	}
 
@@ -30,7 +30,7 @@ public class JsonUtils {
 		try {
 			return OBJECT_MAPPER.readValue(source, type);
 		} catch (IOException e) {
-			throw new GeneralServiceException(String.format("Cannot parse json string %s to %s", source, type.getName()));
+			throw new GeneralServiceException(String.format("Cannot parse json string %s to %s", source, type.getName()), e);
 		}
 	}
 
