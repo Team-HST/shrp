@@ -50,8 +50,7 @@
 				crossNumType: { // 교차로 선택 데이터
 					selected: {}, // 박스 선택 데이터
 					list: [] // 박스 데이터 목록
-				},
-				dataTable: {} // 데이터 표
+				}
 			}
 		},
 		computed: {
@@ -64,7 +63,7 @@
 				return
 			}
 			// 차트 데이터 변경 요청
-			this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
+			this.setBarchartData(this.getAnalysisData);
 			// 데이터 표 
 			/*this.dataTable.headers = this.getAnalysisData.labels;
 			for (var i=0; i<this.getAnalysisData.labels.length; i++) {
@@ -82,7 +81,7 @@
 				dataTable.values.push(valuesTemp);
 			}*/
 			// 교차로 셀렉트 박스 설정
-			this.crossNumType.list = this.getAnalysisData.labels.map((item, index) => {
+			this.crossNumType.list = this.getAnalysisData[0].labels.map((item, index) => {
 				return {text: item, value: index+1}
 			});
 			// 교차로 셀렉트박스 all 추가
@@ -93,27 +92,55 @@
 		methods: {
 			...mapActions(['searchSimulationAnalysis']),
 			// 차트 데이터 동적 변경
-			setBarchartData: function(labels, data) {
-				this.barchartData = {
-					labels: labels,
-					datasets: [
-						{
-							label: '지표번호',
-							backgroundColor: '#FFAF20',
-							pointBackgroundColor: 'white',
-							borderWidth: 1,
-							pointBorderColor: '#FFAF20',
-							data: data
-						}
-					]
-				}
+			setBarchartData: function(data) {
+        // 차트 데이터 생성
+        let chartDataset = [];
+
+        if (data.length === 1) {
+          chartDataset = [
+            {
+              label: data[0].fileName,
+              backgroundColor: '#FFAF20',
+              pointBackgroundColor: 'white',
+              borderWidth: 1,
+              pointBorderColor: '#FFAF20',
+              data: data[0].values
+            }
+          ]
+        } else {
+          chartDataset = [
+            {
+              label: data[0].fileName,
+              backgroundColor: '#FFAF20',
+              pointBackgroundColor: 'white',
+              borderWidth: 1,
+              pointBorderColor: '#FFAF20',
+              data: data[0].values
+            },
+            {
+              label: data[1].fileName,
+              backgroundColor: '#11455C',
+              pointBackgroundColor: 'white',
+              borderWidth: 1,
+              pointBorderColor: '#11455C',
+              data: data[1].values
+            }
+          ]
+        }
+
+        //  차트 데이터 적용
+        this.barchartData = {
+          labels: data[0].labels,
+          datasets: chartDataset
+        }
+        
 			},
 			// 시뮬레이션 교차로 변경 이벤트
 			changeBarChartData: function(value) {
 				// 시뮬레이션 분석 api 조회
 				this.searchSimulationAnalysis(this.getAnalysisApiURL + "?crossRoadNumber=" + value)
 				.then(() => {
-					this.setBarchartData(this.getAnalysisData.labels, this.getAnalysisData.values);
+					this.setBarchartData(this.getAnalysisData);
 				});
 			}
 		}

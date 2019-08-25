@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+let _ = require('lodash');
 
 Vue.use(Vuex)
 
@@ -17,10 +18,11 @@ export default new Vuex.Store({
       },
       analysis: {
         apiURL: '', // 분석 요청 API URL
-        data: { // 분석 요청 API RESPONSE DATA
+        data: [], // 분석 요청 API RESPONSE DATA
+        diagramData: { // 도표 DATA
           labels: [],
           values: []
-        } 
+        }
       }
     },
     getters: { // vuex 저장소 데이터 조회
@@ -32,6 +34,9 @@ export default new Vuex.Store({
       },
       getAnalysisApiURL: (state) => {
         return state.analysis.apiURL
+      },
+      getDiagramData: (state) => {
+        return state.analysis.diagramData;
       }
     },
     mutations: { // vuex 저장소 데이터 변경
@@ -49,6 +54,23 @@ export default new Vuex.Store({
       },
       setAnalysisData: (state, data) => {
         state.analysis.data = data;
+      },
+      setDiagramData: (state, data) => {
+        state.analysis.diagramData.values = [];
+
+        data[0].labels = data[0].labels.map(label => {
+          return label.replace('교차로', '');
+        });
+        data[0].labels.unshift("시뮬레이션 명 ＼ 교치로");
+        data[0].values.unshift(data[0].fileName);
+
+        state.analysis.diagramData.labels = data[0].labels;
+        state.analysis.diagramData.values.push(data[0].values);
+
+        if (data.length > 1) {
+          data[1].values.unshift(data[1].fileName);
+          state.analysis.diagramData.values.push(data[1].values);
+        } 
       }
     },
     actions: { // vuex 저장소 비동기 데이터 변경
@@ -56,10 +78,16 @@ export default new Vuex.Store({
     searchSimulationAnalysis: (context, apiURL) => {
       return axios.get(apiURL)
       .then(response => {
-        // analysis data 변경
-        context.commit('setAnalysisData', response.data.body);
+        if (response.data.body.dataset == null) {
+          // analysis data 변경
+          context.commit('setAnalysisData', new Array(response.data.body));
+          context.commit('setDiagramData', new Array(_.cloneDeep(response.data.body)));
+        } else {
+          context.commit('setAnalysisData', response.data.body.dataset);
+          context.commit('setDiagramData', _.cloneDeep(response.data.body.dataset));
+        }
       })
-      .catch(e => {
+      .catch(e => {e
         // eslint-disable-next-line no-console
         console.error("error : ", e);
       });

@@ -86,21 +86,21 @@
             },
             {
               sortable: true,
-              text: "분석대상",
+              text: "분석지표",
               value: "indicator",
               align: 'center',
               width: '20%'
             },
             {
               sortable: true,
-              text: "교차로",
+              text: "분석대상",
               value: "analysisTarget",
               align: 'center',
               width: '10%'
             },
             {
               sortable: true,
-              text: "날짜",
+              text: "분석날짜",
               value: "analysisDate",
               align: 'center',
               width: '16%'
