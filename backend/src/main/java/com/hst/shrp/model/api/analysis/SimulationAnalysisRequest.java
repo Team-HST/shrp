@@ -2,6 +2,10 @@ package com.hst.shrp.model.api.analysis;
 
 import com.hst.shrp.model.type.AnalysisType;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * @author dlgusrb0808@gmail.com
  */
@@ -35,8 +39,14 @@ public class SimulationAnalysisRequest {
 		return this.compareSimulationNumber != 0;
 	}
 
-	public static SimulationAnalysisRequest of(int simulationNumber, String indicator, String crossRoadNumber) {
-		return of(simulationNumber, 0, indicator, crossRoadNumber);
+	public static SimulationAnalysisRequest of(String simulationNumbers, String indicator, String crossRoadNumber) {
+		List<Integer> numbers =
+				Arrays.stream(simulationNumbers.split("\\|")).map(Integer::parseInt).collect(Collectors.toList());
+		if (numbers.size() == 1) {
+			return of(numbers.get(0), 0, indicator, crossRoadNumber);
+		} else {
+			return of(numbers.get(0), numbers.get(1), indicator, crossRoadNumber);
+		}
 	}
 
 	public static SimulationAnalysisRequest of(int simulationNumber, int compareSimulationNumber, String indicator, String crossRoadNumber) {

@@ -3,9 +3,10 @@ package com.hst.shrp.model.api.analysis;
 import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
 import com.hst.shrp.model.entity.EntitySimulationData;
 import com.hst.shrp.model.entity.EntitySimulationDataAggregation;
-import static com.hst.shrp.utils.Functionals.*;
 
 import java.util.List;
+
+import static com.hst.shrp.utils.Functionals.transform;
 
 /**
  * @author dlgusrb0808@gmail.com
