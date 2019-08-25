@@ -11,8 +11,10 @@
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.8.0",
+    "font-kopub": "^1.5.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
+    "stylus-loader": "^3.0.2",
     "vue": "^2.6.10",
     "vue-chartist": "^2.2.1",
     "vue-chartjs": "^3.4.2",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",
+    "@mdi/font": "^4.1.95",
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-eslint": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
