@@ -1,12 +1,12 @@
 package com.hst.shrp.model.api.analysis;
 
 import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
-import com.hst.shrp.model.entity.EntitySimulationData;
-import com.hst.shrp.model.entity.EntitySimulationDataAggregation;
+import com.hst.shrp.model.entity.EntitySimulationDirectionData;
+import com.hst.shrp.model.entity.EntitySimulationAggregationData;
 
 import java.util.List;
 
-import static com.hst.shrp.utils.Functionals.transform;
+import static com.hst.shrp.utils.FunctionalAPI.*;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -40,20 +40,20 @@ public class SimulationSingleAnalysisResponse implements SimulationAnalysisRespo
 
 	public static SimulationSingleAnalysisResponse ofAggregation(SimulationHistory history,
 																 SimulationAnalysisRequest request,
-																 List<EntitySimulationDataAggregation> aggregations) {
+																 List<EntitySimulationAggregationData> aggregations) {
 		return of (
 			history, request,
-			transform(aggregations, aggr -> String.format("%d교차로", aggr.getCrpNo())),
-			transform(aggregations, EntitySimulationDataAggregation::getAggrVal)
+			from(aggregations).toList(aggr -> String.format("%d교차로", aggr.getCrpNo())),
+			from(aggregations).toList(EntitySimulationAggregationData::getAggrVal)
 		);
 	}
 
 	public static SimulationSingleAnalysisResponse of(SimulationHistory history, SimulationAnalysisRequest request,
-													  List<EntitySimulationData> simulationData) {
+													  List<EntitySimulationDirectionData> simulationData) {
 		return of (
 			history, request,
-			transform(simulationData, EntitySimulationData::getDrcNm),
-			transform(simulationData, EntitySimulationData::getVal)
+			from(simulationData).toList(EntitySimulationDirectionData::getDrcNm),
+			from(simulationData).toList(EntitySimulationDirectionData::getVal)
 		);
 	}
 

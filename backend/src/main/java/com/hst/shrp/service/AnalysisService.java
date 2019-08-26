@@ -8,8 +8,8 @@ import com.hst.shrp.model.api.analysis.*;
 import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
-import com.hst.shrp.model.entity.EntitySimulationData;
-import com.hst.shrp.model.entity.EntitySimulationDataAggregation;
+import com.hst.shrp.model.entity.EntitySimulationDirectionData;
+import com.hst.shrp.model.entity.EntitySimulationAggregationData;
 import com.hst.shrp.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
@@ -72,11 +72,11 @@ public class AnalysisService {
         String indicator = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
         SimulationHistory history = simulationService.getSimulationHistory(targetSimulationNumber);
         if (request.isAllCrossRoadAnalyze()) {
-            List<EntitySimulationDataAggregation> aggregations =
+            List<EntitySimulationAggregationData> aggregations =
                     analysisDAO.findAverageByIndicator(indicator, targetSimulationNumber);
             return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations);
         } else {
-            List<EntitySimulationData> simulationData = analysisDAO.findAllByIndicator(indicator,
+            List<EntitySimulationDirectionData> simulationData = analysisDAO.findAllByIndicator(indicator,
                     targetSimulationNumber, Integer.parseInt(request.getCrossRoadNumber()));
             return SimulationSingleAnalysisResponse.of(history, request, simulationData);
         }
