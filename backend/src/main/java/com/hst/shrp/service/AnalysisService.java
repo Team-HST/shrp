@@ -97,20 +97,16 @@ public class AnalysisService {
 
     /***
      * get simulation analysis history
-     *
-     * @param page the page
-     * @param size the size
      * @return histories
      */
-    public SimulationAnalysisHistoryResponse getAnalysisHistories(int page, int size) {
-        PageHelper.startPage(page, size);
-        Page<EntityAnalysisHistory> resultPage = analysisHistoryDAO.findAllAnalysisHistories();
-        return SimulationAnalysisHistoryResponse.of(resultPage, commonCodeService.getCommonCodes(INDICATOR_GROUP_CODE));
+    public SimulationAnalysisHistoryResponse getAnalysisHistories() {
+        List<EntityAnalysisHistory> analysisHistories = analysisHistoryDAO.findAllAnalysisHistories();
+        return SimulationAnalysisHistoryResponse.of(analysisHistories, commonCodeService.getCommonCodes(INDICATOR_GROUP_CODE));
     }
 
     /***
      * insert analysis history
-     * @param request
+     * @param request the request
      */
     public void insertAnalysisHistory(SimulationAnalysisRequest request, Object analysisResult) {
         EntityAnalysisHistory entityAnalysisHistory = new EntityAnalysisHistory();

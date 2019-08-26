@@ -29,12 +29,9 @@ public class AnalysisController {
     }
 
     @GetMapping("histories")
-    public ApiResponse<SimulationAnalysisHistoryResponse> getAnalysisHistories(
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "10") int size
-    ) {
+    public ApiResponse<SimulationAnalysisHistoryResponse> getAnalysisHistories() {
 
-        return new ApiResponse<>(analysisService.getAnalysisHistories(page, size));
+        return new ApiResponse<>(analysisService.getAnalysisHistories());
     }
 
 }

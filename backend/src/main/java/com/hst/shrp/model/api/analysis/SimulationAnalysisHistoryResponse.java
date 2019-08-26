@@ -1,7 +1,5 @@
 package com.hst.shrp.model.api.analysis;
 
-import com.github.pagehelper.Page;
-import com.hst.shrp.model.api.PagedResponse;
 import com.hst.shrp.model.api.code.CommonCodesResponse;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
 import com.hst.shrp.utils.JsonUtils;
@@ -10,12 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.hst.shrp.utils.FunctionalAPI.*;
+import static com.hst.shrp.utils.FunctionalAPI.from;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
-public class SimulationAnalysisHistoryResponse extends PagedResponse {
+public class SimulationAnalysisHistoryResponse {
 	private List<SimulationAnalysisHistory> simulationAnalysisHistories;
 
 	public List<SimulationAnalysisHistory> getSimulationAnalysisHistories() {
@@ -79,13 +77,12 @@ public class SimulationAnalysisHistoryResponse extends PagedResponse {
 		}
 	}
 
-	public static SimulationAnalysisHistoryResponse of(Page<EntityAnalysisHistory> resultPage,
+	public static SimulationAnalysisHistoryResponse of(List<EntityAnalysisHistory> resultPage,
 													   CommonCodesResponse indicatorCode) {
 		Map<String, String> indicatorMap = indicatorCode.getCommonCodeMap();
 		SimulationAnalysisHistoryResponse response = new SimulationAnalysisHistoryResponse();
-		response.setPageInformation(resultPage);
-		response.simulationAnalysisHistories = from(resultPage).toList(
-				entity -> SimulationAnalysisHistory.convert(entity, indicatorMap));
+		response.simulationAnalysisHistories = from(resultPage)
+				.toList(entity -> SimulationAnalysisHistory.convert(entity, indicatorMap));
 		return response;
 	}
 }
