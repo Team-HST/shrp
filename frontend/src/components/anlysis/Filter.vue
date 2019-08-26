@@ -82,15 +82,15 @@ export default {
         headers: [
           {
             sortable: false,
-            text: "번호",
-            value: "simulationNumber",
+            text: '번호',
+            value: 'simulationNumber',
             align: 'center',
             width: '10%'
           },
           {
             sortable: false,
-            text: "파일 명",
-            value: "fileName",
+            text: '파일 명',
+            value: 'fileName',
             align: 'center',
             width: '90%'
           }
@@ -105,37 +105,37 @@ export default {
     this.service = {
       // 지표 선택 종류 조회
       searchIxTypeList: () => {
-        this.$http.get("/api/codes/100")
+        this.$http.get('/api/codes/100')
         .then(response => {
           this.ixType.list = response.data.body.commonCodes;
           this.ixType.selected = response.data.body.commonCodes[0].subCode;
         })
         .catch(e => {
-          console.error("error : ", e);
+          console.error('error : ', e);
         });
       },
       // 지표 시뮬레이션 조회
       searchSimulationList: () => {
-        this.$http.get("/api/simulation/histories")
+        this.$http.get('/api/simulation/histories')
         .then(response => {
           this.simulation.list = response.data.body.simulationHistories;
         })
         .catch(e => {
-          console.error("error : ", e);
+          console.error('error : ', e);
         });
       },
       // 시뮬레이션 분석
       searchSimulationAnalysis: (requestURL) => {
         // 이동 페이지 라우터 정보설정
         this.changeLayoutLink(
-          routerLinks.filter(link => link.name === "SimulationAnalysis")[0]
+          routerLinks.filter(link => link.name === 'SimulationAnalysis')[0]
         );
 
         // 시뮬레이션 분석 API URL 저장
         this.setAnalysisApiUrl(requestURL)
 
         // 시뮬레이션 데이터 저장
-        this.searchSimulationAnalysis(requestURL + "?crossRoadNumber=all").then(() => {
+        this.searchSimulationAnalysis(requestURL + '?crossRoadNumber=all').then(() => {
           // 시뮬레이션 분석 페이지 이동
           this.$router.push({name: 'SimulationAnalysis'});
         });
@@ -162,10 +162,10 @@ export default {
     searchSimulationStats() {
       let selectSimulLangth = this.simulation.selected.length;
       // 시뮬레이션 분석 API URL
-      let chartAnalysisAPI = "";
+      let chartAnalysisAPI = '';
 
       if (selectSimulLangth === 0) {
-        alert("분석을 진행 할 시뮬레이션을 선택하여주세요.");
+        alert('분석을 진행 할 시뮬레이션을 선택하여주세요.');
         return;
       } else {
         /** 
@@ -173,19 +173,19 @@ export default {
          *  교차로 - 분석차트 화면에서 전체에서 단일 교차로선택
          **/
         if (selectSimulLangth > 2) {
-          alert("시뮬레이션은 2개까지 선택이 가능합니다.");
+          alert('시뮬레이션은 2개까지 선택이 가능합니다.');
           return;
         }
 
         if (selectSimulLangth === 1) {
           // 시뮬레이션 분석 요청 API URL
-          chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber +
-                             "/" + this.ixType.selected;
+          chartAnalysisAPI = '/api/analysis/' + this.simulation.selected[0].simulationNumber +
+                             '/' + this.ixType.selected;
           // 시뮬레이션 분석 페이지 조회 및 이동
           this.service.searchSimulationAnalysis(chartAnalysisAPI);
         } else {
-          chartAnalysisAPI = "/api/analysis/" + this.simulation.selected[0].simulationNumber + "_" + this.simulation.selected[1].simulationNumber +
-                             "/" + this.ixType.selected
+          chartAnalysisAPI = '/api/analysis/' + this.simulation.selected[0].simulationNumber + '_' + this.simulation.selected[1].simulationNumber +
+                             '/' + this.ixType.selected
           this.service.searchSimulationAnalysis(chartAnalysisAPI);
         }
       }

@@ -11,8 +11,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="value in getDiagramData.values" :key="value">
-          <td v-for="item in value" :key="item">{{ item }}</td>
+        <tr v-for="(value, index) in getDiagramData.values" :key="index">
+          <td v-for="(item, index) in value" :key="index">{{ item }}</td>
         </tr>
       </tbody>
     </v-simple-table>
@@ -33,8 +33,6 @@
     },
     computed: {
       ...mapGetters(['getAnalysisData', 'getDiagramData'])
-    },
-    mounted() {
     }
   }
  </script>

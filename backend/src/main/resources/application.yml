@@ -6,7 +6,7 @@ server:
 spring:
   datasource:
 #    url: jdbc:sqlite:/shrp/shrp.db
-    url: jdbc:sqlite:/Users/nhn/shrp/shrp.db
+    url: jdbc:sqlite:/shrp/shrp.db
     driver-class-name: org.sqlite.JDBC
     username:
     password:

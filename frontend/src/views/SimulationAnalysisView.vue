@@ -32,7 +32,6 @@
 				</material-card>
 			</v-flex>
 			<v-flex md12 lg10>
-				<!-- <resultTable :data-table="dataTable"></resultTable> -->
 				<simulationAnalysis-table></simulationAnalysis-table>
 			</v-flex>
 		</v-layout>
@@ -62,70 +61,48 @@
 				this.$router.push({name: 'Analysis'})
 				return
 			}
+
 			// 차트 데이터 변경 요청
 			this.setBarchartData(this.getAnalysisData);
-			// 데이터 표 
-			/*this.dataTable.headers = this.getAnalysisData.labels;
-			for (var i=0; i<this.getAnalysisData.labels.length; i++) {
-				var headersTemp = {};
-				var valuesTemp = {};
-			
-				headersTemp.text = this.getAnalysisData.labels[i];
-				headersTemp.align = 'left';
-				headersTemp.sortable = 'false';
-				headersTemp.value = 'test';
-			
-				valuesTemp.name = 'VEHS';
-				valuesTemp.test = 19;
-				dataTable.headers.push(headersTemp);
-				dataTable.values.push(valuesTemp);
-			}*/
+
 			// 교차로 셀렉트 박스 설정
 			this.crossNumType.list = this.getAnalysisData[0].labels.map((item, index) => {
 				return {text: item, value: index+1}
 			});
+
 			// 교차로 셀렉트박스 all 추가
 			this.crossNumType.list.unshift({text: '전체', value: 'all'});
+
 			// 교차로 셀렉트박스 전체 지정
 			this.crossNumType.selected = this.crossNumType.list[0];
 		},
 		methods: {
 			...mapActions(['searchSimulationAnalysis']),
+			
 			// 차트 데이터 동적 변경
 			setBarchartData: function(data) {
         // 차트 데이터 생성
-        let chartDataset = [];
+        let chartDataset = chartDataset = [
+					{
+						label: data[0].fileName,
+						backgroundColor: '#FFAF20',
+						pointBackgroundColor: 'white',
+						borderWidth: 1,
+						pointBorderColor: '#FFAF20',
+						data: data[0].values
+					}
+				];
 
-        if (data.length === 1) {
-          chartDataset = [
-            {
-              label: data[0].fileName,
-              backgroundColor: '#FFAF20',
-              pointBackgroundColor: 'white',
-              borderWidth: 1,
-              pointBorderColor: '#FFAF20',
-              data: data[0].values
-            }
-          ]
-        } else {
-          chartDataset = [
-            {
-              label: data[0].fileName,
-              backgroundColor: '#FFAF20',
-              pointBackgroundColor: 'white',
-              borderWidth: 1,
-              pointBorderColor: '#FFAF20',
-              data: data[0].values
-            },
-            {
+				// 비교 분석 데이터 추가
+        if (data.length > 1) {
+          chartDataset.push({
               label: data[1].fileName,
               backgroundColor: '#11455C',
               pointBackgroundColor: 'white',
               borderWidth: 1,
               pointBorderColor: '#11455C',
               data: data[1].values
-            }
-          ]
+         	});
         }
 
         //  차트 데이터 적용

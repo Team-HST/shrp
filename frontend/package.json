@@ -17,7 +17,6 @@
     "vue": "^2.6.10",
     "vue-chartist": "^2.2.1",
     "vue-chartjs": "^3.4.2",
-    "vue-lodash": "^2.0.2",
     "vue-material": "^1.0.0-beta-11",
     "vue-router": "^3.0.7",
     "vuetify": "^2.0.3",
