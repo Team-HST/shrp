@@ -1,32 +1,19 @@
 package com.hst.shrp.model.api.simulation;
 
 import com.github.pagehelper.Page;
+import com.hst.shrp.model.api.PagedResponse;
 import com.hst.shrp.model.entity.EntitySimulationHistory;
-import com.hst.shrp.utils.Functionals;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.hst.shrp.utils.FunctionalAPI.from;
+
 /**
  * @author dlgusrb0808@gmail.com
  */
-public class SimulationHistoriesResponse {
-	private int page;
-	private int size;
-	private int totalPages;
+public class SimulationHistoriesResponse extends PagedResponse {
 	private List<SimulationHistory> simulationHistories;
-
-	public int getPage() {
-		return page;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public int getTotalPages() {
-		return totalPages;
-	}
 
 	public List<SimulationHistory> getSimulationHistories() {
 		return simulationHistories;
@@ -72,10 +59,8 @@ public class SimulationHistoriesResponse {
 
 	public static SimulationHistoriesResponse of(Page<EntitySimulationHistory> resultPage) {
 		SimulationHistoriesResponse response = new SimulationHistoriesResponse();
-		response.page = resultPage.getPageNum();
-		response.size = resultPage.getPageSize();
-		response.totalPages = resultPage.getPages();
-		response.simulationHistories = Functionals.transform(resultPage, SimulationHistory::convert);
+		response.setPageInformation(resultPage);
+		response.simulationHistories = from(resultPage).toList(SimulationHistory::convert);
 		return response;
 	}
 }

@@ -12,9 +12,9 @@ public class SimulationMultipleAnalysisResponse implements SimulationAnalysisRes
 		return dataset;
 	}
 
-	public static SimulationMultipleAnalysisResponse of(List<SimulationSingleAnalysisResponse> simulationAnalysisResponseMap) {
+	public static SimulationMultipleAnalysisResponse of(List<SimulationSingleAnalysisResponse> dataset) {
 		SimulationMultipleAnalysisResponse response = new SimulationMultipleAnalysisResponse();
-		response.dataset = simulationAnalysisResponseMap;
+		response.dataset = dataset;
 		return response;
 	}
 }

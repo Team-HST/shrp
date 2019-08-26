@@ -1,0 +1,41 @@
+{
+  "_from": "font-kopub",
+  "_id": "font-kopub@1.5.0",
+  "_inBundle": false,
+  "_integrity": "sha512-QD4uMkBj4zmVczAqVEGd3fR91N8MqqvxYi8Dey9ZgC2D45kYTR4jgNlJDJ52HyB68HuTLoZTJql4TCdGqr55UQ==",
+  "_location": "/font-kopub",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "font-kopub",
+    "name": "font-kopub",
+    "escapedName": "font-kopub",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/font-kopub/-/font-kopub-1.5.0.tgz",
+  "_shasum": "8c503efc3f595c0b37d01267b92460819dda043b",
+  "_spec": "font-kopub",
+  "_where": "/Users/nhn/dev/shrp/frontend",
+  "authors": [
+    "Korea Publishers Society <kopus@kopus.org>"
+  ],
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Designed for development of Korea E-Book industry and distribution",
+  "homepage": "http://www.kopus.org/Biz/electronic/Font.aspx",
+  "keywords": [
+    "kopub",
+    "kopub dotum",
+    "kopub batang"
+  ],
+  "main": "kopubdotum.css",
+  "name": "font-kopub",
+  "version": "1.5.0"
+}

@@ -1,37 +1,22 @@
 package com.hst.shrp.model.api.analysis;
 
 import com.github.pagehelper.Page;
+import com.hst.shrp.model.api.PagedResponse;
 import com.hst.shrp.model.api.code.CommonCodesResponse;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
-import com.hst.shrp.model.type.AnalysisType;
 import com.hst.shrp.utils.JsonUtils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.hst.shrp.utils.Functionals.*;
+import static com.hst.shrp.utils.FunctionalAPI.*;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
-public class SimulationAnalysisHistoryResponse {
-	private int page;
-	private int size;
-	private int totalPages;
+public class SimulationAnalysisHistoryResponse extends PagedResponse {
 	private List<SimulationAnalysisHistory> simulationAnalysisHistories;
-
-	public int getPage() {
-		return page;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public int getTotalPages() {
-		return totalPages;
-	}
 
 	public List<SimulationAnalysisHistory> getSimulationAnalysisHistories() {
 		return simulationAnalysisHistories;
@@ -98,10 +83,8 @@ public class SimulationAnalysisHistoryResponse {
 													   CommonCodesResponse indicatorCode) {
 		Map<String, String> indicatorMap = indicatorCode.getCommonCodeMap();
 		SimulationAnalysisHistoryResponse response = new SimulationAnalysisHistoryResponse();
-		response.page = resultPage.getPageNum();
-		response.size = resultPage.getPageSize();
-		response.totalPages = resultPage.getPages();
-		response.simulationAnalysisHistories = transform(resultPage,
+		response.setPageInformation(resultPage);
+		response.simulationAnalysisHistories = from(resultPage).toList(
 				entity -> SimulationAnalysisHistory.convert(entity, indicatorMap));
 		return response;
 	}

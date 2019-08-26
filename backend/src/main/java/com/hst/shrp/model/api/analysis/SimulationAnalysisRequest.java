@@ -1,5 +1,6 @@
 package com.hst.shrp.model.api.analysis;
 
+import com.hst.shrp.model.exception.InvalidParameterException;
 import com.hst.shrp.model.type.AnalysisType;
 
 import java.util.Arrays;
@@ -44,8 +45,10 @@ public class SimulationAnalysisRequest {
 				Arrays.stream(simulationNumbers.split("_")).map(Integer::parseInt).collect(Collectors.toList());
 		if (numbers.size() == 1) {
 			return of(numbers.get(0), 0, indicator, crossRoadNumber);
-		} else {
+		} else if(numbers.size() == 2) {
 			return of(numbers.get(0), numbers.get(1), indicator, crossRoadNumber);
+		} else {
+			throw new InvalidParameterException(String.format("Invalid simulation number. %s", simulationNumbers));
 		}
 	}
 

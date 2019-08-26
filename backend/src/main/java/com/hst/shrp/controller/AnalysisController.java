@@ -33,6 +33,7 @@ public class AnalysisController {
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "10") int size
     ) {
+
         return new ApiResponse<>(analysisService.getAnalysisHistories(page, size));
     }
 
