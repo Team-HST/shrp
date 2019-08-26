@@ -2,8 +2,7 @@
   <v-footer
     fixed
     app
-  >
-    footer
+  > footer
   </v-footer>
 </template>
 

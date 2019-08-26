@@ -41,7 +41,10 @@
             }"
           > 
             <template v-slot:item.analysisNumber="{ item }">
-              {{ history.list.length - history.list.map(function(x) {return x.analysisNumber; }).indexOf(item.analysisNumber) }}
+              {{ history.list.length - history.list.map((x) => {
+                return x.analysisNumber; 
+                }).indexOf(item.analysisNumber) 
+              }}
             </template>
             <template v-slot:item.displayChart="{ item }">
               <a @click="showHistoryChart(item.analysisData)">보기</a>
@@ -73,8 +76,7 @@
               color="blue darken-1"
               text
               @click="chartDialog = false"
-            >
-              Close
+            > Close
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -101,8 +103,7 @@
               color="blue darken-1"
               text
               @click="diagramDialog = false"
-            >
-              Close
+            > Close
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -181,7 +182,7 @@
     },
     created() {
       this.service = {
-        searchHistoryList : () => {
+        searchHistoryList: () => {
           this.$http.get('/api/analysis/histories?page=1&size=1000')
           .then(response => {
             this.history.list = response.data.body.simulationAnalysisHistories;
@@ -238,7 +239,8 @@
           labels: chartDataArr[0].labels,
           datasets: chartDataset
         }
-
+        
+        // 차트 모달 표출
         this.chartDialog = true;
       },
       showHistoryDiagram: function(diagramData) {
@@ -254,6 +256,7 @@
         // 도표 데이터 설정
         this.setDiagramData(diagramDataset);
 
+        // 도표 모달 표출
         this.diagramDialog = true;
       }
     }
@@ -263,7 +266,5 @@
 <style>
   .v-dialog {
     box-shadow: none;
-    /* background-color: rgb(245, 246, 248) */
   }
-
 </style>
