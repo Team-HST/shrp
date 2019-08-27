@@ -17,7 +17,7 @@
 		SELECT SIMUL_NO,
 			   CRP_NO,
 			   DRC_NM,
-			   ROUND(VAL, 1)
+			   ROUND(VAL, 1) AS VAL
 		  FROM SHRP_${indicator}
 		 WHERE SIMUL_NO = #{simulationNumber}
 		   AND CRP_NO = #{crossRoadNumber}
