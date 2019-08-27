@@ -183,13 +183,13 @@ export default {
 
         if (selectSimulLangth === 1) {
           // 시뮬레이션 분석 요청 API URL
-          chartAnalysisAPI = '/api/analysis/' + this.simulation.selected[0].simulationNumber +
-                             '/' + this.ixType.selected;
+          chartAnalysisAPI = `/api/analysis/${this.simulation.selected[0].simulationNumber}/`+
+                             `${this.ixType.selected}`;
           // 시뮬레이션 분석 페이지 조회 및 이동
           this.service.searchSimulationAnalysis(chartAnalysisAPI);
         } else {
-          chartAnalysisAPI = '/api/analysis/' + this.simulation.selected[0].simulationNumber + '_' + 
-                             this.simulation.selected[1].simulationNumber + '/' + this.ixType.selected
+          chartAnalysisAPI = `/api/analysis/${this.simulation.selected[0].simulationNumber}_`+
+                             `${this.simulation.selected[1].simulationNumber}/${this.ixType.selected}`;
           this.service.searchSimulationAnalysis(chartAnalysisAPI);
         }
       }
