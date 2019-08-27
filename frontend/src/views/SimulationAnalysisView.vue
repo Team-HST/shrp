@@ -115,7 +115,7 @@
 			// 시뮬레이션 교차로 변경 이벤트
 			changeBarChartData: function(value) {
 				// 시뮬레이션 분석 api 조회
-				this.searchSimulationAnalysis(this.getAnalysisApiURL + "?crossRoadNumber=" + value)
+				this.searchSimulationAnalysis(`${this.getAnalysisApiURL}?crossRoadNumber=${value}`)
 				.then(() => {
 					this.setBarchartData(this.getAnalysisData);
 				});
