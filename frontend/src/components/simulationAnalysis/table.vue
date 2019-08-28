@@ -1,13 +1,9 @@
 <template>
-   <material-card 
-      color="orange" 
-      title="Simulation Diagram" 
-      text="Simulation Analysis Diagram Results"
-   >
+   
     <v-simple-table>
       <thead>
         <tr>
-          <th class="text-left" v-for="item in getDiagramData.labels" :key="item">{{ item }}</th>
+          <th class="text-left font-weight-black" v-for="item in getDiagramData.labels" :key="item">{{ item }}</th>
         </tr>
       </thead>
       <tbody>
@@ -16,7 +12,7 @@
         </tr>
       </tbody>
     </v-simple-table>
-  </material-card>
+
 </template>
 
 <script>

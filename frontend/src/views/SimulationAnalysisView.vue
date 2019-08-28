@@ -7,18 +7,18 @@
 		<v-layout wrap>
 			<v-flex md12 lg10>
 				<material-card
-          color="#FFAF20"
-          title="Simulation Analysis Barchart"
-          text="Simulation Analysis Barchart Results"
-        >
+					color="#FFAF20"
+					title="모의실헝 분석결과 그래프"
+					text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
+				>
 					<chart-bar :chart-data="barchartData"></chart-bar>
 				</material-card>
 			</v-flex>
 			<v-flex md12 lg2>
 				<material-card
 					color="#11455C"
-					title="Select CrossNum"
-					text="select an cross number."
+					title="교차로 선택"
+					text="교차로 별 세부 결과입니다."
 				>
 					<v-select
 						v-model="crossNumType.selected"
@@ -26,13 +26,19 @@
 						:items="crossNumType.list"
 						item-text="text"
 						item-value="value"
-						label="Select Indicator"
+						label="전체/교차로"
 					>
 					</v-select>
 				</material-card>
 			</v-flex>
 			<v-flex md12 lg10>
-				<simulationAnalysis-table></simulationAnalysis-table>
+        <material-card 
+          color="orange" 
+          title="모의실험 분석결과 도표" 
+          text="모의실험 별 분석결과 도표입니다."
+        >
+				  <simulationAnalysis-table></simulationAnalysis-table>
+        </material-card>
 			</v-flex>
 		</v-layout>
 	</v-container>

@@ -3,7 +3,7 @@
     <v-flex class="pt-0 pb-0" md12 lg12>
       <div class="layout align-center layout px-4 pl-10 app--page-header row">
         <div class="page-header-left">
-          <h3 class="pr-3">{{ getLayoutLink.name }}</h3>
+          <h3 class="pr-3">{{ getLayoutLink.mainName }}</h3>
         </div>
         <v-breadcrumbs class="pb-0" style="justify-content: flex-start;">
           <v-breadcrumbs-item>
