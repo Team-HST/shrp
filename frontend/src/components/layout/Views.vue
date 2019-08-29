@@ -38,9 +38,6 @@
     },
     computed: {
       ...mapGetters(['getLayoutLink'])
-    },
-    created() {
-      
     }
   }
 </script>

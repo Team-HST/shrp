@@ -200,9 +200,6 @@
       // 시뮬레이셔 이력 조회
       this.service.searchHistoryList();
     },
-    mounted() {
-      console.dir(this.$route);
-    },
     methods: {
       ...mapMutations(['setDiagramData']),
 
