@@ -25,7 +25,17 @@
           },
           legend: {
               display: true
-            },
+          },
+          tooltips: {
+            mode: 'index',
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    var label = ': ';
+                    label += Math.round(tooltipItem.yLabel * 100) / 100;
+                    return label;
+                }
+            }
+          },
           responsive: true,
           maintainAspectRatio: false
         }

@@ -23,7 +23,8 @@
 						loading-text="데이터 로딩중..."
             show-select
             :footer-props="{
-              itemsPerPageText: '목록 갯수'
+              disableItemsPerPage: true,
+              itemsPerPageText: '',
             }"
           >
             <template v-slot:item.simulationNumber="{ item }">

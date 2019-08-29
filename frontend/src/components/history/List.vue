@@ -33,8 +33,9 @@
 						loading="true"
 						loading-text="데이터 로딩중..."
             :footer-props="{
-              itemsPerPageText: '목록 갯수',
+              disableItemsPerPage: true,
               showFirstLastPage: true,
+              itemsPerPageText: '',
               firstIcon: 'mdi-chevron-double-left',
               lastIcon: 'mdi-chevron-double-right',
               prevIcon: 'mdi-chevron-left',
@@ -199,6 +200,9 @@
       // 시뮬레이셔 이력 조회
       this.service.searchHistoryList();
     },
+    mounted() {
+      console.dir(this.$route);
+    },
     methods: {
       ...mapMutations(['setDiagramData']),
 
@@ -269,5 +273,9 @@
 <style>
   .v-dialog {
     box-shadow: none;
+  }
+
+  .v-data-footer__select {
+    visibility: hidden;
   }
 </style>
