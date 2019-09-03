@@ -4,10 +4,15 @@
 
   export default {
     extends: Bar,
+    props : ["text"],
     mixins: [reactiveProp],
     data() {
       return {
         options: {
+          title: {
+            display: true,
+            text: ''
+          },
           scales: {
             yAxes: [{
               ticks: {
@@ -42,6 +47,8 @@
       }
     },
     mounted() {
+      // 차트 타이틀
+      this.options.title.text = this.text;
       // 차트 렌더링
       this.renderChart(this.chartData, this.options)
     }

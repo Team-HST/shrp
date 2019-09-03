@@ -11,7 +11,7 @@
 					title="모의실헝 분석결과 그래프"
 					text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
 				>
-					<chart-bar :chart-data="barchartData"></chart-bar>
+					<chart-bar :chart-data="barchartData" :text="text"></chart-bar>
 				</material-card>
 			</v-flex>
 			<v-flex md12 lg2>
@@ -55,7 +55,8 @@
 				crossNumType: { // 교차로 선택 데이터
 					selected: {}, // 박스 선택 데이터
 					list: [] // 박스 데이터 목록
-				}
+				},
+				text: ''
 			}
 		},
 		computed: {
@@ -110,7 +111,9 @@
               data: data[1].values
          	});
         }
-
+		
+		// 차트 타이틀 적용
+		this.text = data[0].indicatorName;
         //  차트 데이터 적용
         this.barchartData = {
           labels: data[0].labels,

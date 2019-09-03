@@ -21,6 +21,7 @@
 						class="elevation-1"
 						loading="true"
 						loading-text="데이터 로딩중..."
+						no-data-text="데이터가 존재하지 않습니다."
             show-select
             :footer-props="{
               disableItemsPerPage: true,

@@ -69,16 +69,16 @@ public class AnalysisService {
 
     // core analysis for single simulation
     private SimulationSingleAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
-        String indicator = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
+        String indicatorName = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
         SimulationHistory history = simulationService.getSimulationHistory(targetSimulationNumber);
         if (request.isAllCrossRoadAnalyze()) {
             List<EntitySimulationAggregationData> aggregations =
-                    analysisDAO.findAverageByIndicator(indicator, targetSimulationNumber);
-            return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations);
+                    analysisDAO.findAverageByIndicator(indicatorName, targetSimulationNumber);
+            return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations, indicatorName);
         } else {
-            List<EntitySimulationDirectionData> simulationData = analysisDAO.findAllByIndicator(indicator,
+            List<EntitySimulationDirectionData> simulationData = analysisDAO.findAllByIndicator(indicatorName,
                     targetSimulationNumber, Integer.parseInt(request.getCrossRoadNumber()));
-            return SimulationSingleAnalysisResponse.of(history, request, simulationData);
+            return SimulationSingleAnalysisResponse.of(history, request, simulationData, indicatorName);
         }
     }
 
