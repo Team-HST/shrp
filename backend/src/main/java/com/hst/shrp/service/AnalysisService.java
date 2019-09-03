@@ -1,15 +1,13 @@
 package com.hst.shrp.service;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.hst.shrp.dao.AnalysisDAO;
 import com.hst.shrp.dao.AnalysisHistoryDAO;
 import com.hst.shrp.model.api.analysis.*;
 import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
-import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.model.entity.EntitySimulationAggregationData;
+import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
@@ -122,4 +120,7 @@ public class AnalysisService {
         analysisHistoryDAO.save(entityAnalysisHistory);
     }
 
+    public void removeOldSimulationAnalysisHistories(List<Integer> deleteTargetSimulationNumbers) {
+        // TODO / 이현규 / 예전 시뮬레이션 분석 히스토리 이력 삭제
+    }
 }

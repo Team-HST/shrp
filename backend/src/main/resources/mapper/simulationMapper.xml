@@ -22,4 +22,24 @@
 		  FROM SHRP_SIMLATN_HST
 		 WHERE SIMUL_NO = #{simulationNumber}
 	</select>
+
+	<select id="selectNotRecentlySimulationHistories" resultType="int">
+		SELECT SIMUL_NO
+		  FROM SHRP_SIMLATN_HST
+		 WHERE SIMUL_NO NOT IN (
+		     SELECT SIMUL_NO
+		  	   FROM SHRP_SIMLATN_HST
+		   ORDER BY SIMUL_NO DESC LIMIT #{recentLimitBound}
+		 )
+	</select>
+	
+	<delete id="deleteSimulationsBySimulationNumbers">
+		DELETE FROM SHRP_SIMLATN_HST
+		 <where>
+			SIMUL_NO IN
+			<foreach collection="simulationNumbers" item="simulationNumber" open="(" close=")" separator=",">
+				#{simulationNumber}
+			</foreach>
+		 </where>
+	</delete>
 </mapper>
