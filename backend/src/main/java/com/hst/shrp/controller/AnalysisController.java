@@ -30,7 +30,6 @@ public class AnalysisController {
 
     @GetMapping("histories")
     public ApiResponse<SimulationAnalysisHistoryResponse> getAnalysisHistories() {
-
         return new ApiResponse<>(analysisService.getAnalysisHistories());
     }
 
