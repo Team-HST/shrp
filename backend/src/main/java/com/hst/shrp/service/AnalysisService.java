@@ -1,15 +1,13 @@
 package com.hst.shrp.service;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.hst.shrp.dao.AnalysisDAO;
 import com.hst.shrp.dao.AnalysisHistoryDAO;
 import com.hst.shrp.model.api.analysis.*;
 import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
-import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.model.entity.EntitySimulationAggregationData;
+import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
@@ -69,16 +67,16 @@ public class AnalysisService {
 
     // core analysis for single simulation
     private SimulationSingleAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
-        String indicator = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
+        String indicatorName = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
         SimulationHistory history = simulationService.getSimulationHistory(targetSimulationNumber);
         if (request.isAllCrossRoadAnalyze()) {
             List<EntitySimulationAggregationData> aggregations =
-                    analysisDAO.findAverageByIndicator(indicator, targetSimulationNumber);
-            return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations);
+                    analysisDAO.findAverageByIndicator(indicatorName, targetSimulationNumber);
+            return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations, indicatorName);
         } else {
-            List<EntitySimulationDirectionData> simulationData = analysisDAO.findAllByIndicator(indicator,
+            List<EntitySimulationDirectionData> simulationData = analysisDAO.findAllByIndicator(indicatorName,
                     targetSimulationNumber, Integer.parseInt(request.getCrossRoadNumber()));
-            return SimulationSingleAnalysisResponse.of(history, request, simulationData);
+            return SimulationSingleAnalysisResponse.of(history, request, simulationData, indicatorName);
         }
     }
 
@@ -122,4 +120,7 @@ public class AnalysisService {
         analysisHistoryDAO.save(entityAnalysisHistory);
     }
 
+    public void removeOldSimulationAnalysisHistories(List<Integer> deleteTargetSimulationNumbers) {
+        // TODO / 이현규 / 예전 시뮬레이션 분석 히스토리 이력 삭제
+    }
 }

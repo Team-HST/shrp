@@ -7,13 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: { //vuex 데이터 저장소
       layout: {
-        link: {
-          path: '/analysis',
-          name: 'Analysis',
-          icon: 'mdi-filter',
-          view: 'AnalysisView',
-          subName: 'Simulation analysis screen'
-        }
+        link: {}
       },
       analysis: {
         apiURL: '', // 분석 요청 API URL

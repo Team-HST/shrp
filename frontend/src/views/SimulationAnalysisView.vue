@@ -6,19 +6,22 @@
 	>
 		<v-layout wrap>
 			<v-flex md12 lg10>
-				<material-card
-          color="#FFAF20"
-          title="Simulation Analysis Barchart"
-          text="Simulation Analysis Barchart Results"
-        >
-					<chart-bar :chart-data="barchartData"></chart-bar>
-				</material-card>
+				<div ref="chart">
+					<material-card
+						color="#FFAF20"
+						title="모의실헝 분석결과 그래프"
+						text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
+						imageDown="chart"
+					>
+						<chart-bar :chart-data="barchartData"></chart-bar>
+					</material-card>
+				</div>
 			</v-flex>
 			<v-flex md12 lg2>
 				<material-card
 					color="#11455C"
-					title="Select CrossNum"
-					text="select an cross number."
+					title="교차로 선택"
+					text="교차로 별 세부 결과입니다."
 				>
 					<v-select
 						v-model="crossNumType.selected"
@@ -26,13 +29,22 @@
 						:items="crossNumType.list"
 						item-text="text"
 						item-value="value"
-						label="Select Indicator"
+						label="전체/교차로"
 					>
 					</v-select>
 				</material-card>
 			</v-flex>
 			<v-flex md12 lg10>
-				<simulationAnalysis-table></simulationAnalysis-table>
+				<div ref="diagram">
+					<material-card 
+						color="orange" 
+						title="모의실험 분석결과 도표" 
+						text="모의실험 별 분석결과 도표입니다."
+						imageDown="diagram"
+					>
+						<simulationAnalysis-table></simulationAnalysis-table>
+					</material-card>
+				</div>
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -40,6 +52,7 @@
 
 <script>
 	import { mapGetters, mapActions } from 'vuex'
+	import html2canvas from 'html2canvas'
 
 	export default {
 		name: 'VueChartJS',
@@ -112,13 +125,47 @@
         }
         
 			},
-			// 시뮬레이션 교차로 변경 이벤트
+			// 시뮬레이션 교차로 변경
 			changeBarChartData: function(value) {
 				// 시뮬레이션 분석 api 조회
 				this.searchSimulationAnalysis(`${this.getAnalysisApiURL}?crossRoadNumber=${value}`)
 				.then(() => {
 					this.setBarchartData(this.getAnalysisData);
 				});
+			},
+			// 시뮬레이션 결과 이미지 저장
+			async print(printEl) {
+				const el = this.$refs[printEl];
+				const options = {
+					type: 'dataURL'
+				}
+				// VueHtml2Canvas를 이용한 base64생성
+                let output = await this.$html2canvas(el, options);
+                
+				var byteString = atob(output.split(',')[1]);
+				var mimeString = output.split(',')[0].split(':')[1].split(';')[0]
+
+				// Bolb 타입 데이터를 만들이기위한 데이터생성
+				var ab = new ArrayBuffer(byteString.length);
+				var ia = new Uint8Array(ab);
+				for (var i = 0; i < byteString.length; i++) {
+					ia[i] = byteString.charCodeAt(i);
+				}
+                
+                // 파일저장이름
+                var filename = this.getAnalysisData[0].fileName+'(교차로_'+this.crossNumType.selected.text+').png';
+                // Blob 생성
+				var bolb = new Blob([ab], { type: 'image/png' });
+                
+                // ie
+				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					window.navigator.msSaveOrOpenBlob(bolb, filename);
+				} else { // chrome
+					let link = document.createElement('a');
+					link.href = window.URL.createObjectURL(bolb);
+					link.download = filename;
+					link.click();
+				}
 			}
 		}
 	}

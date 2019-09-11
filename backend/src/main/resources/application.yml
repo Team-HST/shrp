@@ -33,3 +33,5 @@ shrp:
     force-overwrite: false
     source-location: classpath:shrp_schema.db
     deploy-location: /shrp/shrp.db
+  data:
+    number-of-keey-recent-simulations: 10

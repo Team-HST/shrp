@@ -7,7 +7,8 @@ export default [
       name: 'Analysis',
       icon: 'mdi-filter',
       view: 'AnalysisView',
-      subName: 'Simulation analysis screen',
+      mainName: '모의실험 분석',
+      subName: '모의실험 분석 페이지',
       props: true,
       display: true
     },
@@ -16,7 +17,8 @@ export default [
       name: 'History',
       icon: 'mdi-history',
       view: 'HistoryView',
-      subName: 'Simulation analysis record inquiry screen',
+      mainName: '분석이력 조회',
+      subName: '분석이력 조회 페이지',
       props: true,
       display: true
     },
@@ -25,7 +27,8 @@ export default [
       name: 'SimulationAnalysis',
       icon: 'mdi-chart-bar',
       view: 'SimulationAnalysisView',
-      subName: 'Simulation analysis record inquiry screen',
+      mainName: '모의실험 분석 결과',
+      subName: '모의실험 분석결과 페이지',
       props: true,
       display: false
     }

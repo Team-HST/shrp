@@ -9,6 +9,8 @@ import com.hst.shrp.model.entity.EntitySimulationHistory;
 import com.hst.shrp.model.exception.DataNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author dlgusrb0808@gmail.com
  */
@@ -38,7 +40,7 @@ public class SimulationService {
 	 * @param simulationNumber the number of simulation
 	 * @return simulation history
 	 */
-	public SimulationHistoriesResponse.SimulationHistory getSimulationHistory(int simulationNumber) {
+	public SimulationHistory getSimulationHistory(int simulationNumber) {
 		EntitySimulationHistory history = simulationDAO.findOne(simulationNumber);
 		if(history == null) {
 			throw new DataNotFoundException(String.format("Cannot find simulation history. simulationNumber: %d", simulationNumber));
@@ -46,4 +48,17 @@ public class SimulationService {
 		return SimulationHistory.convert(history);
 	}
 
+	/***
+	 * search simulation numbers to be deleted
+	 * @param recentLimitBound the number of latest data to keep
+	 * @return simulation numbers to be deleted
+	 */
+	public List<Integer> getNonRecentlySimulationNumbers(int recentLimitBound) {
+		return simulationDAO.selectNotRecentlySimulationHistories(recentLimitBound);
+	}
+
+	public void removeNonRecentlySimulations(List<Integer> deleteTargetSimulationNumbers) {
+		// TODO / 이현규 / 오래된 시뮬레이션 삭제
+		simulationDAO.deleteSimulationBySimulationNumbers(deleteTargetSimulationNumbers);
+	}
 }

@@ -8,8 +8,8 @@
       <v-flex md12 lg8>
         <material-card
           color="#FFAF20"
-          title="Simulation List"
-          text="Please select an indicator to analyze."
+          title="모의실험 목록"
+          text="분석할 파일을 선택하세요.(비교시 중복선택)."
         >
           <v-data-table
             v-model="simulation.selected"
@@ -20,8 +20,13 @@
             item-key="simulationNumber"
 						class="elevation-1"
 						loading="true"
-						loading-text="Data Loading..."
+						loading-text="데이터 로딩중..."
+						no-data-text="데이터가 존재하지 않습니다."
             show-select
+            :footer-props="{
+              disableItemsPerPage: true,
+              itemsPerPageText: '',
+            }"
           >
             <template v-slot:item.simulationNumber="{ item }">
               {{ simulation.list.length - simulation.list.map((x) => {
@@ -35,15 +40,15 @@
       <v-flex md12 lg4>
 				<material-card
           color="#11455C"
-          title="Search Conditions"
-          text="Select analysis search condition."
+          title="분석 지표 설정"
+          text="분석 지표를 선택하세요."
         >
 					<v-select
             v-model="ixType.selected"
 						:items="ixType.list"
 						item-text="subName"
 						item-value="subCode"
-						label="Select Indicator"
+						label="분석 지표"
 					>
 					</v-select>
 				</material-card>
@@ -53,7 +58,7 @@
             @click="searchSimulationStats"
             color="#11455C"
           >
-            Simulation Stats
+            모의실험 분석 실행
           </v-btn>
         </div>
       </v-flex>

@@ -50,7 +50,7 @@
                 <v-icon v-text="link.icon"></v-icon>
               </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title v-text="link.name"></v-list-item-title>
+                <v-list-item-title v-text="link.mainName"></v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -82,4 +82,3 @@
     }
   }
 </script>
-s

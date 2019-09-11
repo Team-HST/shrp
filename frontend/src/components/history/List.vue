@@ -8,8 +8,8 @@
       <v-flex md12 lg12>
         <material-card
           color="#FFAF20"
-          title="History List"
-          text="Simulation inquiry history list"
+          title="분석이력 목록"
+          text="분석이력 목록입니다.(차트 또는 도표 보기 클릭 시 결과 확인이 가능합니다.)"
         > 
           <v-row>
             <div class="flex-grow-1"></div>
@@ -18,7 +18,7 @@
               class="pr-2"
               v-model="history.searchText"
               append-icon="mdi-magnify"
-              label="Search"
+              label="검색어를 입력하세요."
               single-line
               hide-details
             ></v-text-field>
@@ -31,9 +31,11 @@
             item-key="analysisNumber"
 						class="elevation-1"
 						loading="true"
-						loading-text="Data Loading..."
+						loading-text="데이터 로딩중..."
             :footer-props="{
+              disableItemsPerPage: true,
               showFirstLastPage: true,
+              itemsPerPageText: '',
               firstIcon: 'mdi-chevron-double-left',
               lastIcon: 'mdi-chevron-double-right',
               prevIcon: 'mdi-chevron-left',
@@ -62,8 +64,8 @@
     >
       <material-card
         color="#11455C"
-        title="History Chart Modal"
-        text="Simulation inquiry history list"
+        title="모의실헝 분석결과 그래프"
+        text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
       >
         <v-card>
           <v-card-text>
@@ -76,7 +78,8 @@
               color="blue darken-1"
               text
               @click="chartDialog = false"
-            > Close
+            > 
+              닫기
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -89,8 +92,8 @@
     >
       <material-card
         color="#11455C"
-        title="History Diagram Modal"
-        text="Simulation inquiry Diagram"
+        title="모의실험 분석결과 도표"
+        text="모의실험 별 분석결과 도표입니다."
       >
         <v-card>
           <v-card-text>
@@ -103,7 +106,8 @@
               color="blue darken-1"
               text
               @click="diagramDialog = false"
-            > Close
+            > 
+              닫기
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -266,5 +270,9 @@
 <style>
   .v-dialog {
     box-shadow: none;
+  }
+
+  .v-data-footer__select {
+    visibility: hidden;
   }
 </style>
