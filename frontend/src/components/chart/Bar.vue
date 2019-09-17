@@ -8,6 +8,10 @@
     data() {
       return {
         options: {
+          title: {
+            display: true,
+            text: ''
+          },
           scales: {
             yAxes: [{
               ticks: {
@@ -42,6 +46,8 @@
       }
     },
     mounted() {
+      // 차트 타이틀
+      this.options.title.text = this.chartData.title;
       // 차트 렌더링
       this.renderChart(this.chartData, this.options)
     }

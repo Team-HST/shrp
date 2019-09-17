@@ -22,10 +22,17 @@
           name="header"
         />
         <span v-else>
-          <h4
-            class="title font-weight-light mb-2"
-            v-text="title"
-          />
+          <v-row>
+            <h4
+              class="title font-weight-light mb-2 ml-2"
+              v-text="title"
+            />
+            <v-icon 
+              v-if="imageDown" class="float-right ml-4" 
+              v-text="'mdi-file-image'" @click="print(imageDown)"
+            >
+            </v-icon>
+          </v-row>
           <p
             class="category font-weight-thin"
             v-text="text"
@@ -85,9 +92,12 @@ export default {
     text: {
       type: String,
       default: undefined
+    },
+    imageDown: {
+      type: String,
+      default: undefined
     }
   },
-
   computed: {
     hasOffset () {
       return this.$slots.header ||
@@ -102,6 +112,12 @@ export default {
         marginBottom: `${this.offset}px`,
         marginTop: `${this.offset * 2}px`
       }
+    }
+  },
+  methods: {
+    // 부모 print method 실행
+    print: function(printEl) {
+      this.$parent.print(printEl);
     }
   }
 }

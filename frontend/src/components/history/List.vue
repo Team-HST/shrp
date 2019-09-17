@@ -241,7 +241,8 @@
         //  차트 데이터 적용
         this.chartData = {
           labels: chartDataArr[0].labels,
-          datasets: chartDataset
+          datasets: chartDataset,
+          title: chartDataArr[0].indicatorName
         }
         
         // 차트 모달 표출

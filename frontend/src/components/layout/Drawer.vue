@@ -59,8 +59,8 @@
     </v-layout>
 
     <template v-slot:append>
-      <div class="pa-2 text-center">
-        <p>@HST - 2019.07</p>
+      <div class="mb-3 pa-3 text-center" style="height: 64px;">
+        <v-img src="@/assets/ci-logo.png" />
       </div>
     </template>
   </v-navigation-drawer>

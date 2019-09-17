@@ -5,6 +5,7 @@ import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.model.entity.EntitySimulationAggregationData;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static com.hst.shrp.utils.FunctionalAPI.*;
 
@@ -14,6 +15,7 @@ import static com.hst.shrp.utils.FunctionalAPI.*;
 public class SimulationSingleAnalysisResponse implements SimulationAnalysisResponse {
 	private int simulationNumber;
 	private String fileName;
+	private String indicatorName;
 	private String indicatorCode;
 	private List<String> labels;
 	private List<Double> values;
@@ -24,6 +26,10 @@ public class SimulationSingleAnalysisResponse implements SimulationAnalysisRespo
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public String getIndicatorName() {
+		return indicatorName;
 	}
 
 	public String getIndicatorCode() {
@@ -40,29 +46,34 @@ public class SimulationSingleAnalysisResponse implements SimulationAnalysisRespo
 
 	public static SimulationSingleAnalysisResponse ofAggregation(SimulationHistory history,
 																 SimulationAnalysisRequest request,
-																 List<EntitySimulationAggregationData> aggregations) {
+																 List<EntitySimulationAggregationData> aggregations,
+																 String indicatorName) {
 		return of (
 			history, request,
-			from(aggregations).toList(aggr -> String.format("%d교차로", aggr.getCrpNo())),
-			from(aggregations).toList(EntitySimulationAggregationData::getAggrVal)
+			from(aggregations).toList(row -> row.getCrpNo().toString()),
+			from(aggregations).toList(EntitySimulationAggregationData::getAggrVal),
+			indicatorName
 		);
 	}
 
 	public static SimulationSingleAnalysisResponse of(SimulationHistory history, SimulationAnalysisRequest request,
-													  List<EntitySimulationDirectionData> simulationData) {
+													  List<EntitySimulationDirectionData> simulationData, String indicatorName) {
 		return of (
 			history, request,
 			from(simulationData).toList(EntitySimulationDirectionData::getDrcNm),
-			from(simulationData).toList(EntitySimulationDirectionData::getVal)
+			from(simulationData).toList(EntitySimulationDirectionData::getVal),
+			indicatorName
 		);
 	}
 
 	public static SimulationSingleAnalysisResponse of(
-			SimulationHistory history, SimulationAnalysisRequest request, List<String> labels, List<Double> values
+			SimulationHistory history, SimulationAnalysisRequest request, List<String> labels
+			, List<Double> values, String indicatorName
 	) {
 		SimulationSingleAnalysisResponse response = new SimulationSingleAnalysisResponse();
 		response.simulationNumber = history.getSimulationNumber();
 		response.fileName = history.getFileName();
+		response.indicatorName = indicatorName;
 		response.indicatorCode = request.getIndicator();
 		response.labels = labels;
 		response.values = values;
