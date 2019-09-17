@@ -17,6 +17,8 @@ import java.lang.annotation.Target;
 @Component
 @Order
 public @interface InitializingHook {
-	@AliasFor(value = "value", annotation = Order.class)
-	int priority();
+	@AliasFor(
+		annotation = Order.class
+	)
+	int value();
 }

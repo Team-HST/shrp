@@ -4,13 +4,16 @@ import com.hst.shrp.configuration.annotation.InitializingHook;
 import com.hst.shrp.service.AnalysisService;
 import com.hst.shrp.service.SimulationService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 
 import java.util.List;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
-@InitializingHook(priority = 1)
+@InitializingHook(2)
+// @Order(2)
 public class DatabaseRowRebalancingHook extends ApplicationInitializingHook {
 
 	private static final String DELETE_TARGET_SIMULATION_NUMBERS_ATTRIBUTE_NAME = "DELETE_TARGET_SIMULATION_NUMBERS";

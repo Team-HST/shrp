@@ -20,7 +20,7 @@ public abstract class ApplicationInitializingHook {
 	 * if return false, hook will not execute.
 	 * @return Returns whether hook execution is required
 	 */
-	protected boolean isNecessaryExecuteHook() throws Exception {
+	boolean isNecessaryExecuteHook() throws Exception {
 		return false;
 	}
 
@@ -29,23 +29,7 @@ public abstract class ApplicationInitializingHook {
 	 * when <strong>isNecessaryExecuteHook</strong> return true, hook logic will execute.
 	 * if <strong>isNecessaryExecuteHook</strong> return false, this method will never execute
 	 */
-	protected abstract void executeHook() throws Exception;
-
-	/***
-	 * Template method for execute defined hook.
-	 */
-	@PostConstruct
-	final void coreHookingLogic() {
-		try {
-			if (isNecessaryExecuteHook()) {
-				executeHook();
-			}
-		} catch (Exception e) {
-			// handle exception on running
-			logger.error(e.getMessage(), e);
-			System.exit(-1);
-		}
-	}
+	abstract void executeHook() throws Exception;
 
 	/***
 	 * Returns context
@@ -60,7 +44,7 @@ public abstract class ApplicationInitializingHook {
 	 * @param attributeName
 	 * @return
 	 */
-	protected final Object getContextAttribute(String attributeName) {
+	final Object getContextAttribute(String attributeName) {
 		return getInitializingContext().getAttribute(attributeName);
 	}
 
@@ -69,7 +53,7 @@ public abstract class ApplicationInitializingHook {
 	 * @param attributeName
 	 * @return
 	 */
-	protected final void setContextAttribute(String attributeName, Object attributeValue) {
+	final void setContextAttribute(String attributeName, Object attributeValue) {
 		getInitializingContext().setAttribute(attributeName, attributeValue);
 	}
 
