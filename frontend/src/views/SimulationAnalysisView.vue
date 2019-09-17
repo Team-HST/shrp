@@ -13,7 +13,7 @@
 						text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
 						imageDown="chart"
 					>
-						<chart-bar :chart-data="barchartData" :text="text"></chart-bar>
+						<chart-bar :chart-data="barchartData"></chart-bar>
 					</material-card>
 				</div>
 			</v-flex>
@@ -62,8 +62,7 @@
 				crossNumType: { // 교차로 선택 데이터
 					selected: {}, // 박스 선택 데이터
 					list: [] // 박스 데이터 목록
-				},
-				text: ''
+				}
 			}
 		},
 		computed: {
@@ -95,38 +94,36 @@
 			
 			// 차트 데이터 동적 변경
 			setBarchartData: function(data) {
-        // 차트 데이터 생성
-        let chartDataset = chartDataset = [
-					{
-						label: data[0].fileName,
-						backgroundColor: '#FFAF20',
-						pointBackgroundColor: 'white',
-						borderWidth: 1,
-						pointBorderColor: '#FFAF20',
-						data: data[0].values
-					}
-				];
+				// 차트 데이터 생성
+				let chartDataset = [
+          {
+            label: data[0].fileName,
+            backgroundColor: '#FFAF20',
+            pointBackgroundColor: 'white',
+            borderWidth: 1,
+            pointBorderColor: '#FFAF20',
+            data: data[0].values
+         }
+        ];
 
-				// 비교 분석 데이터 추가
-        if (data.length > 1) {
-          chartDataset.push({
-              label: data[1].fileName,
-              backgroundColor: '#11455C',
-              pointBackgroundColor: 'white',
-              borderWidth: 1,
-              pointBorderColor: '#11455C',
-              data: data[1].values
-         	});
-        }
-		 
-		 // 차트 타이틀 적용
-		this.text = data[0].indicatorName;
-		
-        //  차트 데이터 적용
-        this.barchartData = {
-          labels: data[0].labels,
-          datasets: chartDataset
-        }
+						// 비교 분석 데이터 추가
+				if (data.length > 1) {
+			  	chartDataset.push({
+            label: data[1].fileName,
+            backgroundColor: '#11455C',
+            pointBackgroundColor: 'white',
+            borderWidth: 1,
+            pointBorderColor: '#11455C',
+            data: data[1].values
+					});
+				}
+				
+				//  차트 데이터 적용
+				this.barchartData = {
+					labels: data[0].labels,
+          datasets: chartDataset,
+          title: data[0].indicatorName
+				}
         
 			},
 			// 시뮬레이션 교차로 변경
@@ -144,7 +141,7 @@
 					type: 'dataURL'
 				}
 				// VueHtml2Canvas를 이용한 base64생성
-                let output = await this.$html2canvas(el, options);
+        let output = await this.$html2canvas(el, options);
                 
 				var byteString = atob(output.split(',')[1]);
 				var mimeString = output.split(',')[0].split(':')[1].split(';')[0]
@@ -156,9 +153,9 @@
 					ia[i] = byteString.charCodeAt(i);
 				}
                 
-                // 파일저장이름
-                var filename = this.getAnalysisData[0].fileName+'(교차로_'+this.crossNumType.selected.text+').png';
-                // Blob 생성
+        // 파일저장이름
+        var filename = this.getAnalysisData[0].fileName+'(교차로_'+this.crossNumType.selected.text+').png';
+        // Blob 생성
 				var bolb = new Blob([ab], { type: 'image/png' });
                 
                 // ie
