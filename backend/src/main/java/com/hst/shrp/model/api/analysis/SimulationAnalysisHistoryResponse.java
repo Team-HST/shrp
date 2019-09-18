@@ -3,6 +3,7 @@ package com.hst.shrp.model.api.analysis;
 import com.hst.shrp.model.api.code.CommonCodesResponse;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
 import com.hst.shrp.utils.JsonUtils;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import static com.hst.shrp.utils.FunctionalAPI.with;
  * @author dlgusrb0808@gmail.com
  */
 public class SimulationAnalysisHistoryResponse {
+	@ApiModelProperty(position = 1)
 	private List<SimulationAnalysisHistory> simulationAnalysisHistories;
 
 	public List<SimulationAnalysisHistory> getSimulationAnalysisHistories() {
@@ -21,12 +23,19 @@ public class SimulationAnalysisHistoryResponse {
 	}
 
 	public static class SimulationAnalysisHistory {
+		@ApiModelProperty(position = 1, example = "분석번호")
 		private int analysisNumber;
+		@ApiModelProperty(position = 2, example = "분석 시뮬레이션번호")
 		private int simulationNumber;
+		@ApiModelProperty(position = 3, example = "분석 시뮬레이션 파일명")
 		private String analysisFileName;
+		@ApiModelProperty(position = 4, example = "분석지표")
 		private String indicator;
+		@ApiModelProperty(position = 5, example = "분석대상")
 		private String analysisTarget;
+		@ApiModelProperty(position = 6, example = "분석 결과데이터")
 		private SimulationAnalysisResponse analysisData;
+		@ApiModelProperty(position = 7, example = "분석일시")
 		private String analysisDate;
 
 		public int getAnalysisNumber() {
