@@ -44,7 +44,7 @@
 - 분석 데이터 조회한 이력 적재됨
 #### Request
 - URI    
-    /api/analysis/{simulationNumber}/{index}
+    /api/analysis/{simulationNumbers}/{index}
 
 - Type
     GET

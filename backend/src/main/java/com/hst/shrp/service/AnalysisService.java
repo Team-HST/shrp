@@ -54,7 +54,7 @@ public class AnalysisService {
     public SimulationAnalysisResponse executeAnalysis(SimulationAnalysisRequest request) {
         SimulationAnalysisResponse response;
 
-        if (request.isCompareAnalyzeRequest()) {
+        if (request.isMultiSimulationAnalyzeRequest()) {
             response = doComparisionAnalyze(request);
         } else {
             response = doAnalyzeSimulation(request.getSimulationNumber(), request);

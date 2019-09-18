@@ -19,15 +19,19 @@ public class ApplicationInitializingHookExecutor {
     @PostConstruct
     public void executeHooks() {
         for (ApplicationInitializingHook hook : applicationInitializingHooks) {
-            logger.info("Execute Hook {}", hook.getClass());
-            execute(hook);
+            executeHook(hook);
         }
     }
 
-    private void execute(ApplicationInitializingHook hook) {
+    private void executeHook(ApplicationInitializingHook hook) {
+        logger.info("Execute Hook {}", hook.getClass());
+
         try {
             if (hook.isNecessaryExecuteHook()) {
+                logger.info("Need to execute hook");
                 hook.executeHook();
+            } else {
+                logger.info("No need to execute hook");
             }
         } catch (Exception e) {
             reportAndShutdownApp(e);

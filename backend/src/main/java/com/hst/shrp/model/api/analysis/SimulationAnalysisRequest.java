@@ -36,7 +36,7 @@ public class SimulationAnalysisRequest {
 		return AnalysisType.getAnalysisType(this.crossRoadNumber) == AnalysisType.ALL;
 	}
 
-	public boolean isCompareAnalyzeRequest() {
+	public boolean isMultiSimulationAnalyzeRequest() {
 		return this.compareSimulationNumber != 0;
 	}
 
