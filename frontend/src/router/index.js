@@ -1,9 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store'
 
 // Routes
 import paths from './paths'
 
+const requireAuth = () => (to, from, next) => {
+  
+  console.log('t:', to);
+  console.log('from.name: ', from.name);
+  console.log('from.name.true: ', from.name == ' Login');
+  next();
+  /* if (to.path != '/login' && store.state.accessToken === '') {
+    return next();
+  } else if (from.name != ' Login' || from.name != null) {
+    return next('/login');
+  }
+  */
+};
+	
 function route (path, view, name, props) {
   return {
     name: name || view,
@@ -11,7 +26,8 @@ function route (path, view, name, props) {
     props,
     component: (resovle) => import(
       `@/views/${view}.vue`
-    ).then(resovle)
+    ).then(resovle),
+    beforeEnter: requireAuth()
   }
 }
 

@@ -16,7 +16,8 @@ export default new Vuex.Store({
           labels: [],
           values: []
         }
-      }
+      },
+      accessToken: '' // 접속 권한
     },
     getters: { // vuex 저장소 데이터 조회
       getLayoutLink: (state) => {
