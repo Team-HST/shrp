@@ -87,21 +87,6 @@
 							</resources>
 						</configuration>
 					</execution>
-					<execution>
-						<id>copy-jre</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/java</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${java.home}</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -124,7 +109,7 @@
 								<mainClass>org.springframework.boot.loader.JarLauncher</mainClass>
 							</classPath>
 							<jre>
-								<path>./java</path>
+								<path>${java.home}</path>
 								<bundledJre64Bit>true</bundledJre64Bit>
 								<runtimeBits>64</runtimeBits>
 							</jre>
