@@ -25,7 +25,7 @@ public class CommonCodesResponse {
 	// Use for service layer
 	@JsonIgnore
 	public Map<String, String> getCommonCodeMap() {
-		return from(commonCodes).toMap(CommonCode::getSubCode, CommonCode::getSubName);
+		return with(commonCodes).toMap(CommonCode::getSubCode, CommonCode::getSubName);
 	}
 
 	public static class CommonCode {
@@ -63,7 +63,7 @@ public class CommonCodesResponse {
 	public static CommonCodesResponse of(String groupCode, List<EntityCommonCode> entityCommonCodes) {
 		CommonCodesResponse response = new CommonCodesResponse();
 		response.groupCode = groupCode;
-		response.commonCodes = from(entityCommonCodes).toList(CommonCode::convert);
+		response.commonCodes = with(entityCommonCodes).toList(CommonCode::convert);
 		return response;
 	}
 

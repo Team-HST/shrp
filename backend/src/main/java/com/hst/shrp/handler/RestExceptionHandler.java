@@ -1,6 +1,5 @@
 package com.hst.shrp.handler;
 
-import com.hst.shrp.model.api.ApiHeader;
 import com.hst.shrp.model.api.ApiResponse;
 import com.hst.shrp.model.exception.DataNotFoundException;
 import com.hst.shrp.model.exception.GeneralServiceException;
@@ -42,6 +41,13 @@ public class RestExceptionHandler {
 	@ExceptionHandler(GeneralServiceException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ApiResponse<?> handleGeneralServiceException(GeneralServiceException e) {
+		logger.error(e.getMessage(), e);
+		return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+	}
+
+	@ExceptionHandler(Exception.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ApiResponse<?> handleUncachedException(Exception e) {
 		logger.error(e.getMessage(), e);
 		return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
 	}

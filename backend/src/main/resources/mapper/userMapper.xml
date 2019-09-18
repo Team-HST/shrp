@@ -5,33 +5,26 @@
 <mapper namespace="com.hst.shrp.dao.UserDAO">
 	<select id="findAll" resultType="EntityUser">
 		SELECT USER_NM,
-			   FILE_NM,
-			   SIMUL_DT,
-			   EXPER_CD,
-			   AMPM_CD
-		  FROM SHRP_SIMLATN_HST
-	  ORDER BY SIMUL_NO DESC
+			   REG_DT
+		  FROM SHRP_USER
 	</select>
 
 	<select id="findOne" resultType="EntityUser">
-		SELECT SIMUL_NO,
-			   FILE_NM,
-			   SIMUL_DT,
-			   EXPER_CD,
-			   AMPM_CD
-		  FROM SHRP_SIMLATN_HST
-		 WHERE SIMUL_NO = #{simulationNumber}
+		SELECT USER_NM,
+			   REG_DT
+		  FROM SHRP_USER
+		 WHERE USER_NM = #{userNm}
 	</select>
 
-	<insert id="save"></insert>
+	<insert id="save">
+		INSERT INTO SHRP_USER (
+			USER_NM
+		) VALUES (
+			#{userNm}
+		)
+	</insert>
 
 	<delete id="delete">
-		DELETE FROM SHRP_SIMLATN_HST
-		 <where>
-			SIMUL_NO IN
-			<foreach collection="simulationNumbers" item="simulationNumber" open="(" close=")" separator=",">
-				#{simulationNumber}
-			</foreach>
-		 </where>
+		DELETE FROM SHRP_USER WHERE USER_NM = #{userNm}
 	</delete>
 </mapper>

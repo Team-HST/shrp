@@ -5,7 +5,6 @@ import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.model.entity.EntitySimulationAggregationData;
 
 import java.util.List;
-import java.util.function.Function;
 
 import static com.hst.shrp.utils.FunctionalAPI.*;
 
@@ -50,8 +49,8 @@ public class SimulationSingleAnalysisResponse implements SimulationAnalysisRespo
 																 String indicatorName) {
 		return of (
 			history, request,
-			from(aggregations).toList(row -> row.getCrpNo().toString()),
-			from(aggregations).toList(EntitySimulationAggregationData::getAggrVal),
+			with(aggregations).toList(row -> row.getCrpNo().toString()),
+			with(aggregations).toList(EntitySimulationAggregationData::getAggrVal),
 			indicatorName
 		);
 	}
@@ -60,8 +59,8 @@ public class SimulationSingleAnalysisResponse implements SimulationAnalysisRespo
 													  List<EntitySimulationDirectionData> simulationData, String indicatorName) {
 		return of (
 			history, request,
-			from(simulationData).toList(EntitySimulationDirectionData::getDrcNm),
-			from(simulationData).toList(EntitySimulationDirectionData::getVal),
+			with(simulationData).toList(EntitySimulationDirectionData::getDrcNm),
+			with(simulationData).toList(EntitySimulationDirectionData::getVal),
 			indicatorName
 		);
 	}
