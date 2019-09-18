@@ -30,14 +30,14 @@ public class DatabaseRowRebalancingHook extends ApplicationInitializingHook {
 	}
 
 	@Override
-	protected boolean isNecessaryExecuteHook() throws Exception {
+	protected boolean isNecessaryExecuteHook() {
 		List<Integer> deleteTargetSimulationNumbers = simulationService.getNonRecentlySimulationNumbers(10);
 		setContextAttribute(DELETE_TARGET_SIMULATION_NUMBERS_ATTRIBUTE_NAME, deleteTargetSimulationNumbers);
 		return deleteTargetSimulationNumbers.size() != 0;
 	}
 
 	@Override
-	protected void executeHook() throws Exception {
+	protected void executeHook() {
 		List<Integer> deleteTargetSimulationNumbers = (List<Integer>) getContextAttribute(DELETE_TARGET_SIMULATION_NUMBERS_ATTRIBUTE_NAME);
 
 		logger.info("Need to delete old simulation {} rows", deleteTargetSimulationNumbers.size());
