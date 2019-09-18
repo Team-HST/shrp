@@ -28,14 +28,16 @@ public class SimulationController {
 					value = "조회할 페이지",
 					paramType = "query",
 					dataType = "int",
-					defaultValue = "1"
+					defaultValue = "1",
+					example = "1"
 			),
 			@ApiImplicitParam(
 					name = "size",
 					value = "페이지 크기",
 					paramType = "query",
 					dataType = "int",
-					defaultValue = "10"
+					defaultValue = "10",
+					example = "10"
 			)
 	})
 	@ApiResponses({
