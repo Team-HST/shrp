@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.hst.shrp.utils.FunctionalAPI.from;
+import static com.hst.shrp.utils.FunctionalAPI.with;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -81,7 +81,7 @@ public class SimulationAnalysisHistoryResponse {
 													   CommonCodesResponse indicatorCode) {
 		Map<String, String> indicatorMap = indicatorCode.getCommonCodeMap();
 		SimulationAnalysisHistoryResponse response = new SimulationAnalysisHistoryResponse();
-		response.simulationAnalysisHistories = from(resultPage)
+		response.simulationAnalysisHistories = with(resultPage)
 				.toList(entity -> SimulationAnalysisHistory.convert(entity, indicatorMap));
 		return response;
 	}

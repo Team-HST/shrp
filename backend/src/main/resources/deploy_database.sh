@@ -1,7 +1,7 @@
 #!/bin/bash
 # Variables
 SOURCE=./shrp_schema.db
-DEPLOY=/Users/nhn/shrp/shrp.db
+DEPLOY=/shrp/shrp.db
 PASSWD=nhn!@#123
 
-cp $SOURCE $DEPLOY
+sudo cp $SOURCE $DEPLOY

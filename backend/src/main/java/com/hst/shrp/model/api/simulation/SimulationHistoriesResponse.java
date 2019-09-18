@@ -7,7 +7,7 @@ import com.hst.shrp.model.entity.EntitySimulationHistory;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.hst.shrp.utils.FunctionalAPI.from;
+import static com.hst.shrp.utils.FunctionalAPI.with;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -60,7 +60,7 @@ public class SimulationHistoriesResponse extends PagedResponse {
 	public static SimulationHistoriesResponse of(Page<EntitySimulationHistory> resultPage) {
 		SimulationHistoriesResponse response = new SimulationHistoriesResponse();
 		response.setPageInformation(resultPage);
-		response.simulationHistories = from(resultPage).toList(SimulationHistory::convert);
+		response.simulationHistories = with(resultPage).toList(SimulationHistory::convert);
 		return response;
 	}
 }

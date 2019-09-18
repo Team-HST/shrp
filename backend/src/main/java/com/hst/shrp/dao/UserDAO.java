@@ -13,10 +13,10 @@ public interface UserDAO {
 
 	List<EntityUser> findAll();
 
-	EntityUser findOne(String userName);
+	EntityUser findOne(String userNm);
 
-	void save(EntityUser entity);
+	void save(EntityUser entityUser);
 
-	void delete(String userName);
+	void delete(String userNm);
 
 }

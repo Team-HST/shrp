@@ -6,22 +6,29 @@ import java.time.LocalDateTime;
  * @author dlgusrb0808@gmail.com
  */
 public class EntityUser {
-	private String userName;
-	private LocalDateTime regDt;
+	private String userNm;
+	private String regDt;
 
-	public String getUserName() {
-		return userName;
+	public EntityUser() {
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public EntityUser(String userName) {
+		this.userNm = userName;
 	}
 
-	public LocalDateTime getRegDt() {
+	public String getUserNm() {
+		return userNm;
+	}
+
+	public void setUserNm(String userNm) {
+		this.userNm = userNm;
+	}
+
+	public String getRegDt() {
 		return regDt;
 	}
 
-	public void setRegDt(LocalDateTime regDt) {
+	public void setRegDt(String regDt) {
 		this.regDt = regDt;
 	}
 }
