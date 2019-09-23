@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import lodash from 'lodash'
 
 Vue.use(Vuex)
 
@@ -74,10 +75,10 @@ export default new Vuex.Store({
         if (response.data.body.dataset == null) {
           // analysis data 변경
           context.commit('setAnalysisData', new Array(response.data.body));
-          context.commit('setDiagramData', new Array(_.cloneDeep(response.data.body)));
+          context.commit('setDiagramData', new Array(lodash.cloneDeep(response.data.body)));
         } else {
           context.commit('setAnalysisData', response.data.body.dataset);
-          context.commit('setDiagramData', _.cloneDeep(response.data.body.dataset));
+          context.commit('setDiagramData', lodash.cloneDeep(response.data.body.dataset));
         }
       })
       .catch(e => {e
@@ -85,5 +86,5 @@ export default new Vuex.Store({
         console.error("error : ", e);
       });
     }
-  }
+   }
 })
