@@ -6,12 +6,12 @@
 
 	<select id="findAllAnalysisHistories" resultType="EntityAnalysisHistory">
 		SELECT A.ANAL_NO,
-			   A.SIMUL_NO,
-			   A.COMP_SIMUL_NO,
+			   A.SIMUL_NOS,
 			   A.IX_CD,
 			   A.ANAL_DATA,
 			   A.TARGET_CRP_NO,
 			   A.ANAL_DT,
+			   A.USER_NM,
 			   B.FILE_NM
 		  FROM SHRP_ANAL_HST A, SHRP_SIMLATN_HST B
 		 WHERE A.SIMUL_NO IN ( SELECT SIMUL_NO FROM SHRP_SIMLATN_HST ORDER BY SIMUL_NO DESC LIMIT 10 )
@@ -21,17 +21,17 @@
 
 	<insert id="save" parameterType="EntityAnalysisHistory">
 		INSERT INTO SHRP_ANAL_HST (
-			SIMUL_NO,
-			COMP_SIMUL_NO,
+			SIMUL_NOS,
 			IX_CD,
 			ANAL_DATA,
+			USER_NM,
 			TARGET_CRP_NO
 		)
 		VALUES (
-			#{simulNo},
-			#{compSimulNo},
+			#{simulNos},
 			#{ixCd},
 			#{analData},
+			#{userNm},
 			#{targetCrpNo}
 		)
 	</insert>

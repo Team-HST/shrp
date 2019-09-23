@@ -2,8 +2,8 @@ package com.hst.shrp.controller;
 
 import com.hst.shrp.model.api.ApiResponse;
 import com.hst.shrp.model.api.analysis.SimulationAnalysisHistoryResponse;
+import com.hst.shrp.model.api.analysis.SimulationAnalysisListResponse;
 import com.hst.shrp.model.api.analysis.SimulationAnalysisRequest;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisResponse;
 import com.hst.shrp.service.AnalysisService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,13 @@ public class AnalysisController {
                     required = true
             ),
             @ApiImplicitParam(
+                    name = "userNm",
+                    value = "분석 수행한 사용자명",
+                    paramType = "query",
+                    dataType = "string",
+                    required = true
+            ),
+            @ApiImplicitParam(
                     name = "crossRoadNumber",
                     value = "분석 교차로 번호 (전체: all, 단일: 해당 교차로 번호)",
                     paramType = "query",
@@ -48,12 +55,13 @@ public class AnalysisController {
             @io.swagger.annotations.ApiResponse(code = 200, message = "성공")
     })
     @GetMapping("{simulationNumbers}/{indicator}")
-    public ApiResponse<SimulationAnalysisResponse> analyzeSimulation(
+    public ApiResponse<SimulationAnalysisListResponse> analyzeSimulation(
             @PathVariable String simulationNumbers,
             @PathVariable String indicator,
+            @RequestParam("userNm") String userNm,
             @RequestParam("crossRoadNumber") String crossRoadNumber
     ) {
-        SimulationAnalysisRequest request = SimulationAnalysisRequest.of(simulationNumbers, indicator, crossRoadNumber);
+        SimulationAnalysisRequest request = SimulationAnalysisRequest.of(simulationNumbers, indicator, userNm, crossRoadNumber);
         return new ApiResponse<>(analysisService.executeAnalysis(request));
     }
 
