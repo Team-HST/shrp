@@ -2,7 +2,10 @@ package com.hst.shrp.service;
 
 import com.hst.shrp.dao.AnalysisDAO;
 import com.hst.shrp.dao.AnalysisHistoryDAO;
-import com.hst.shrp.model.api.analysis.*;
+import com.hst.shrp.model.api.analysis.SimulationAnalysisHistoryResponse;
+import com.hst.shrp.model.api.analysis.SimulationAnalysisListResponse;
+import com.hst.shrp.model.api.analysis.SimulationAnalysisRequest;
+import com.hst.shrp.model.api.analysis.SimulationAnalysisResponse;
 import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
@@ -51,14 +54,8 @@ public class AnalysisService {
      * @param request simulation analysis request
      * @return result of analysis
      */
-    public SimulationAnalysisResponse executeAnalysis(SimulationAnalysisRequest request) {
-        SimulationAnalysisResponse response;
-
-        if (request.isMultiSimulationAnalyzeRequest()) {
-            response = doComparisionAnalyze(request);
-        } else {
-            response = doAnalyzeSimulation(request.getSimulationNumber(), request);
-        }
+    public SimulationAnalysisListResponse executeAnalysis(SimulationAnalysisRequest request) {
+        SimulationAnalysisListResponse response = doAnalysis(request);
 
         insertAnalysisHistory(request, response);
 
@@ -66,30 +63,29 @@ public class AnalysisService {
     }
 
     // core analysis for single simulation
-    private SimulationSingleAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
+    private SimulationAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
         String indicatorName = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
         SimulationHistory history = simulationService.getSimulationHistory(targetSimulationNumber);
         if (request.isAllCrossRoadAnalyze()) {
             List<EntitySimulationAggregationData> aggregations =
                     analysisDAO.findAverageByIndicator(indicatorName, targetSimulationNumber);
-            return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations, indicatorName);
+            return SimulationAnalysisResponse.ofAggregation(history, request, aggregations, indicatorName);
         } else {
             List<EntitySimulationDirectionData> simulationData = analysisDAO.findAllByIndicator(indicatorName,
                     targetSimulationNumber, Integer.parseInt(request.getCrossRoadNumber()));
-            return SimulationSingleAnalysisResponse.of(history, request, simulationData, indicatorName);
+            return SimulationAnalysisResponse.of(history, request, simulationData, indicatorName);
         }
     }
 
     // comparision analysis for two simulations
-    private SimulationMultipleAnalysisResponse doComparisionAnalyze(SimulationAnalysisRequest request) {
-        int simulationNumber = request.getSimulationNumber();
-        int compareSimulationNumber = request.getCompareSimulationNumber();
+    private SimulationAnalysisListResponse doAnalysis(SimulationAnalysisRequest request) {
+        List<SimulationAnalysisResponse> dataset = new ArrayList<>();
 
-        List<SimulationSingleAnalysisResponse> dataset = new ArrayList<>();
-        dataset.add(doAnalyzeSimulation(simulationNumber, request));
-        dataset.add(doAnalyzeSimulation(compareSimulationNumber, request));
+        for (int simulationNumber : request.getSimulationNumbers()) {
+            dataset.add(doAnalyzeSimulation(simulationNumber, request));
+        }
 
-        return SimulationMultipleAnalysisResponse.of(dataset);
+        return SimulationAnalysisListResponse.of(dataset);
     }
 
 
@@ -108,8 +104,7 @@ public class AnalysisService {
      */
     public void insertAnalysisHistory(SimulationAnalysisRequest request, Object analysisResult) {
         EntityAnalysisHistory entityAnalysisHistory = new EntityAnalysisHistory();
-        entityAnalysisHistory.setSimulNo(request.getSimulationNumber());
-        entityAnalysisHistory.setCompSimulNo(request.getCompareSimulationNumber());
+        entityAnalysisHistory.setSimulNos(request.getSimulationNumberSignature());
         entityAnalysisHistory.setIxCd(request.getIndicator());
         if (request.isAllCrossRoadAnalyze()) {
             entityAnalysisHistory.setTargetCrpNo("전체");
@@ -117,6 +112,7 @@ public class AnalysisService {
             entityAnalysisHistory.setTargetCrpNo(String.format("%s교차로", request.getCrossRoadNumber()));
         }
         entityAnalysisHistory.setAnalData(JsonUtils.asJson(analysisResult));
+        entityAnalysisHistory.setUserNm(request.getUserNm());
         analysisHistoryDAO.save(entityAnalysisHistory);
     }
 
