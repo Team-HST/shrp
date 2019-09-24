@@ -120,6 +120,6 @@ public class AnalysisService {
     }
 
     public void removeOldSimulationAnalysisHistories(List<Integer> deleteTargetSimulationNumbers) {
-        // TODO / 이현규 / 예전 시뮬레이션 분석 히스토리 이력 삭제
+        analysisHistoryDAO.deleteAllBySimulationNumbers(deleteTargetSimulationNumbers);
     }
 }

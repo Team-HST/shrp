@@ -32,8 +32,8 @@
 		   ORDER BY SIMUL_NO DESC LIMIT #{recentLimitBound}
 		 )
 	</select>
-	
-	<delete id="deleteSimulationsBySimulationNumbers">
+
+	<delete id="deleteSimulationBySimulationNumbers">
 		DELETE FROM SHRP_SIMLATN_HST
 		 <where>
 			SIMUL_NO IN
