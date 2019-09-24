@@ -1,0 +1,30 @@
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hst.shrp.dao.UserDAO">
+	<select id="findAll" resultType="EntityUser">
+		SELECT USER_NM,
+			   REG_DT
+		  FROM SHRP_USER
+	</select>
+
+	<select id="findOne" resultType="EntityUser">
+		SELECT USER_NM,
+			   REG_DT
+		  FROM SHRP_USER
+		 WHERE USER_NM = #{userNm}
+	</select>
+
+	<insert id="save">
+		INSERT INTO SHRP_USER (
+			USER_NM
+		) VALUES (
+			#{userNm}
+		)
+	</insert>
+
+	<delete id="delete">
+		DELETE FROM SHRP_USER WHERE USER_NM = #{userNm}
+	</delete>
+</mapper>

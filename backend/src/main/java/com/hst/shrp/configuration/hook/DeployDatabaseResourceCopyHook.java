@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.FileCopyUtils;
@@ -15,7 +16,8 @@ import java.io.IOException;
 /**
  * @author dlgusrb0808@gmail.com
  */
-@InitializingHook(priority = 0)
+@InitializingHook
+@Order(1)
 public class DeployDatabaseResourceCopyHook extends ApplicationInitializingHook {
 
 	private Logger logger = LoggerFactory.getLogger(DeployDatabaseResourceCopyHook.class);

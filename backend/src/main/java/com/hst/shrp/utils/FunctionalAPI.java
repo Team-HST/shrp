@@ -13,7 +13,7 @@ import java.util.stream.Stream;
  */
 public class FunctionalAPI {
 	/***
-	 *
+	 * Context object for process pipeline
 	 * @param <T>
 	 */
 	public static class StreamProcessContext<T> {
@@ -24,7 +24,7 @@ public class FunctionalAPI {
 		}
 
 		/***
-		 * open stream for collection
+		 * open stream for user native stream api
 		 * @return stream
 		 */
 		public Stream<T> open() {
@@ -66,14 +66,14 @@ public class FunctionalAPI {
 	 * @param <T> rowType of Collection
 	 * @return stream process context
 	 */
-	public static <T> StreamProcessContext<T> from(Collection<T> source) {
+	public static <T> StreamProcessContext<T> with(Collection<T> source) {
 		return new StreamProcessContext<>(source);
 	}
 
 	public static void main(String[] args) {
 		List<String> test = Arrays.asList("a", "b", "c", "d", "e");
 
-		test = from(test).toList(String::toUpperCase);
+		test = with(test).toList(String::toUpperCase);
 
 		System.out.println(test);
 	}

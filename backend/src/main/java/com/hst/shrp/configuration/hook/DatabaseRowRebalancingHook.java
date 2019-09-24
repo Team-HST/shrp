@@ -4,13 +4,15 @@ import com.hst.shrp.configuration.annotation.InitializingHook;
 import com.hst.shrp.service.AnalysisService;
 import com.hst.shrp.service.SimulationService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 
 import java.util.List;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
-@InitializingHook(priority = 1)
+@InitializingHook
+@Order(2)
 public class DatabaseRowRebalancingHook extends ApplicationInitializingHook {
 
 	private static final String DELETE_TARGET_SIMULATION_NUMBERS_ATTRIBUTE_NAME = "DELETE_TARGET_SIMULATION_NUMBERS";
@@ -27,14 +29,14 @@ public class DatabaseRowRebalancingHook extends ApplicationInitializingHook {
 	}
 
 	@Override
-	protected boolean isNecessaryExecuteHook() throws Exception {
+	protected boolean isNecessaryExecuteHook() {
 		List<Integer> deleteTargetSimulationNumbers = simulationService.getNonRecentlySimulationNumbers(10);
 		setContextAttribute(DELETE_TARGET_SIMULATION_NUMBERS_ATTRIBUTE_NAME, deleteTargetSimulationNumbers);
 		return deleteTargetSimulationNumbers.size() != 0;
 	}
 
 	@Override
-	protected void executeHook() throws Exception {
+	protected void executeHook() {
 		List<Integer> deleteTargetSimulationNumbers = (List<Integer>) getContextAttribute(DELETE_TARGET_SIMULATION_NUMBERS_ATTRIBUTE_NAME);
 
 		logger.info("Need to delete old simulation {} rows", deleteTargetSimulationNumbers.size());
