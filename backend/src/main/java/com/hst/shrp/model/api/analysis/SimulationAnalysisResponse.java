@@ -16,8 +16,13 @@ public class SimulationAnalysisResponse {
 	private String fileName;
 	private String indicatorName;
 	private String indicatorCode;
+	private String crossRoadNumber;
 	private List<String> labels;
 	private List<Double> values;
+
+	public String getCrossRoadNumber() {
+		return crossRoadNumber;
+	}
 
 	public int getSimulationNumber() {
 		return simulationNumber;
@@ -74,6 +79,7 @@ public class SimulationAnalysisResponse {
 		response.fileName = history.getFileName();
 		response.indicatorName = indicatorName;
 		response.indicatorCode = request.getIndicator();
+		response.crossRoadNumber = request.getCrossRoadNumber();
 		response.labels = labels;
 		response.values = values;
 		return response;
