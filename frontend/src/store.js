@@ -11,12 +11,23 @@ export default new Vuex.Store({
         link: {}
       },
       analysis: {
+<<<<<<< HEAD
+        apiURL: '', // 분석 요청 API URL
+        data: [], // 분석 요청 API RESPONSE DATA
+        diagramData: { // 도표 DATA
+          labels: [],
+          values: []
+        }
+      },
+      accessToken: '' // 접속 권한
+=======
         simulationNumbers: '', // 분석 요청 API URL
         data: [], // 분석 요청 API RESPONSE DATA,
         chartData: {}, // 차트 DATA
         chartOptions: {}, // 차트 OPTIONS
         diagramData: {} // 도표 DATA
       }
+>>>>>>> refs/heads/develop
     },
     getters: { // vuex 저장소 데이터 조회
       getLayoutLink: (state) => {

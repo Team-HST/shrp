@@ -2,6 +2,15 @@
  * router Path 설정
  */
 export default [
+	{
+	    path: '/login',
+      name: 'Login',
+      view: 'LoginView',
+      mainName: '로그인',
+      subName: '로그인 페이지',
+      props: true,
+      display: true
+	},
     {
       path: '/analysis',
       name: 'Analysis',

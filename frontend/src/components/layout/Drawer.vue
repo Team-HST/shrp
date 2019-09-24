@@ -27,7 +27,7 @@
               SHRP
             </v-list-item-title>
             <v-list-item-subtitle class="font-weight-medium">
-              Smart Hills Report Program
+              SMART HILS Report Program
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
