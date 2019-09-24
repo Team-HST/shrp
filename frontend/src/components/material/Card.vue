@@ -119,10 +119,6 @@ export default {
     }
   },
   methods: {
-    // 부모 print method 실행
-    print: function(printEl) {
-      this.$parent('historyList').print(printEl);
-    }
   }
 }
 </script>

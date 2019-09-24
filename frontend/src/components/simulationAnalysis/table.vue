@@ -21,10 +21,7 @@
   export default { 
     data () {
         return {
-          diagramData : {
-            headers: [],
-            list: []
-          }
+          diagramData: {}
         }
     },
     computed: {
