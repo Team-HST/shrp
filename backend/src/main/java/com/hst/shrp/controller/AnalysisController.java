@@ -24,7 +24,7 @@ public class AnalysisController {
     @ApiImplicitParams({
             @ApiImplicitParam(
                     name = "simulationNumbers",
-                    value = "분석할 시뮬레이션 번호, 다수일경우 파이프라인(|)으로 연결, 최대 3개",
+                    value = "분석할 시뮬레이션 번호, 다수일경우 언더바(_)로 연결, 최대 3개",
                     paramType = "path",
                     dataType = "string",
                     required = true

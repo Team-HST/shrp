@@ -12,6 +12,7 @@ import com.hst.shrp.model.entity.EntityAnalysisHistory;
 import com.hst.shrp.model.entity.EntitySimulationAggregationData;
 import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.utils.JsonUtils;
+import com.hst.shrp.utils.SimulationNumberSignatureUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,6 +63,17 @@ public class AnalysisService {
         return response;
     }
 
+    // execute simulation analysis loop
+    private SimulationAnalysisListResponse doAnalysis(SimulationAnalysisRequest request) {
+        List<SimulationAnalysisResponse> dataset = new ArrayList<>();
+
+        for (int simulationNumber : request.getSimulationNumbers()) {
+            dataset.add(doAnalyzeSimulation(simulationNumber, request));
+        }
+
+        return SimulationAnalysisListResponse.of(dataset);
+    }
+
     // core analysis for single simulation
     private SimulationAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
         String indicatorName = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
@@ -77,18 +89,6 @@ public class AnalysisService {
         }
     }
 
-    // comparision analysis for two simulations
-    private SimulationAnalysisListResponse doAnalysis(SimulationAnalysisRequest request) {
-        List<SimulationAnalysisResponse> dataset = new ArrayList<>();
-
-        for (int simulationNumber : request.getSimulationNumbers()) {
-            dataset.add(doAnalyzeSimulation(simulationNumber, request));
-        }
-
-        return SimulationAnalysisListResponse.of(dataset);
-    }
-
-
     /***
      * get simulation analysis history
      * @return histories
@@ -103,8 +103,10 @@ public class AnalysisService {
      * @param request the request
      */
     public void insertAnalysisHistory(SimulationAnalysisRequest request, Object analysisResult) {
+        String signature = request.getSimulationNumberSignature();
+
         EntityAnalysisHistory entityAnalysisHistory = new EntityAnalysisHistory();
-        entityAnalysisHistory.setSimulNos(request.getSimulationNumberSignature());
+        entityAnalysisHistory.setSimulNos(signature);
         entityAnalysisHistory.setIxCd(request.getIndicator());
         if (request.isAllCrossRoadAnalyze()) {
             entityAnalysisHistory.setTargetCrpNo("전체");
@@ -113,6 +115,7 @@ public class AnalysisService {
         }
         entityAnalysisHistory.setAnalData(JsonUtils.asJson(analysisResult));
         entityAnalysisHistory.setUserNm(request.getUserNm());
+        entityAnalysisHistory.setBasisSimulationNumber(SimulationNumberSignatureUtils.getBasisSimulationNumber(signature));
         analysisHistoryDAO.save(entityAnalysisHistory);
     }
 

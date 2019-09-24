@@ -57,8 +57,11 @@ public class SimulationService {
 		return simulationDAO.selectNotRecentlySimulationHistories(recentLimitBound);
 	}
 
+	/***
+	 * delete old simulations
+	 * @param deleteTargetSimulationNumbers simulation number to delete
+	 */
 	public void removeNonRecentlySimulations(List<Integer> deleteTargetSimulationNumbers) {
-		// TODO / 이현규 / 오래된 시뮬레이션 삭제
 		simulationDAO.deleteSimulationBySimulationNumbers(deleteTargetSimulationNumbers);
 	}
 }
