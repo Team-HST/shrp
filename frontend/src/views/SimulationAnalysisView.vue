@@ -6,18 +6,31 @@
 	>
 		<v-layout wrap>
 			<v-flex md12 lg10>
-				<div ref="chart">
-					<material-card
-						color="#FFAF20"
-						title="모의실헝 분석결과 그래프"
-						text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
-						imageDown="chart"
-					>
-						<chart-bar :chart-data="barchartData"></chart-bar>
-					</material-card>
-				</div>
+        <material-card
+          color="#FFAF20"
+          title="모의실헝 분석결과 그래프"
+          text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
+        >
+          <chart-bar :chartData="getChartData" :options="getChartOptions"></chart-bar>
+        </material-card>
 			</v-flex>
-			<v-flex md12 lg2>
+      <v-flex md12 lg2>
+				<material-card
+					color="#11455C"
+					title="지표 선택"
+					text="지표 별 세부 결과입니다."
+				>
+					<v-select
+            ref="ixSelect"
+						v-model="ixType.selected"
+						@change="changeBarChartData()"
+						:items="ixType.list"
+						item-text="subName"
+						item-value="subCode"
+						label="지표"
+					>
+					</v-select>
+				</material-card>
 				<material-card
 					color="#11455C"
 					title="교차로 선택"
@@ -25,7 +38,7 @@
 				>
 					<v-select
 						v-model="crossNumType.selected"
-						@change="changeBarChartData($event)"
+						@change="changeBarChartData()"
 						:items="crossNumType.list"
 						item-text="text"
 						item-value="value"
@@ -35,138 +48,102 @@
 				</material-card>
 			</v-flex>
 			<v-flex md12 lg10>
-				<div ref="diagram">
-					<material-card 
-						color="orange" 
-						title="모의실험 분석결과 도표" 
-						text="모의실험 별 분석결과 도표입니다."
-						imageDown="diagram"
-					>
-						<simulationAnalysis-table></simulationAnalysis-table>
-					</material-card>
-				</div>
+        <material-card 
+          color="orange" 
+          title="모의실험 분석결과 도표" 
+          text="모의실험 별 분석결과 도표입니다."
+        >
+          <simulationAnalysis-table></simulationAnalysis-table>
+        </material-card>
 			</v-flex>
 		</v-layout>
 	</v-container>
 </template>
 
 <script>
-	import { mapGetters, mapActions } from 'vuex'
-	import html2canvas from 'html2canvas'
+	import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 	export default {
 		name: 'VueChartJS',
 		data() {
 			return {
-				barchartData: {}, // Bar 차트 데이터
-				crossNumType: { // 교차로 선택 데이터
+        barchartData: {}, // Bar 차트 데이터
+        ixType: { // 지표 데이터
+          selected: [], // 지표 선택 데이터
+          list: [] // 지표 목록 데이터
+        },
+				crossNumType: { // 교차로 데이터
 					selected: {}, // 박스 선택 데이터
-					list: [] // 박스 데이터 목록
+					list: [] // 교차로 모록 데이터
 				}
 			}
 		},
 		computed: {
-			...mapGetters(['getAnalysisData', 'getAnalysisApiURL'])
+			...mapGetters(['getAnalysisData', 'getSimulationNumbers', 'getChartData', 'getChartOptions'])
 		},
 		created() {
-			// 시뮬레이션 분석 URL이 존재하지 않을 경우
-			if (this.getAnalysisApiURL === undefined || this.getAnalysisApiURL === null || this.getAnalysisApiURL === "") {
-				this.$router.push({name: 'Analysis'})
-				return
-			}
+      // API 요청 서비스
+      this.service = {
+        // 지표 선택 종류 조회
+        searchIxTypeList: () => {
+          this.$http.get('/api/codes/100')
+          .then(response => {
+            this.ixType.list = response.data.body.commonCodes;
 
-			// 차트 데이터 변경 요청
-			this.setBarchartData(this.getAnalysisData);
-
-			// 교차로 셀렉트 박스 설정
-			this.crossNumType.list = this.getAnalysisData[0].labels.map((item, index) => {
-				return {text: item, value: index+1}
-			});
-
-			// 교차로 셀렉트박스 all 추가
-			this.crossNumType.list.unshift({text: '전체', value: 'all'});
-
-			// 교차로 셀렉트박스 전체 지정
-			this.crossNumType.selected = this.crossNumType.list[0];
-		},
+            this.ixType.selected = this.ixType.list.filter(ix => 
+              ix.subCode === this.getAnalysisData[0].indicatorCode
+            )[0].subCode;
+          })
+          .catch(e => {
+            console.error('error : ', e);
+          });
+        }
+      }
+    },
+    mounted() {
+      // 초기 데이터 설정
+      this.initalize();
+    },
 		methods: {
-			...mapActions(['searchSimulationAnalysis']),
-			
+      ...mapMutations(['setChartData']),
+      ...mapActions(['searchSimulationAnalysis']),
+      // 화면 초기 설정
+      initalize: function() {
+        // 시뮬레이션 분석대상이 존재하지 않을 경우
+        if (this.getSimulationNumbers === undefined || this.getSimulationNumbers === null || this.getSimulationNumbers === "") {
+          this.$router.push({name: 'Analysis'})
+          return
+        }
+
+        // 차트 데이터 변경 요청
+        this.setBarchartData(this.getAnalysisData);
+
+        // 지표 종류 조회
+        this.service.searchIxTypeList();
+
+        // 교차로 셀렉트 박스 설정
+        this.crossNumType.list = this.getAnalysisData[0].labels.map((item, index) => {
+          return {text: item, value: index+1}
+        });
+
+        // 교차로 셀렉트박스 all 추가
+        this.crossNumType.list.unshift({text: '전체', value: 'all'});
+
+        // 교차로 셀렉트박스 전체 지정
+        this.crossNumType.selected = this.crossNumType.list[0].value;
+      },
 			// 차트 데이터 동적 변경
 			setBarchartData: function(data) {
-				// 차트 데이터 생성
-				let chartDataset = [
-          {
-            label: data[0].fileName,
-            backgroundColor: '#FFAF20',
-            pointBackgroundColor: 'white',
-            borderWidth: 1,
-            pointBorderColor: '#FFAF20',
-            data: data[0].values
-         }
-        ];
-
-						// 비교 분석 데이터 추가
-				if (data.length > 1) {
-			  	chartDataset.push({
-            label: data[1].fileName,
-            backgroundColor: '#11455C',
-            pointBackgroundColor: 'white',
-            borderWidth: 1,
-            pointBorderColor: '#11455C',
-            data: data[1].values
-					});
-				}
-				
-				//  차트 데이터 적용
-				this.barchartData = {
-					labels: data[0].labels,
-          datasets: chartDataset,
-          title: data[0].indicatorName
-				}
-        
+        this.setChartData(data);
 			},
 			// 시뮬레이션 교차로 변경
-			changeBarChartData: function(value) {
+			changeBarChartData: function() {
 				// 시뮬레이션 분석 api 조회
-				this.searchSimulationAnalysis(`${this.getAnalysisApiURL}?crossRoadNumber=${value}`)
+        this.searchSimulationAnalysis(`/api/analysis/${this.getSimulationNumbers}/${this.ixType.selected}`
+         + `?crossRoadNumber=${this.crossNumType.selected}&userNm=aaa`)
 				.then(() => {
 					this.setBarchartData(this.getAnalysisData);
 				});
-			},
-			// 시뮬레이션 결과 이미지 저장
-			async print(printEl) {
-				const el = this.$refs[printEl];
-				const options = {
-					type: 'dataURL'
-				}
-				// VueHtml2Canvas를 이용한 base64생성
-        let output = await this.$html2canvas(el, options);
-                
-				var byteString = atob(output.split(',')[1]);
-				var mimeString = output.split(',')[0].split(':')[1].split(';')[0]
-
-				// Bolb 타입 데이터를 만들이기위한 데이터생성
-				var ab = new ArrayBuffer(byteString.length);
-				var ia = new Uint8Array(ab);
-				for (var i = 0; i < byteString.length; i++) {
-					ia[i] = byteString.charCodeAt(i);
-				}
-                
-        // 파일저장이름
-        var filename = this.getAnalysisData[0].fileName+'(교차로_'+this.crossNumType.selected.text+').png';
-        // Blob 생성
-				var bolb = new Blob([ab], { type: 'image/png' });
-                
-                // ie
-				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-					window.navigator.msSaveOrOpenBlob(bolb, filename);
-				} else { // chrome
-					let link = document.createElement('a');
-					link.href = window.URL.createObjectURL(bolb);
-					link.download = filename;
-					link.click();
-				}
 			}
 		}
 	}

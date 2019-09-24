@@ -3,6 +3,7 @@
     fill-height
     fluid
     grid-list-xl
+    ref="historyList"
   >
     <v-layout wrap>
       <v-flex md12 lg12>
@@ -62,63 +63,72 @@
       v-model="chartDialog"
       max-width="1000"
     >
-      <material-card
-        color="#11455C"
-        title="모의실헝 분석결과 그래프"
-        text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
-      >
-        <v-card>
-          <v-card-text>
-            <chart-bar :chart-data="chartData"></chart-bar>
-          </v-card-text>
-          <v-card-actions>
-            <div class="flex-grow-1"></div>
-            <v-btn
-              class="font-weight-bold"
-              color="blue darken-1"
-              text
-              @click="chartDialog = false"
-            > 
-              닫기
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </material-card>
+      <div ref="chart">
+        <material-card
+          color="#11455C"
+          title="모의실헝 분석결과 그래프"
+          text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
+          imageDown="chart"
+          :clickPrint="print"
+        >
+          <v-card>
+            <v-card-text>
+              <chart-bar :chart-data="chartData"></chart-bar>
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn
+                class="font-weight-bold"
+                color="blue darken-1"
+                text
+                @click="chartDialog = false"
+              > 
+                닫기
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </material-card>
+      </div>
     </v-dialog>
 
     <v-dialog
       v-model="diagramDialog"
       max-width="1000"
     >
-      <material-card
-        color="#11455C"
-        title="모의실험 분석결과 도표"
-        text="모의실험 별 분석결과 도표입니다."
-      >
-        <v-card>
-          <v-card-text>
-            <simulationAnalysis-table></simulationAnalysis-table>
-          </v-card-text>
-          <v-card-actions>
-            <div class="flex-grow-1"></div>
-            <v-btn
-              class="font-weight-bold"
-              color="blue darken-1"
-              text
-              @click="diagramDialog = false"
-            > 
-              닫기
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </material-card>
+      <div ref="diagram">
+        <material-card
+          color="#11455C"
+          title="모의실험 분석결과 도표"
+          text="모의실험 별 분석결과 도표입니다."
+          imageDown="diagram"
+          :clickPrint="print"
+        >
+          <v-card>
+            <v-card-text>
+              <simulationAnalysis-table></simulationAnalysis-table>
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn
+                class="font-weight-bold"
+                color="blue darken-1"
+                text
+                @click="diagramDialog = false"
+              > 
+                닫기
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </material-card>
+      </div>
     </v-dialog>
   </v-container>
 </template>
 
 <script>
   import { mapMutations } from 'vuex'
-
+  import html2canvas from 'html2canvas'
+  
   export default {
     data() {
       return {
@@ -263,7 +273,42 @@
 
         // 도표 모달 표출
         this.diagramDialog = true;
-      }
+      },
+			// 시뮬레이션 결과 이미지 저장
+			async print(printEl) {
+        //(TODO) printEl 받아서 데이터 처리
+				const el = this.$refs[printEl];
+				const options = {
+					type: 'dataURL'
+				}
+				// VueHtml2Canvas를 이용한 base64생성
+        let output = await this.$html2canvas(el, options);
+                
+				var byteString = atob(output.split(',')[1]);
+				var mimeString = output.split(',')[0].split(':')[1].split(';')[0]
+
+				// Bolb 타입 데이터를 만들이기위한 데이터생성
+				var ab = new ArrayBuffer(byteString.length);
+				var ia = new Uint8Array(ab);
+				for (var i = 0; i < byteString.length; i++) {
+					ia[i] = byteString.charCodeAt(i);
+				}
+                
+        // 파일저장이름
+        var filename = this.getAnalysisData[0].fileName+'(교차로_'+this.crossNumType.selected.text+').png';
+        // Blob 생성
+				var bolb = new Blob([ab], { type: 'image/png' });
+                
+                // ie
+				if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					window.navigator.msSaveOrOpenBlob(bolb, filename);
+				} else { // chrome
+					let link = document.createElement('a');
+					link.href = window.URL.createObjectURL(bolb);
+					link.download = filename;
+					link.click();
+				}
+			}
     }
   }
 </script>
