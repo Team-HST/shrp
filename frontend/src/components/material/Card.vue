@@ -29,7 +29,7 @@
             />
             <v-icon 
               v-if="imageDown" class="float-right ml-4" 
-              v-text="'mdi-file-image'" @click="print(imageDown)"
+              v-text="'mdi-file-image'" @click.prevent="clickPrint(imageDown)"
             >
             </v-icon>
           </v-row>
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { METHODS } from 'http';
 export default {
   inheritAttrs: false,
 
@@ -96,6 +97,9 @@ export default {
     imageDown: {
       type: String,
       default: undefined
+    },
+    clickPrint: {
+      type: Function
     }
   },
   computed: {
@@ -115,10 +119,6 @@ export default {
     }
   },
   methods: {
-    // 부모 print method 실행
-    print: function(printEl) {
-      this.$parent.print(printEl);
-    }
   }
 }
 </script>
