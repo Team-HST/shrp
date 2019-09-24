@@ -2,10 +2,7 @@ package com.hst.shrp.service;
 
 import com.hst.shrp.dao.AnalysisDAO;
 import com.hst.shrp.dao.AnalysisHistoryDAO;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisHistoryResponse;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisListResponse;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisRequest;
-import com.hst.shrp.model.api.analysis.SimulationAnalysisResponse;
+import com.hst.shrp.model.api.analysis.*;
 import com.hst.shrp.model.api.code.CommonCodesResponse.CommonCode;
 import com.hst.shrp.model.api.simulation.SimulationHistoriesResponse.SimulationHistory;
 import com.hst.shrp.model.entity.EntityAnalysisHistory;
@@ -17,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author dudgns0612@gmail.com
@@ -96,6 +95,23 @@ public class AnalysisService {
     public SimulationAnalysisHistoryResponse getAnalysisHistories() {
         List<EntityAnalysisHistory> analysisHistories = analysisHistoryDAO.findAllAnalysisHistories();
         return SimulationAnalysisHistoryResponse.of(analysisHistories, commonCodeService.getCommonCodes(INDICATOR_GROUP_CODE));
+    }
+
+    /***
+     * Simulation Sample Data generator
+     * @param request
+     */
+    public void generateSimulationData(SimulationSampleDataGenerateRequest request) {
+        String[] directions = {
+            "NB직진", "SB직진", "EB직진", "WB직진"
+        };
+
+        for (int crossRoadNumber = 1; crossRoadNumber <= 19; crossRoadNumber++) {
+            for (String direction : directions) {
+                analysisDAO.generateSimulationData(request.getIndicator(), request.getSimulationNumber(),
+                        crossRoadNumber, direction, ThreadLocalRandom.current().nextDouble(10, 3000));
+            }
+        }
     }
 
     /***

@@ -13,5 +13,6 @@ import java.util.List;
 public interface AnalysisDAO {
 	List<EntitySimulationAggregationData> findAverageByIndicator(String indicator, Integer simulationNumber);
 	List<EntitySimulationDirectionData> findAllByIndicator(String indicator, Integer simulationNumber, Integer crossRoadNumber);
+	void generateSimulationData(String indicator, Integer simulationNumber, Integer crossRoadNumber, String directionName, Double value);
 }
 

@@ -4,6 +4,7 @@ import com.hst.shrp.model.api.ApiResponse;
 import com.hst.shrp.model.api.analysis.SimulationAnalysisHistoryResponse;
 import com.hst.shrp.model.api.analysis.SimulationAnalysisListResponse;
 import com.hst.shrp.model.api.analysis.SimulationAnalysisRequest;
+import com.hst.shrp.model.api.analysis.SimulationSampleDataGenerateRequest;
 import com.hst.shrp.service.AnalysisService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,15 @@ public class AnalysisController {
     @GetMapping("histories")
     public ApiResponse<SimulationAnalysisHistoryResponse> getAnalysisHistories() {
         return new ApiResponse<>(analysisService.getAnalysisHistories());
+    }
+
+    @PostMapping("generate/{simulationNumber}/{indicator}")
+    public ApiResponse generateSimulationSampleData(
+            @PathVariable String simulationNumber,
+            @PathVariable String indicator
+    ) {
+        analysisService.generateSimulationData(SimulationSampleDataGenerateRequest.of(simulationNumber, indicator));
+        return new ApiResponse();
     }
 
 }
