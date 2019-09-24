@@ -73,7 +73,7 @@
     - page (query) : 페이지 번호, default 0
     - size (query) : 페이지 크기, default 10
 
-## 5. 공통코드 조회
+## 5. 공통코드 조회 (수정 테스트)
 - Application에서 사용하는 공통코드 조
 #### Request
 - URI    
