@@ -14,8 +14,8 @@
 			   A.USER_NM,
 			   B.FILE_NM
 		  FROM SHRP_ANAL_HST A, SHRP_SIMLATN_HST B
-		 WHERE A.SIMUL_NO IN ( SELECT SIMUL_NO FROM SHRP_SIMLATN_HST ORDER BY SIMUL_NO DESC LIMIT 10 )
-		   AND A.SIMUL_NO = B.SIMUL_NO
+		 WHERE A.BASIS_SIMUL_NO IN ( SELECT SIMUL_NO FROM SHRP_SIMLATN_HST ORDER BY SIMUL_NO DESC LIMIT 10 )
+		   AND A.BASIS_SIMUL_NO = B.SIMUL_NO
 	  ORDER BY A.ANAL_NO DESC
 	</select>
 
@@ -25,14 +25,16 @@
 			IX_CD,
 			ANAL_DATA,
 			USER_NM,
-			TARGET_CRP_NO
+			TARGET_CRP_NO,
+			BASIS_SIMUL_NO
 		)
 		VALUES (
 			#{simulNos},
 			#{ixCd},
 			#{analData},
 			#{userNm},
-			#{targetCrpNo}
+			#{targetCrpNo},
+			#{basisSimulationNumber}
 		)
 	</insert>
 

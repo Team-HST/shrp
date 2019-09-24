@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -13,16 +14,27 @@ public class ApplicationInitializingHookExecutor {
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicationInitializingHookExecutor.class);
 
-    @Autowired
-    List<ApplicationInitializingHook> applicationInitializingHooks;
+    private final List<ApplicationInitializingHook> applicationInitializingHooks;
+
+    @Autowired(required = false)
+    public ApplicationInitializingHookExecutor(List<ApplicationInitializingHook> applicationInitializingHooks) {
+        this.applicationInitializingHooks = applicationInitializingHooks;
+    }
 
     @PostConstruct
     public void executeHooks() {
-        for (ApplicationInitializingHook hook : applicationInitializingHooks) {
-            executeHook(hook);
+        if (!CollectionUtils.isEmpty(applicationInitializingHooks)) {
+            logger.info("{} executable hook registered", applicationInitializingHooks.size());
+
+            for (ApplicationInitializingHook hook : applicationInitializingHooks) {
+                executeHook(hook);
+            }
+        } else {
+            logger.info("No executable hook registered.");
         }
     }
 
+    // template method for execute hook
     private void executeHook(ApplicationInitializingHook hook) {
         logger.info("Execute Hook {}", hook.getClass());
 
@@ -34,6 +46,9 @@ public class ApplicationInitializingHookExecutor {
                 logger.info("No need to execute hook");
             }
         } catch (Exception e) {
+            if (logger.isTraceEnabled()) {
+                e.printStackTrace();
+            }
             reportAndShutdownApp(e);
         }
     }

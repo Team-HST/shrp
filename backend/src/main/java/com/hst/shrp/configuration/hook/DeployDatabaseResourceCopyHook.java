@@ -11,7 +11,9 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author dlgusrb0808@gmail.com
@@ -51,21 +53,21 @@ public class DeployDatabaseResourceCopyHook extends ApplicationInitializingHook 
 
 	@Override
 	protected void executeHook() throws Exception {
-		File sourceFile = getSourceFile();
+		InputStream source = getSource();
 		File destinationFile = getDestinationFile();
-		FileCopyUtils.copy(sourceFile, destinationFile);
-		logger.info("Copy database resource {} to {}", sourceFile, destinationFile);
+		FileCopyUtils.copy(source, new FileOutputStream(destinationFile));
+		logger.info("Copy database resource {} to {}", source, destinationFile);
 	}
 
 	// prepare sourceFile
-	private File getSourceFile() throws IOException {
+	private InputStream getSource() throws IOException {
 		Resource resource = resourceLoader.getResource(sourceLocation);
 		if (resource == null || !resource.exists()) {
 			logger.error("Source database file {} is not exist.", sourceLocation);
 			throw new IOException(String.format("Source database file not exist. %s", sourceLocation));
 		} else {
 			logger.info("Detect database resource file. {}", resource.getURL());
-			return resource.getFile();
+			return resource.getInputStream();
 		}
 	}
 

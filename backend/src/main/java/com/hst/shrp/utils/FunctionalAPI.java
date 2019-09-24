@@ -58,6 +58,16 @@ public class FunctionalAPI {
 		public <K, V> Map<K, V> toMap(Function<T, K> keyProvideFunction, Function<T, V> valueProvideFunction) {
 			return open().collect(Collectors.toMap(keyProvideFunction, valueProvideFunction));
 		}
+
+		/***
+		 * Joining list
+		 * @param delimiter the delimiter
+		 * @return result
+		 */
+		public String join(String delimiter) {
+			return open().map(Object::toString).collect(Collectors.joining(delimiter));
+		}
+
 	}
 
 	/***

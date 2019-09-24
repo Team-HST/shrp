@@ -12,6 +12,7 @@ public class EntityAnalysisHistory {
 	private String analDt;
 	private String fileNm;
 	private String userNm;
+	private Integer basisSimulationNumber;
 
 	public Integer getAnalNo() {
 		return analNo;
@@ -75,5 +76,13 @@ public class EntityAnalysisHistory {
 
 	public void setUserNm(String userNm) {
 		this.userNm = userNm;
+	}
+
+	public Integer getBasisSimulationNumber() {
+		return basisSimulationNumber;
+	}
+
+	public void setBasisSimulationNumber(Integer basisSimulationNumber) {
+		this.basisSimulationNumber = basisSimulationNumber;
 	}
 }

@@ -11,12 +11,16 @@ public class SimulationNumberSignatureUtils {
 
 	private static final String SIMULATION_NUMBER_DIVIDER = "_";
 
+	public static Integer getBasisSimulationNumber(String signature) {
+		return decode(signature).get(0);
+	}
+
 	public static List<Integer> decode(String signature) {
 		return Arrays.stream(signature.split(SIMULATION_NUMBER_DIVIDER)).map(Integer::parseInt).collect(Collectors.toList());
 	}
 
 	public static String encode(List<Integer> simulationNumbers) {
-		return null;
+		return FunctionalAPI.with(simulationNumbers).join(SIMULATION_NUMBER_DIVIDER);
 	}
 
 }
