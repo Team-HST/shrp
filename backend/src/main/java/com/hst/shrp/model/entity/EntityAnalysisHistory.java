@@ -5,13 +5,14 @@ package com.hst.shrp.model.entity;
  */
 public class EntityAnalysisHistory {
 	private Integer analNo;
-	private Integer simulNo;
-	private Integer compSimulNo;
+	private String simulNos;
 	private String ixCd;
 	private String analData;
 	private String targetCrpNo;
 	private String analDt;
 	private String fileNm;
+	private String userNm;
+	private Integer basisSimulationNumber;
 
 	public Integer getAnalNo() {
 		return analNo;
@@ -21,12 +22,12 @@ public class EntityAnalysisHistory {
 		this.analNo = analNo;
 	}
 
-	public Integer getSimulNo() {
-		return simulNo;
+	public String getSimulNos() {
+		return simulNos;
 	}
 
-	public void setSimulNo(Integer simulNo) {
-		this.simulNo = simulNo;
+	public void setSimulNos(String simulNos) {
+		this.simulNos = simulNos;
 	}
 
 	public String getAnalDt() {
@@ -43,14 +44,6 @@ public class EntityAnalysisHistory {
 
 	public void setIxCd(String ixCd) {
 		this.ixCd = ixCd;
-	}
-
-	public Integer getCompSimulNo() {
-		return compSimulNo;
-	}
-
-	public void setCompSimulNo(Integer compSimulNo) {
-		this.compSimulNo = compSimulNo;
 	}
 
 	public String getAnalData() {
@@ -75,5 +68,21 @@ public class EntityAnalysisHistory {
 
 	public void setFileNm(String fileNm) {
 		this.fileNm = fileNm;
+	}
+
+	public String getUserNm() {
+		return userNm;
+	}
+
+	public void setUserNm(String userNm) {
+		this.userNm = userNm;
+	}
+
+	public Integer getBasisSimulationNumber() {
+		return basisSimulationNumber;
+	}
+
+	public void setBasisSimulationNumber(Integer basisSimulationNumber) {
+		this.basisSimulationNumber = basisSimulationNumber;
 	}
 }

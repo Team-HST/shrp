@@ -1,23 +1,26 @@
 package com.hst.shrp.model.api.analysis;
 
-import com.hst.shrp.model.exception.InvalidParameterException;
 import com.hst.shrp.model.type.AnalysisType;
+import com.hst.shrp.utils.SimulationNumberSignatureUtils;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author dlgusrb0808@gmail.com
  */
 public class SimulationAnalysisRequest {
-	private int simulationNumber;
-	private int compareSimulationNumber;
+	private String simulationNumberSignature;
+	private List<Integer> simulationNumbers;
 	private String indicator;
 	private String crossRoadNumber;
+	private String userNm;
 
-	public int getSimulationNumber() {
-		return simulationNumber;
+	public String getSimulationNumberSignature() {
+		return simulationNumberSignature;
+	}
+
+	public List<Integer> getSimulationNumbers() {
+		return simulationNumbers;
 	}
 
 	public String getIndicator() {
@@ -28,36 +31,21 @@ public class SimulationAnalysisRequest {
 		return crossRoadNumber;
 	}
 
-	public int getCompareSimulationNumber() {
-		return compareSimulationNumber;
+	public String getUserNm() {
+		return userNm;
 	}
 
 	public boolean isAllCrossRoadAnalyze() {
 		return AnalysisType.getAnalysisType(this.crossRoadNumber) == AnalysisType.ALL;
 	}
 
-	public boolean isMultiSimulationAnalyzeRequest() {
-		return this.compareSimulationNumber != 0;
-	}
-
-	public static SimulationAnalysisRequest of(String simulationNumbers, String indicator, String crossRoadNumber) {
-		List<Integer> numbers =
-				Arrays.stream(simulationNumbers.split("_")).map(Integer::parseInt).collect(Collectors.toList());
-		if (numbers.size() == 1) {
-			return of(numbers.get(0), 0, indicator, crossRoadNumber);
-		} else if(numbers.size() == 2) {
-			return of(numbers.get(0), numbers.get(1), indicator, crossRoadNumber);
-		} else {
-			throw new InvalidParameterException(String.format("Invalid simulation number. %s", simulationNumbers));
-		}
-	}
-
-	public static SimulationAnalysisRequest of(int simulationNumber, int compareSimulationNumber, String indicator, String crossRoadNumber) {
+	public static SimulationAnalysisRequest of(String simulationNumberSignature, String indicator, String userNm, String crossRoadNumber) {
 		SimulationAnalysisRequest request = new SimulationAnalysisRequest();
-		request.simulationNumber = simulationNumber;
-		request.compareSimulationNumber = compareSimulationNumber;
+		request.simulationNumberSignature = simulationNumberSignature;
+		request.simulationNumbers = SimulationNumberSignatureUtils.decode(simulationNumberSignature);
 		request.indicator = indicator;
 		request.crossRoadNumber = crossRoadNumber;
+		request.userNm = userNm;
 		return request;
 	}
 }

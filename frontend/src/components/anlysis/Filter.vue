@@ -139,11 +139,8 @@ export default {
           routerLinks.filter(link => link.name === 'SimulationAnalysis')[0]
         );
 
-        // 시뮬레이션 분석 API URL 저장
-        this.setAnalysisApiUrl(requestURL)
-
         // 시뮬레이션 데이터 저장
-        this.searchSimulationAnalysis(requestURL + '?crossRoadNumber=all')
+        this.searchSimulationAnalysis(requestURL + '?crossRoadNumber=all' + '&userNm=ddd')
         .then(() => {
           // 시뮬레이션 분석 페이지 이동
           this.$router.push({name: 'SimulationAnalysis'});
@@ -157,7 +154,7 @@ export default {
   },
   methods: {
     // mutations 설정
-    ...mapMutations(['changeLayoutLink', 'setAnalysisApiUrl']),
+    ...mapMutations(['changeLayoutLink', 'setSimulationNumbers']),
     ...mapActions(['searchSimulationAnalysis']),
     // 화면 초기 설정
     initalize() {
@@ -181,22 +178,18 @@ export default {
          *  기준 - 시뮬 단일 선택, 비교 선택
          *  교차로 - 분석차트 화면에서 전체에서 단일 교차로선택
          **/
-        if (selectSimulLangth > 2) {
-          alert('시뮬레이션은 2개까지 선택이 가능합니다.');
+        if (selectSimulLangth > 3) {
+          alert('시뮬레이션은 3개까지 선택이 가능합니다.');
           return;
         }
 
-        if (selectSimulLangth === 1) {
-          // 시뮬레이션 분석 요청 API URL
-          chartAnalysisAPI = `/api/analysis/${this.simulation.selected[0].simulationNumber}/`+
-                             `${this.ixType.selected}`;
-          // 시뮬레이션 분석 페이지 조회 및 이동
-          this.service.searchSimulationAnalysis(chartAnalysisAPI);
-        } else {
-          chartAnalysisAPI = `/api/analysis/${this.simulation.selected[0].simulationNumber}_`+
-                             `${this.simulation.selected[1].simulationNumber}/${this.ixType.selected}`;
-          this.service.searchSimulationAnalysis(chartAnalysisAPI);
-        }
+        // 조회 시뮬레이션 조건 생성
+        let simulationNumbers = this.simulation.selected.map(simulation => simulation.simulationNumber).join('_');
+
+        this.setSimulationNumbers(simulationNumbers);
+
+        chartAnalysisAPI = `/api/analysis/${simulationNumbers}/${this.ixType.selected}`;
+        this.service.searchSimulationAnalysis(chartAnalysisAPI);
       }
     }
   }

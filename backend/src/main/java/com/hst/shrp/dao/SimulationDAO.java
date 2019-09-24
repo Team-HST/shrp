@@ -2,6 +2,7 @@ package com.hst.shrp.dao;
 
 import com.github.pagehelper.Page;
 import com.hst.shrp.model.entity.EntitySimulationHistory;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface SimulationDAO {
 
 	List<Integer> selectNotRecentlySimulationHistories(int recentLimitBound);
 
-	void deleteSimulationBySimulationNumbers(List<Integer> simulationNumbers);
+	void deleteSimulationBySimulationNumbers(@Param("simulationNumbers") List<Integer> simulationNumbers);
 }

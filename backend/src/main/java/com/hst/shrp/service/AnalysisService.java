@@ -9,10 +9,13 @@ import com.hst.shrp.model.entity.EntityAnalysisHistory;
 import com.hst.shrp.model.entity.EntitySimulationAggregationData;
 import com.hst.shrp.model.entity.EntitySimulationDirectionData;
 import com.hst.shrp.utils.JsonUtils;
+import com.hst.shrp.utils.SimulationNumberSignatureUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author dudgns0612@gmail.com
@@ -51,47 +54,39 @@ public class AnalysisService {
      * @param request simulation analysis request
      * @return result of analysis
      */
-    public SimulationAnalysisResponse executeAnalysis(SimulationAnalysisRequest request) {
-        SimulationAnalysisResponse response;
-
-        if (request.isMultiSimulationAnalyzeRequest()) {
-            response = doComparisionAnalyze(request);
-        } else {
-            response = doAnalyzeSimulation(request.getSimulationNumber(), request);
-        }
+    public SimulationAnalysisListResponse executeAnalysis(SimulationAnalysisRequest request) {
+        SimulationAnalysisListResponse response = doAnalysis(request);
 
         insertAnalysisHistory(request, response);
 
         return response;
     }
 
+    // execute simulation analysis loop
+    private SimulationAnalysisListResponse doAnalysis(SimulationAnalysisRequest request) {
+        List<SimulationAnalysisResponse> dataset = new ArrayList<>();
+
+        for (int simulationNumber : request.getSimulationNumbers()) {
+            dataset.add(doAnalyzeSimulation(simulationNumber, request));
+        }
+
+        return SimulationAnalysisListResponse.of(dataset);
+    }
+
     // core analysis for single simulation
-    private SimulationSingleAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
+    private SimulationAnalysisResponse doAnalyzeSimulation(int targetSimulationNumber, SimulationAnalysisRequest request) {
         String indicatorName = commonCodeService.getCommonCodeAs(INDICATOR_GROUP_CODE, request.getIndicator(), CommonCode::getSubName);
         SimulationHistory history = simulationService.getSimulationHistory(targetSimulationNumber);
         if (request.isAllCrossRoadAnalyze()) {
             List<EntitySimulationAggregationData> aggregations =
                     analysisDAO.findAverageByIndicator(indicatorName, targetSimulationNumber);
-            return SimulationSingleAnalysisResponse.ofAggregation(history, request, aggregations, indicatorName);
+            return SimulationAnalysisResponse.ofAggregation(history, request, aggregations, indicatorName);
         } else {
             List<EntitySimulationDirectionData> simulationData = analysisDAO.findAllByIndicator(indicatorName,
                     targetSimulationNumber, Integer.parseInt(request.getCrossRoadNumber()));
-            return SimulationSingleAnalysisResponse.of(history, request, simulationData, indicatorName);
+            return SimulationAnalysisResponse.of(history, request, simulationData, indicatorName);
         }
     }
-
-    // comparision analysis for two simulations
-    private SimulationMultipleAnalysisResponse doComparisionAnalyze(SimulationAnalysisRequest request) {
-        int simulationNumber = request.getSimulationNumber();
-        int compareSimulationNumber = request.getCompareSimulationNumber();
-
-        List<SimulationSingleAnalysisResponse> dataset = new ArrayList<>();
-        dataset.add(doAnalyzeSimulation(simulationNumber, request));
-        dataset.add(doAnalyzeSimulation(compareSimulationNumber, request));
-
-        return SimulationMultipleAnalysisResponse.of(dataset);
-    }
-
 
     /***
      * get simulation analysis history
@@ -103,13 +98,31 @@ public class AnalysisService {
     }
 
     /***
+     * Simulation Sample Data generator
+     * @param request
+     */
+    public void generateSimulationData(SimulationSampleDataGenerateRequest request) {
+        String[] directions = {
+            "NB직진", "SB직진", "EB직진", "WB직진"
+        };
+
+        for (int crossRoadNumber = 1; crossRoadNumber <= 19; crossRoadNumber++) {
+            for (String direction : directions) {
+                analysisDAO.generateSimulationData(request.getIndicator(), request.getSimulationNumber(),
+                        crossRoadNumber, direction, ThreadLocalRandom.current().nextDouble(10, 3000));
+            }
+        }
+    }
+
+    /***
      * insert analysis history
      * @param request the request
      */
     public void insertAnalysisHistory(SimulationAnalysisRequest request, Object analysisResult) {
+        String signature = request.getSimulationNumberSignature();
+
         EntityAnalysisHistory entityAnalysisHistory = new EntityAnalysisHistory();
-        entityAnalysisHistory.setSimulNo(request.getSimulationNumber());
-        entityAnalysisHistory.setCompSimulNo(request.getCompareSimulationNumber());
+        entityAnalysisHistory.setSimulNos(signature);
         entityAnalysisHistory.setIxCd(request.getIndicator());
         if (request.isAllCrossRoadAnalyze()) {
             entityAnalysisHistory.setTargetCrpNo("전체");
@@ -117,10 +130,12 @@ public class AnalysisService {
             entityAnalysisHistory.setTargetCrpNo(String.format("%s교차로", request.getCrossRoadNumber()));
         }
         entityAnalysisHistory.setAnalData(JsonUtils.asJson(analysisResult));
+        entityAnalysisHistory.setUserNm(request.getUserNm());
+        entityAnalysisHistory.setBasisSimulationNumber(SimulationNumberSignatureUtils.getBasisSimulationNumber(signature));
         analysisHistoryDAO.save(entityAnalysisHistory);
     }
 
     public void removeOldSimulationAnalysisHistories(List<Integer> deleteTargetSimulationNumbers) {
-        // TODO / 이현규 / 예전 시뮬레이션 분석 히스토리 이력 삭제
+        analysisHistoryDAO.deleteAllBySimulationNumbers(deleteTargetSimulationNumbers);
     }
 }

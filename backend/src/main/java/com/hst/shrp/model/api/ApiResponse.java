@@ -2,6 +2,7 @@ package com.hst.shrp.model.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.http.HttpStatus;
 
 /***
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"header", "body"})
 public class ApiResponse<T> {
+	@ApiModelProperty(position = 1)
 	private ApiHeader header;
+	@ApiModelProperty(position = 2)
 	private T body;
 
 	/***

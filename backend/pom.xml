@@ -48,6 +48,17 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
+		<!-- Documentation -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 		<!-- testing -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -113,6 +124,17 @@
 								<bundledJre64Bit>true</bundledJre64Bit>
 								<runtimeBits>64</runtimeBits>
 							</jre>
+							<versionInfo>
+								<fileVersion>1.0.0</fileVersion>
+								<txtFileVersion>1.0.0</txtFileVersion>
+								<fileDescription>SMART HILS Report Program</fileDescription>
+								<copyright>한국교통대학교</copyright>
+								<productVersion>1.0.0</productVersion>
+								<txtProductVersion>1.0.0</txtProductVersion>
+								<productName>SMART HILS Report Program</productName>
+								<internalName>SHRP</internalName>
+								<originalFilename>shrp.exe</originalFilename>
+							</versionInfo>
 						</configuration>
 					</execution>
 				</executions>

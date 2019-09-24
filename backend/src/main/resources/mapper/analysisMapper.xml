@@ -23,4 +23,12 @@
 		   AND CRP_NO = #{crossRoadNumber}
 	</select>
 
+	<insert id="generateSimulationData">
+		INSERT INTO SHRP_${indicator} (
+			SIMUL_NO, CRP_NO, DRC_NM, VAL
+		) VALUES (
+			#{simulationNumber}, #{crossRoadNumber}, #{directionName}, #{value}
+		)
+	</insert>
+
 </mapper>

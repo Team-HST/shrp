@@ -74,7 +74,7 @@
     data () {
       return {
         links: routerLinks,
-        logo: require('@/assets/logo2.png')
+        logo: require('@/assets/logo.png')
       }
     },
     methods: {

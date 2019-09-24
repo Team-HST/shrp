@@ -1,6 +1,7 @@
 package com.hst.shrp.model.api.user;
 
 import com.hst.shrp.model.entity.EntityUser;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import static com.hst.shrp.utils.FunctionalAPI.with;
  * @author dlgusrb0808@gmail.com
  */
 public class UserListResponse {
-
+	@ApiModelProperty(position = 1)
 	private List<UserResponse> users;
 
 	public List<UserResponse> getUsers() {
@@ -18,7 +19,9 @@ public class UserListResponse {
 	}
 
 	public static class UserResponse {
+		@ApiModelProperty(position = 1, example = "사용자명")
 		private String userName;
+		@ApiModelProperty(position = 2, example = "등록일자")
 		private String registrationDate;
 
 		public String getUserName() {
