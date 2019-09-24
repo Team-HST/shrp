@@ -38,4 +38,14 @@
 		)
 	</insert>
 
+	<delete id="deleteAllBySimulationNumbers">
+		DELETE FROM SHRP_ANAL_HST
+		<where>
+			BASIS_SIMUL_NO IN
+			<foreach collection="simulationNumbers" item="simulationNumber" open="(" close=")" separator=",">
+				#{simulationNumber}
+			</foreach>
+		</where>
+	</delete>
+
 </mapper>
