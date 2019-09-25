@@ -25,7 +25,7 @@
         }
     },
     computed: {
-      ...mapGetters(['getAnalysisData', 'getDiagramData'])
+      ...mapGetters(['getDiagramData'])
     }
   }
  </script>

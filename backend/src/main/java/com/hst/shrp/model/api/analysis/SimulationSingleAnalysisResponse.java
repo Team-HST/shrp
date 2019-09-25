@@ -11,7 +11,7 @@ import static com.hst.shrp.utils.FunctionalAPI.*;
 /**
  * @author dlgusrb0808@gmail.com
  */
-public class SimulationSingleAnalysisResponse implements SimulationAnalysisResponse {
+public class SimulationSingleAnalysisResponse extends SimulationAnalysisResponse {
 	private int simulationNumber;
 	private String fileName;
 	private String indicatorName;

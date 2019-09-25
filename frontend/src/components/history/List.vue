@@ -50,10 +50,10 @@
               }}
             </template>
             <template v-slot:item.displayChart="{ item }">
-              <a @click="showHistoryChart(item.analysisData)">보기</a>
+              <a @click="showHistoryChart(item.analysisData.dataset)">보기</a>
             </template>
             <template v-slot:item.displayDiagram="{ item }">
-              <a @click="showHistoryDiagram(item.analysisData)">보기</a>
+              <a @click="showHistoryDiagram(item.analysisData.dataset)">보기</a>
             </template>
           </v-data-table>
         </material-card>
@@ -73,7 +73,7 @@
         >
           <v-card>
             <v-card-text>
-              <chart-bar :chart-data="chartData"></chart-bar>
+              <chart-bar :chart-data="getChartData"></chart-bar>
             </v-card-text>
             <v-card-actions>
               <div class="flex-grow-1"></div>
@@ -93,7 +93,7 @@
 
     <v-dialog
       v-model="diagramDialog"
-      max-width="1000"
+      width="unset"
     >
       <div ref="diagram">
         <material-card
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import { mapGetters ,mapMutations } from 'vuex'
   import html2canvas from 'html2canvas'
   
   export default {
@@ -194,6 +194,9 @@
         service: {} // 서비스 메소드 정의
       }
     },
+    computed: {
+      ...mapGetters(['getAnalysisData', 'getChartData'])
+    },
     created() {
       this.service = {
         searchHistoryList: () => {
@@ -211,72 +214,33 @@
       this.service.searchHistoryList();
     },
     methods: {
-      ...mapMutations(['setDiagramData']),
+      ...mapMutations(['setAnalysisData', 'setChartData' ,'setDiagramData']),
 
       // 시뮬레이션 차트 결과 표출
-      showHistoryChart: function(chartData) {
-        let chartDataArr = new Array();
+      showHistoryChart: function(data) {
+        data = _.cloneDeep(data);
 
-        // 단일, 비교 분석 체크
-        if (chartData.dataset == null) { // 단일 분석 배열 생성
-          chartDataArr.push(chartData);
-        } else { // 비교 분석
-          chartDataArr = chartData.dataset;
-        }
+        // 분석 데이터 설정
+        this.setAnalysisData(data);
+        // 차트 데이터 설정
+        this.setChartData(data);
 
-        // 차트 데이터셋 생성
-        let chartDataset = [
-          {
-            label: chartDataArr[0].fileName,
-            backgroundColor: '#FFAF20',
-            pointBackgroundColor: 'white',
-            borderWidth: 1,
-            pointBorderColor: '#FFAF20',
-            data: chartDataArr[0].values
-          }
-        ];
-        
-        // 비교 분석 데이터 추가
-        if (chartDataArr.length > 1) {
-           chartDataset.push({
-              label: chartDataArr[1].fileName,
-              backgroundColor: '#11455C',
-              pointBackgroundColor: 'white',
-              borderWidth: 1,
-              pointBorderColor: '#11455C',
-              data: chartDataArr[1].values
-          });
-        } 
-        
-        //  차트 데이터 적용
-        this.chartData = {
-          labels: chartDataArr[0].labels,
-          datasets: chartDataset,
-          title: chartDataArr[0].indicatorName
-        }
-        
         // 차트 모달 표출
         this.chartDialog = true;
       },
-      showHistoryDiagram: function(diagramData) {
-        let diagramDataset = [];
+      showHistoryDiagram: function(data) {
+        data = _.cloneDeep(data);
 
-        // 단일 / 비교 시뮬레이션 체크
-        if (diagramData.dataset == null) {
-          diagramDataset = _.cloneDeep(new Array(diagramData));
-        } else {
-          diagramDataset = _.cloneDeep(diagramData.dataset);
-        }
-
+        // 분석 데이터 설정
+        this.setAnalysisData(data);
         // 도표 데이터 설정
-        this.setDiagramData(diagramDataset);
+        this.setDiagramData(data);
 
         // 도표 모달 표출
         this.diagramDialog = true;
       },
 			// 시뮬레이션 결과 이미지 저장
 			async print(printEl) {
-        //(TODO) printEl 받아서 데이터 처리
 				const el = this.$refs[printEl];
 				const options = {
 					type: 'dataURL'
@@ -284,20 +248,21 @@
 				// VueHtml2Canvas를 이용한 base64생성
         let output = await this.$html2canvas(el, options);
                 
-				var byteString = atob(output.split(',')[1]);
-				var mimeString = output.split(',')[0].split(':')[1].split(';')[0]
+				let byteString = atob(output.split(',')[1]);
+				let mimeString = output.split(',')[0].split(':')[1].split(';')[0]
 
 				// Bolb 타입 데이터를 만들이기위한 데이터생성
-				var ab = new ArrayBuffer(byteString.length);
-				var ia = new Uint8Array(ab);
-				for (var i = 0; i < byteString.length; i++) {
+				let ab = new ArrayBuffer(byteString.length);
+				let ia = new Uint8Array(ab);
+				for (let i = 0; i < byteString.length; i++) {
 					ia[i] = byteString.charCodeAt(i);
 				}
-                
+
         // 파일저장이름
-        var filename = this.getAnalysisData[0].fileName+'(교차로_'+this.crossNumType.selected.text+').png';
+        let filename = `${this.getAnalysisData[0].fileName.replace(/:/g, '')}_(${this.getAnalysisData[0].indicatorName}_`+
+                       `${this.getAnalysisData[0].crossRoadNumber}).png`;
         // Blob 생성
-				var bolb = new Blob([ab], { type: 'image/png' });
+				let bolb = new Blob([ab], { type: 'image/png' });
                 
                 // ie
 				if (window.navigator && window.navigator.msSaveOrOpenBlob) {

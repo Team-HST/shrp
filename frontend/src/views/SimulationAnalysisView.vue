@@ -11,7 +11,7 @@
           title="모의실헝 분석결과 그래프"
           text="그래프에 마우스 올릴 시 값 확인이 가능합니다."
         >
-          <chart-bar :chartData="getChartData" :options="getChartOptions"></chart-bar>
+          <chart-bar :chartData="getChartData"></chart-bar>
         </material-card>
 			</v-flex>
       <v-flex md12 lg2>

@@ -11,23 +11,11 @@ export default new Vuex.Store({
         link: {}
       },
       analysis: {
-<<<<<<< HEAD
-        apiURL: '', // 분석 요청 API URL
-        data: [], // 분석 요청 API RESPONSE DATA
-        diagramData: { // 도표 DATA
-          labels: [],
-          values: []
-        }
-      },
-      accessToken: '' // 접속 권한
-=======
         simulationNumbers: '', // 분석 요청 API URL
         data: [], // 분석 요청 API RESPONSE DATA,
         chartData: {}, // 차트 DATA
-        chartOptions: {}, // 차트 OPTIONS
         diagramData: {} // 도표 DATA
       }
->>>>>>> refs/heads/develop
     },
     getters: { // vuex 저장소 데이터 조회
       getLayoutLink: (state) => {
@@ -44,9 +32,6 @@ export default new Vuex.Store({
       },
       getDiagramData: (state) => {
         return state.analysis.diagramData;
-      },
-      getChartOptions: (state) => {
-        return state.analysis.chartOptions;
       }
     },
     mutations: { // vuex 저장소 데이터 변경
@@ -80,50 +65,12 @@ export default new Vuex.Store({
           }
         ));
         
-        let options = {
-          title: {
-            display: true,
-            text: data[0].indicatorName
-          },
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              },
-              gridLines: {
-                display: true
-              }
-            }],
-            xAxes: [ {
-              gridLines: {
-                display: false
-              }
-            }]
-          },
-          legend: {
-              display: true
-          },
-          tooltips: {
-            mode: 'index',
-            callbacks: {
-                label: function(tooltipItem) {
-                    var label = ': ';
-                    label += Math.round(tooltipItem.yLabel * 100) / 100;
-                    return label;
-                }
-            }
-          },
-          responsive: true,
-          maintainAspectRatio: false
-        }
-        
         //  차트 데이터 적용
 				let chartData = {
 					labels: data[0].labels,
           datasets: chartDataset,
         }
         
-        state.analysis.chartOptions = options;
         state.analysis.chartData = chartData;
       },
       setDiagramData: (state, data) => {
