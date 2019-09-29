@@ -31,8 +31,9 @@
             :search="history.searchText"
             item-key="analysisNumber"
 						class="elevation-1"
-						loading="true"
+						:loading="history.loading"
 						loading-text="데이터 로딩중..."
+            no-data-text="조회된 데이터가 없습니다"
             :footer-props="{
               disableItemsPerPage: true,
               showFirstLastPage: true,
@@ -142,6 +143,7 @@
     data() {
       return {
         history: {
+          loading: true,
           list: [],
           headers: [
             {
@@ -210,6 +212,7 @@
           this.$http.get('/api/analysis/histories?page=1&size=1000')
           .then(response => {
             this.history.list = response.data.body.simulationAnalysisHistories;
+            this.history.loading = false;
           })
           .catch(e => {
             console.error('error : ', e);

@@ -19,9 +19,9 @@
 						:items-per-page="10"
             item-key="simulationNumber"
 						class="elevation-1"
-						loading="true"
+						:loading="simulation.loading"
 						loading-text="데이터 로딩중..."
-						no-data-text="데이터가 존재하지 않습니다."
+						no-data-text="조회된 데이터가 없습니다"
             show-select
             :footer-props="{
               disableItemsPerPage: true,
@@ -103,6 +103,7 @@ export default {
             width: '90%'
           }
         ],
+        loading: true,
         list: []
       },
       service: {} // 서비스 메소드 정의
@@ -127,6 +128,7 @@ export default {
         this.$http.get('/api/simulation/histories')
         .then(response => {
           this.simulation.list = response.data.body.simulationHistories;
+          this.simulation.loading = false;
         })
         .catch(e => {
           console.error('error : ', e);
