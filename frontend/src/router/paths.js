@@ -9,7 +9,7 @@ export default [
       mainName: '로그인',
       subName: '로그인 페이지',
       props: true,
-      display: true
+      display: false
 	},
     {
       path: '/analysis',

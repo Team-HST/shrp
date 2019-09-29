@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex'
 
 export default {
     name: 'login',
@@ -125,6 +126,7 @@ export default {
         this.initalize();
     },
     methods: {
+        ...mapMutations(['setUserName']),
         // 초기 데이터 설정
         initalize() {
             this.service.searchUserList();
@@ -140,8 +142,7 @@ export default {
             this.service.deleteUser(name);
         },
         fnGoMain(name) {
-            console.log('goMain', name);
-            // 사용자명 쿠키 처리 store.js
+            this.setUserName(name); 
             // 모의실험 분석 페이지 이동
             this.$router.push({name: 'Analysis'});
         }

@@ -6,17 +6,15 @@ import store from '../store'
 import paths from './paths'
 
 const requireAuth = () => (to, from, next) => {
-  
-  console.log('t:', to);
-  console.log('from.name: ', from.name);
-  console.log('from.name.true: ', from.name == ' Login');
-  next();
-  /* if (to.path != '/login' && store.state.accessToken === '') {
+  if (to.name === 'Login') {
     return next();
-  } else if (from.name != ' Login' || from.name != null) {
-    return next('/login');
+  } else {
+    if (store.getters.getUserName !== '') {
+      return next();
+    } else {
+      next('/login');
+    }
   }
-  */
 };
 	
 function route (path, view, name, props) {

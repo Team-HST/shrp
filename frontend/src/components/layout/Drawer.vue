@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer
+    v-if="getUserName() !== ''"
     fixed
     app
     persistent
@@ -34,6 +35,19 @@
       </v-list-item>
 
       <v-divider class="mb-2" />
+      <v-flex xs12 sm6 offset-sm3>
+        <template>
+          {{getUserName()}} <small>님</small>
+          <v-btn
+            class="font-weight-light white--text"
+            @click="fnLogout" small rounded
+            color="warning" text
+          >
+          로그아웃
+          </v-btn>
+        </template>
+      </v-flex>
+      <v-divider class="mt-2 mb-2" />
       <v-list>
         <v-list-item-group>
           <template
@@ -67,7 +81,7 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
+  import { mapMutations, mapGetters } from 'vuex'
   import routerLinks from '@/router/paths'
 
   export default {
@@ -77,8 +91,15 @@
         logo: require('@/assets/logo.png')
       }
     },
-    methods: {
-      ...mapMutations(['changeLayoutLink'])
+    methods: {      
+      ...mapMutations(['setUserName', 'changeLayoutLink']),
+      getUserName: function () {
+        return this.$store.getters.getUserName;
+      },
+      fnLogout: function() {
+        this.setUserName('');
+        this.$router.push({name: 'Login'});
+      }
     }
   }
 </script>

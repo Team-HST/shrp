@@ -2,10 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import _ from 'lodash';
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    plugins: [
+      createPersistedState()
+    ],
     state: { //vuex 데이터 저장소
       layout: {
         link: {}
@@ -15,7 +19,8 @@ export default new Vuex.Store({
         data: [], // 분석 요청 API RESPONSE DATA,
         chartData: {}, // 차트 DATA
         diagramData: {} // 도표 DATA
-      }
+      },
+      userName: ''
     },
     getters: { // vuex 저장소 데이터 조회
       getLayoutLink: (state) => {
@@ -32,6 +37,9 @@ export default new Vuex.Store({
       },
       getDiagramData: (state) => {
         return state.analysis.diagramData;
+      },
+      getUserName: (state) => {
+        return state.userName;
       }
     },
     mutations: { // vuex 저장소 데이터 변경
@@ -87,6 +95,9 @@ export default new Vuex.Store({
         });
 
         state.analysis.diagramData = diagramData;
+      },
+      setUserName: (state, userName) => {
+        state.userName = userName;
       }
     },
     actions: { // vuex 저장소 비동기 데이터 변경
