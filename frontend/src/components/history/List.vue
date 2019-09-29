@@ -49,6 +49,15 @@
                 }).indexOf(item.analysisNumber) 
               }}
             </template>
+            <template v-slot:item.analysisFileName="{ item }">
+              <template v-if="item.analysisData.dataset.length > 1">
+                {{ item.analysisFileName }} 외 {{ item.analysisData.dataset.length-1 }}
+              </template>
+               <template v-else>
+                 {{ item.analysisFileName }}
+              </template>
+
+            </template>
             <template v-slot:item.displayChart="{ item }">
               <a @click="showHistoryChart(item.analysisData.dataset)">보기</a>
             </template>
@@ -187,9 +196,7 @@
           ],
           searchText: ''
         },
-        chartData: {}, // 이력 차트 데이터
         chartDialog: false, // 차트 모달 표출 여부
-        diagramData: {}, // 이력 도표 데이터
         diagramDialog: false, // 이력 모달 표출 여부
         service: {} // 서비스 메소드 정의
       }
@@ -259,7 +266,7 @@
 				}
 
         // 파일저장이름
-        let filename = `${this.getAnalysisData[0].fileName.replace(/:/g, '')}_(${this.getAnalysisData[0].indicatorName}_`+
+        let filename = `${this.getAnalysisData[0].fileName.replace(/:/g, '')} 외 ${this.getAnalysisData.length-1}_(${this.getAnalysisData[0].indicatorName}_`+
                        `${this.getAnalysisData[0].crossRoadNumber}).png`;
         // Blob 생성
 				let bolb = new Blob([ab], { type: 'image/png' });
