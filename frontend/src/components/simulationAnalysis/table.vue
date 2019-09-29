@@ -28,3 +28,8 @@
     }
   }
  </script>
+
+<style>
+table th + th { border-left:1px solid #dddddd; }
+table td + td { border-left:1px solid #dddddd; }
+</style>
