@@ -151,35 +151,35 @@
               text: '번호',
               value: 'analysisNumber',
               align: 'center',
-              width: '10%'
+              width: '9%'
             },
             {
               sortable: false,
               text: '시물레이션',
               value: 'analysisFileName',
               align: 'center',
-              width: '26%'
+              width: '24%'
             },
             {
               sortable: true,
               text: '분석지표',
               value: 'indicator',
               align: 'center',
-              width: '20%'
+              width: '18%'
             },
             {
               sortable: true,
               text: '분석대상',
               value: 'analysisTarget',
               align: 'center',
-              width: '10%'
+              width: '9%'
             },
             {
               sortable: true,
               text: '분석날짜',
               value: 'analysisDate',
               align: 'center',
-              width: '16%'
+              width: '15%'
             },
             {
               sortable: false,
@@ -193,7 +193,14 @@
               text: '도표',
               value: 'displayDiagram',
               align: 'center',
-              width: '10%'
+              width: '9%'
+            },
+            {
+              sortable: true,
+              text: '사용자',
+              value: 'userNm',
+              align: 'center',
+              width: '8%'
             }
           ],
           searchText: ''

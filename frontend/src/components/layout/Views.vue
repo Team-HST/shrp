@@ -38,6 +38,11 @@
     },
     computed: {
       ...mapGetters(['getLayoutLink'])
+    },
+    method : {
+      getUserName: function () {
+        return this.$store.getters.getUserName;
+      }
     }
   }
 </script>

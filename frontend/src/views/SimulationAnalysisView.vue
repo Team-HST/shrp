@@ -75,7 +75,8 @@
 				crossNumType: { // 교차로 데이터
 					selected: {}, // 박스 선택 데이터
 					list: [] // 교차로 모록 데이터
-				}
+				},
+				userNm : '' // 사용자명
 			}
 		},
 		computed: {
@@ -107,6 +108,9 @@
 		methods: {
       ...mapMutations(['setChartData']),
       ...mapActions(['searchSimulationAnalysis']),
+			getUserName: function() {
+				return this.$store.getters.getUserName;
+			},
       // 화면 초기 설정
       initalize: function() {
         // 시뮬레이션 분석대상이 존재하지 않을 경우
@@ -114,6 +118,8 @@
           this.$router.push({name: 'Analysis'})
           return
         }
+				// 사용자명
+				this.userNm = this.getUserName();
 
         // 차트 데이터 변경 요청
         this.setBarchartData(this.getAnalysisData);
@@ -140,7 +146,7 @@
 			changeBarChartData: function() {
 				// 시뮬레이션 분석 api 조회
         this.searchSimulationAnalysis(`/api/analysis/${this.getSimulationNumbers}/${this.ixType.selected}`
-         + `?crossRoadNumber=${this.crossNumType.selected}&userNm=aaa`)
+         + `?crossRoadNumber=${this.crossNumType.selected}&userNm=`+userNm)
 				.then(() => {
 					this.setBarchartData(this.getAnalysisData);
 				});

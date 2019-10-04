@@ -142,7 +142,7 @@ export default {
         );
 
         // 시뮬레이션 데이터 저장
-        this.searchSimulationAnalysis(requestURL + '?crossRoadNumber=all' + '&userNm=ddd')
+        this.searchSimulationAnalysis(requestURL + '?crossRoadNumber=all' + '&userNm='+this.getUserName())
         .then(() => {
           // 시뮬레이션 분석 페이지 이동
           this.$router.push({name: 'SimulationAnalysis'});
@@ -158,6 +158,9 @@ export default {
     // mutations 설정
     ...mapMutations(['changeLayoutLink', 'setSimulationNumbers']),
     ...mapActions(['searchSimulationAnalysis']),
+    getUserName: function () {
+        return this.$store.getters.getUserName;
+    },
     // 화면 초기 설정
     initalize() {
       // 지표 종류 조회
