@@ -146,7 +146,7 @@
 			changeBarChartData: function() {
 				// 시뮬레이션 분석 api 조회
         this.searchSimulationAnalysis(`/api/analysis/${this.getSimulationNumbers}/${this.ixType.selected}`
-         + `?crossRoadNumber=${this.crossNumType.selected}&userNm=`+userNm)
+         + `?crossRoadNumber=${this.crossNumType.selected}&userNm=`+this.userNm)
 				.then(() => {
 					this.setBarchartData(this.getAnalysisData);
 				});

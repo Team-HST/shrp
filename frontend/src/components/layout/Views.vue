@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-flex class="pt-0 pb-0" md12 lg12>
-      <div class="layout align-center layout px-4 pl-10 app--page-header row">
+      <div class="layout align-center layout px-4 pl-10 app--page-header row" v-if="getUserName !== ''">
         <div class="page-header-left">
           <h3 class="pr-3">{{ getLayoutLink.mainName }}</h3>
         </div>
@@ -37,12 +37,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getLayoutLink'])
-    },
-    method : {
-      getUserName: function () {
-        return this.$store.getters.getUserName;
-      }
+      ...mapGetters(['getLayoutLink', 'getUserName'])
     }
   }
 </script>
