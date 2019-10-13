@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     plugins: [
-      createPersistedState()
+      createPersistedState
     ],
     state: { //vuex 데이터 저장소
       layout: {

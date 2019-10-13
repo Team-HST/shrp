@@ -13,7 +13,9 @@
 						text="사용자를 선택해주세요."
 					>
 					</material-card>
-                    <v-list height="300" style="overflow-y: auto;">
+                    <v-list height="300" 
+                            style="overflow-y: auto;"
+                    >
                         <v-list-item-group
                         >
                             <v-list-item v-for="user in userList" :key="user.userName">

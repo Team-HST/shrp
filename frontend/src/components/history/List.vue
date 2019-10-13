@@ -235,21 +235,18 @@
 
       // 시뮬레이션 차트 결과 표출
       showHistoryChart: function(data) {
-        
         data = _.cloneDeep(data);
-        
+
         // 분석 데이터 설정
         this.setAnalysisData(data);
         
         // 차트 데이터 설정
         this.setChartData(data);
-        
 
         // 차트 모달 표출
         this.chartDialog = true;
       },
-      showHistoryDiagram: function(data) {
-        
+      showHistoryDiagram: function(data) {  
         data = _.cloneDeep(data);
         
         // 분석 데이터 설정
@@ -257,8 +254,7 @@
         
         // 도표 데이터 설정
         this.setDiagramData(data);
-        
-
+      
         // 도표 모달 표출
         this.diagramDialog = true;
       },
