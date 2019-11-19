@@ -4,8 +4,8 @@
 #### 교차로 시뮬레이션(VISSIM) 결과 시각화 서비스
 
 ## 기술스택
-### backend  : Springboot
-### frontend : Vue.js
-### DB : SQLite 
-### Backend Build : Maven
-### Frontend Build : Webpack
+#### backend  : Springboot
+#### frontend : Vue.js
+#### DB : SQLite 
+#### Backend Build : Maven
+#### Frontend Build : Webpack
