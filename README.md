@@ -6,6 +6,6 @@
 ## 기술스택
 #### backend  : Springboot
 #### frontend : Vue.js
-#### DB : SQLite 
+#### DBMS : SQLite 
 #### Backend Build : Maven
 #### Frontend Build : Webpack
