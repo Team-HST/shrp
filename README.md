@@ -9,4 +9,4 @@
 #### DBMS : SQLite 
 #### Backend Build : Maven
 #### Frontend Build : Webpack
-#### InstallTool : innoSetup
+#### Install Tool : innoSetup
